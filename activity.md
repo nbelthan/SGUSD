@@ -2,8 +2,8 @@
 
 ## Current Status
 **Last Updated:** 2026-03-16
-**Tasks Completed:** 14 / 36
-**Current Task:** UI-001 (completed)
+**Tasks Completed:** 15 / 36
+**Current Task:** UI-005 (completed)
 
 ---
 
@@ -317,3 +317,31 @@
 - SC-003b (Deploy Sagecoin) still blocked — .env.local does not exist. Skipped to UI-001 which had all dependencies met.
 
 **Next session:** UI-005 (Payout toggle component) — depends on UI-001 (now done). Or SC-003b if .env.local becomes available.
+
+### Session 15 — 2026-03-16
+**Task:** UI-005 — Payout toggle component (Ghost Mode)
+**What was done:**
+- Created components/payout/PayoutToggle.tsx — adapted from Demo/Specs/payouttoggle.tsx
+  - Toggle between 'Traditional Wire' and 'SageBridge (SGUSD)' modes
+  - Traditional mode: 3-5 business day ETA, $45 wire fee, 3% FX markup (shown in red)
+  - Sage mode: < 2 second ETA, $0 fees, 1:1 settlement (shown in emerald green)
+  - Dynamic fee calculations based on invoice amount input
+  - AnimatePresence for smooth fee breakdown show/hide transitions
+  - Animated total cost with Framer Motion scale + color transitions
+  - 'Authorize Instant Transfer' (Sage) / 'Initiate Wire Transfer' (Traditional) action buttons
+  - Loading spinner state for transaction pending
+  - Disabled state support and amount validation (must be > 0)
+  - Props: onAuthorize callback, isLoading, disabled, defaultAmount
+  - Uses glass-card, glass-input, btn-sage, btn-traditional CSS utility classes
+  - Subtle indigo glow background in Sage mode with AnimatePresence
+  - Traditional mode shows disclaimer text: "shown for comparison only"
+
+**Commands run:**
+- `npx tsc --noEmit` — no type errors
+- `npm run build` — passes cleanly
+- `npm run lint` — no warnings or errors
+
+**Issues:**
+- None. SC-003b (Deploy Sagecoin) still blocked — .env.local does not exist.
+
+**Next session:** UI-007 (Sage Network visualization) or UI-008 (Transaction confirmation toast) — both have all dependencies met. Or SC-003b if .env.local becomes available.

@@ -4,7 +4,7 @@
     "version": "v1.0",
     "description": "Functional MVP demo of a programmable, interest-bearing stablecoin (SGUSD/Sagecoin) for SMB payouts with yield on Base Sepolia testnet. Demonstrates zero-fee remittance, real-time yield accrual, and frictionless onboarding.",
     "total_features": 36,
-    "completed_features": 14,
+    "completed_features": 15,
     "last_updated": "2026-03-16",
     "IMPORTANT": "DO NOT remove or edit existing features. Only update the 'done' field to true when a feature is fully implemented AND verified. DO NOT mark features as done without testing."
   },
@@ -212,7 +212,7 @@
       "category": "Frontend",
       "name": "Payout toggle component (Ghost Mode)",
       "description": "Create components/payout/PayoutToggle.tsx — adapt from Demo/Specs/payouttoggle.tsx. Toggle between 'Traditional Wire' and 'SageBridge (SGUSD)' modes. Traditional: 3-day ETA, $45 wire fee, 3% FX markup. Sage: <2 second ETA, $0 fees, 1:1 settlement. Dynamic fee calculations based on invoice amount input. Animated breakdown with Framer Motion. Include 'Authorize Instant Transfer' / 'Initiate Wire Transfer' action button.",
-      "done": false,
+      "done": true,
       "priority": 3,
       "depends_on": ["UI-001"]
     },
