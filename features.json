@@ -4,7 +4,7 @@
     "version": "v1.0",
     "description": "Functional MVP demo of a programmable, interest-bearing stablecoin (SGUSD/Sagecoin) for SMB payouts with yield on Base Sepolia testnet. Demonstrates zero-fee remittance, real-time yield accrual, and frictionless onboarding.",
     "total_features": 36,
-    "completed_features": 2,
+    "completed_features": 3,
     "last_updated": "2026-03-16",
     "IMPORTANT": "DO NOT remove or edit existing features. Only update the 'done' field to true when a feature is fully implemented AND verified. DO NOT mark features as done without testing."
   },
@@ -32,7 +32,7 @@
       "category": "Infrastructure",
       "name": "Dark glassmorphism theme and globals.css",
       "description": "Configure globals.css with dark glassmorphism theme matching Demo/Specs/payouttoggle.tsx design language: bg-neutral-950 background, glassmorphism cards (backdrop-blur-xl, bg-white/5, border-white/10), indigo accent colors. Set Inter font. Configure Tailwind for the design system.",
-      "done": false,
+      "done": true,
       "priority": 1,
       "depends_on": ["INFRA-002"]
     },

@@ -2,8 +2,8 @@
 
 ## Current Status
 **Last Updated:** 2026-03-16
-**Tasks Completed:** 2 / 36
-**Current Task:** INFRA-002 (completed)
+**Tasks Completed:** 3 / 36
+**Current Task:** INFRA-003 (completed)
 
 ---
 
@@ -56,3 +56,23 @@
 - npm install was blocked by sandbox restrictions (403 Forbidden). Resolved by running outside sandbox.
 
 **Next session:** INFRA-003 (dark glassmorphism theme) or INFRA-006 (.gitignore) or SC-001 (Foundry project setup).
+
+### Session 3 — 2026-03-16
+**Task:** INFRA-003 — Dark glassmorphism theme and globals.css
+**What was done:**
+- Rewrote app/globals.css with dark-first CSS variables: neutral-950 background, indigo-based primary/accent/ring colors, white/10 borders
+- Added utility component classes: `.glass-card` (backdrop-blur-xl, bg-white/5, border-white/10, rounded-3xl, shadow-2xl), `.glass-card-hover`, `.glass-input`, `.glow-indigo`, `.btn-sage`, `.btn-traditional`, `.text-balance-ticker` (tabular-nums for ticking digits)
+- Set `color-scheme: dark` on html element and `dark` class on `<html>` tag
+- Updated tailwind.config.ts with Inter font family stack, retained shadcn color system with dark-appropriate values
+- Updated app/layout.tsx with `dark` class on html, `min-h-screen` on body
+- Updated app/page.tsx with glassmorphism landing card and Framer Motion entrance animation, indigo glow effect
+
+**Commands run:**
+- `npx tsc --noEmit` — no type errors
+- `npm run build` — passes cleanly
+- `npm run lint` — no warnings or errors
+
+**Issues:**
+- None. Inter font configured via system font stack (Inter first in fallback chain) since Google Fonts may not be available in sandbox.
+
+**Next session:** INFRA-004 (directory structure and TypeScript types) or INFRA-006 (.gitignore) or SC-001 (Foundry project setup).
