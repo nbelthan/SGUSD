@@ -4,7 +4,7 @@
     "version": "v1.0",
     "description": "Functional MVP demo of a programmable, interest-bearing stablecoin (SGUSD/Sagecoin) for SMB payouts with yield on Base Sepolia testnet. Demonstrates zero-fee remittance, real-time yield accrual, and frictionless onboarding.",
     "total_features": 36,
-    "completed_features": 18,
+    "completed_features": 19,
     "last_updated": "2026-03-16",
     "IMPORTANT": "DO NOT remove or edit existing features. Only update the 'done' field to true when a feature is fully implemented AND verified. DO NOT mark features as done without testing."
   },
@@ -140,7 +140,7 @@
       "category": "Blockchain",
       "name": "Contract read hooks",
       "description": "Create lib/hooks/useBalanceOf.ts — wagmi useReadContract hook that calls Sagecoin.balanceOf(address) and returns the formatted balance with 18 decimal precision. Create lib/hooks/useMultiplier.ts — reads getCurrentMultiplier() from the contract. Create lib/hooks/useTotalSupply.ts. All hooks should poll every 10 seconds for fresh on-chain data. Use the ABI from lib/contracts/sagecoin-abi.ts.",
-      "done": false,
+      "done": true,
       "priority": 2,
       "depends_on": ["SC-004", "AUTH-003"]
     },

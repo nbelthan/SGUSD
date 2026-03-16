@@ -2,8 +2,8 @@
 
 ## Current Status
 **Last Updated:** 2026-03-16
-**Tasks Completed:** 17 / 36
-**Current Task:** UI-008 (completed)
+**Tasks Completed:** 19 / 36
+**Current Task:** CHAIN-001 (completed)
 
 ---
 
@@ -416,3 +416,29 @@
 - SC-003b (Deploy Sagecoin) still blocked — .env.local does not exist. Proceeded with SC-004 since ABI extraction only requires build artifacts, not a deployed contract. The address reads from env var at runtime.
 
 **Next session:** CHAIN-001 (Contract read hooks) — depends on SC-004 (now done) and AUTH-003 (done). Can proceed without SC-003b since hooks read from env var address. SC-003b still needed before end-to-end testing.
+
+### Session 19 — 2026-03-16
+**Task:** CHAIN-001 — Contract read hooks
+**What was done:**
+- Created lib/hooks/useBalanceOf.ts — wagmi useReadContract hook for Sagecoin.balanceOf(address)
+  - Returns rawBalance (bigint) and formattedBalance (string with 18 decimal precision via viem's formatUnits)
+  - Polls every 10 seconds via refetchInterval
+  - Disabled when no address provided or contract address is zero address
+- Created lib/hooks/useMultiplier.ts — reads getCurrentMultiplier() from contract
+  - Returns rawMultiplier (bigint) and formattedMultiplier (string, 18 decimal precision)
+  - Polls every 10 seconds
+- Created lib/hooks/useTotalSupply.ts — reads totalSupply() from contract
+  - Returns rawTotalSupply (bigint) and formattedTotalSupply (string, 18 decimal precision)
+  - Polls every 10 seconds
+- All hooks use SAGECOIN_ABI from lib/contracts/sagecoin-abi.ts and SAGECOIN_ADDRESS from lib/contracts/addresses.ts
+- All hooks expose isLoading, isError, error, and refetch for error handling
+
+**Commands run:**
+- `npx tsc --noEmit` — no type errors
+- `npm run build` — passes cleanly
+- `npm run lint` — no warnings or errors
+
+**Issues:**
+- None. SC-003b (Deploy Sagecoin) still blocked — .env.local does not exist.
+
+**Next session:** CHAIN-002 (Contract write hooks) or CHAIN-003 (Real-time balance interpolation) — both depend on CHAIN-001 (now done). SC-003b still needed before end-to-end testing.
