@@ -4,7 +4,7 @@
     "version": "v1.0",
     "description": "Functional MVP demo of a programmable, interest-bearing stablecoin (SGUSD/Sagecoin) for SMB payouts with yield on Base Sepolia testnet. Demonstrates zero-fee remittance, real-time yield accrual, and frictionless onboarding.",
     "total_features": 36,
-    "completed_features": 1,
+    "completed_features": 2,
     "last_updated": "2026-03-16",
     "IMPORTANT": "DO NOT remove or edit existing features. Only update the 'done' field to true when a feature is fully implemented AND verified. DO NOT mark features as done without testing."
   },
@@ -23,7 +23,7 @@
       "category": "Infrastructure",
       "name": "Install dependencies",
       "description": "Install production deps: framer-motion lucide-react viem wagmi @tanstack/react-query. Install dev deps: @types/node. Run 'npx shadcn@latest init' with dark theme, then add components: button card input badge. Verify 'npm run build' passes.",
-      "done": false,
+      "done": true,
       "priority": 1,
       "depends_on": ["INFRA-001"]
     },
