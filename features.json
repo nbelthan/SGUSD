@@ -4,7 +4,7 @@
     "version": "v1.0",
     "description": "Functional MVP demo of a programmable, interest-bearing stablecoin (SGUSD/Sagecoin) for SMB payouts with yield on Base Sepolia testnet. Demonstrates zero-fee remittance, real-time yield accrual, and frictionless onboarding.",
     "total_features": 36,
-    "completed_features": 13,
+    "completed_features": 14,
     "last_updated": "2026-03-16",
     "IMPORTANT": "DO NOT remove or edit existing features. Only update the 'done' field to true when a feature is fully implemented AND verified. DO NOT mark features as done without testing."
   },
@@ -176,7 +176,7 @@
       "category": "Frontend",
       "name": "App layout shell",
       "description": "Create the main app layout in app/layout.tsx and app/page.tsx. Dark glassmorphism design: bg-neutral-950 full page background. Header with SageBridge logo/title, connected wallet indicator, and logout button. Main content area centered with max-w-6xl. Use the design language from Demo/Specs/payouttoggle.tsx. The layout should wrap all pages.",
-      "done": false,
+      "done": true,
       "priority": 3,
       "depends_on": ["AUTH-002", "INFRA-003"]
     },

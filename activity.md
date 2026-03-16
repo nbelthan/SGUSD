@@ -2,8 +2,8 @@
 
 ## Current Status
 **Last Updated:** 2026-03-16
-**Tasks Completed:** 12 / 36
-**Current Task:** AUTH-002 (completed)
+**Tasks Completed:** 14 / 36
+**Current Task:** UI-001 (completed)
 
 ---
 
@@ -290,3 +290,30 @@
 - None.
 
 **Next session:** SC-003b (Deploy Sagecoin to Base Sepolia) if .env.local becomes available. Otherwise SC-004 (Generate TypeScript ABI) is blocked by SC-003b. The next unblocked priority 2 tasks would be CHAIN-001 and CHAIN-002 (once SC-004 is done).
+
+### Session 14 — 2026-03-16
+**Task:** UI-001 — App layout shell
+**What was done:**
+- Created components/layout/Header.tsx — glassmorphism header component with:
+  - SageBridge logo (ShieldCheck icon in indigo container) and title
+  - Connected wallet address indicator (truncated, with Wallet icon)
+  - Sign Out button with LogOut icon (label hidden on mobile)
+  - backdrop-blur-xl, bg-white/[0.02], border-b border-white/10 styling
+  - Framer Motion entrance animation
+  - Only renders when authenticated
+- Updated app/page.tsx to use the new layout structure:
+  - Wraps authenticated view in min-h-screen flex column layout
+  - Header at the top
+  - Main content area with max-w-6xl, centered, with px-6 py-8 padding
+  - Loading and login states unchanged
+  - Removed Sign Out button from main content (now in header)
+
+**Commands run:**
+- `npx tsc --noEmit` — no type errors
+- `npm run build` — passes cleanly
+- `npm run lint` — no warnings or errors
+
+**Issues:**
+- SC-003b (Deploy Sagecoin) still blocked — .env.local does not exist. Skipped to UI-001 which had all dependencies met.
+
+**Next session:** UI-005 (Payout toggle component) — depends on UI-001 (now done). Or SC-003b if .env.local becomes available.
