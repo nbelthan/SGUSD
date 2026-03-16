@@ -4,7 +4,7 @@
     "version": "v1.0",
     "description": "Functional MVP demo of a programmable, interest-bearing stablecoin (SGUSD/Sagecoin) for SMB payouts with yield on Base Sepolia testnet. Demonstrates zero-fee remittance, real-time yield accrual, and frictionless onboarding.",
     "total_features": 36,
-    "completed_features": 3,
+    "completed_features": 4,
     "last_updated": "2026-03-16",
     "IMPORTANT": "DO NOT remove or edit existing features. Only update the 'done' field to true when a feature is fully implemented AND verified. DO NOT mark features as done without testing."
   },
@@ -41,7 +41,7 @@
       "category": "Infrastructure",
       "name": "Directory structure and TypeScript types",
       "description": "Create directory structure: components/, components/ui/ (shadcn), components/dashboard/, components/payout/, components/network/, lib/, lib/contracts/, lib/hooks/, types/. Create types/index.ts with interfaces: DemoAccount (name, role, address, balance), Transaction (from, to, amount, txHash, timestamp, status), ContractConfig (address, abi, chainId), PayoutMode ('sage' | 'traditional'). Define Base Sepolia chain constants in lib/chains.ts.",
-      "done": false,
+      "done": true,
       "priority": 1,
       "depends_on": ["INFRA-003"]
     },

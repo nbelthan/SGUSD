@@ -2,8 +2,8 @@
 
 ## Current Status
 **Last Updated:** 2026-03-16
-**Tasks Completed:** 3 / 36
-**Current Task:** INFRA-003 (completed)
+**Tasks Completed:** 4 / 36
+**Current Task:** INFRA-004 (completed)
 
 ---
 
@@ -76,3 +76,21 @@
 - None. Inter font configured via system font stack (Inter first in fallback chain) since Google Fonts may not be available in sandbox.
 
 **Next session:** INFRA-004 (directory structure and TypeScript types) or INFRA-006 (.gitignore) or SC-001 (Foundry project setup).
+
+### Session 4 — 2026-03-16
+**Task:** INFRA-004 — Directory structure and TypeScript types
+**What was done:**
+- Created directory structure: components/dashboard/, components/payout/, components/network/, lib/contracts/, lib/hooks/, types/
+- Created types/index.ts with interfaces: DemoAccount, Transaction, ContractConfig, PayoutMode type
+- Used viem's `0x${string}` template literal type for all address/hash fields
+- Created lib/chains.ts with Base Sepolia chain definition using viem's defineChain(), plus exported constants CHAIN_ID, RPC_URL, BLOCK_EXPLORER_URL
+
+**Commands run:**
+- `npx tsc --noEmit` — no type errors
+- `npm run build` — passes cleanly
+- `npm run lint` — no warnings or errors
+
+**Issues:**
+- None.
+
+**Next session:** INFRA-005 (environment configuration) or INFRA-006 (.gitignore) or SC-001 (Foundry project setup).
