@@ -1,0 +1,53 @@
+{
+  "sandbox": {
+    "enabled": true
+  },
+  "permissions": {
+    "allow": [
+      "Bash(npm:*)",
+      "Bash(npx:*)",
+      "Bash(node:*)",
+      "Bash(git:*)",
+      "Bash(forge:*)",
+      "Bash(cast:*)",
+      "Bash(anvil:*)",
+      "Bash(foundryup:*)",
+      "Bash(curl:*)",
+      "Bash(mkdir:*)",
+      "Bash(cp:*)",
+      "Bash(mv:*)",
+      "Bash(chmod:*)",
+      "Bash(cat:*)",
+      "Bash(ls:*)",
+      "Bash(pwd:*)",
+      "Bash(which:*)",
+      "Bash(echo:*)",
+      "Bash(head:*)",
+      "Bash(tail:*)",
+      "Bash(wc:*)",
+      "Bash(grep:*)",
+      "Bash(find:*)",
+      "Bash(sed:*)",
+      "Bash(kill:*)",
+      "Bash(lsof:*)",
+      "Bash(python3:*)",
+      "Bash(bash:*)",
+      "Read",
+      "Write",
+      "Edit",
+      "Glob",
+      "Grep"
+    ],
+    "deny": [
+      "Bash(rm -rf /)",
+      "Bash(*>.env.local*)",
+      "Bash(*PRIVATE_KEY*)",
+      "Read(.env.local)",
+      "Read(*id_rsa*)",
+      "Read(*credentials*)"
+    ],
+    "ask": [
+      "Bash(git push*)"
+    ]
+  }
+}

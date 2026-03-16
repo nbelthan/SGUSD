@@ -1,0 +1,328 @@
+{
+  "_meta": {
+    "project": "SageBridge — SGUSD Programmable Stablecoin Demo",
+    "version": "v1.0",
+    "description": "Functional MVP demo of a programmable, interest-bearing stablecoin (SGUSD/Sagecoin) for SMB payouts with yield on Base Sepolia testnet. Demonstrates zero-fee remittance, real-time yield accrual, and frictionless onboarding.",
+    "total_features": 35,
+    "completed_features": 0,
+    "last_updated": "2026-03-16",
+    "IMPORTANT": "DO NOT remove or edit existing features. Only update the 'done' field to true when a feature is fully implemented AND verified. DO NOT mark features as done without testing."
+  },
+  "features": [
+    {
+      "id": "INFRA-001",
+      "category": "Infrastructure",
+      "name": "Next.js 14 project scaffold",
+      "description": "Run: npx create-next-app@14 . --typescript --tailwind --eslint --app --src-dir=false --import-alias='@/*'. Verify 'npm run dev' starts cleanly. DO NOT overwrite existing files (Demo/, features.json, CLAUDE.md, PROMPT.md, activity.md, ralph.sh, init.sh).",
+      "done": false,
+      "priority": 1,
+      "depends_on": []
+    },
+    {
+      "id": "INFRA-002",
+      "category": "Infrastructure",
+      "name": "Install dependencies",
+      "description": "Install production deps: framer-motion lucide-react viem wagmi @tanstack/react-query. Install dev deps: @types/node. Run 'npx shadcn@latest init' with dark theme, then add components: button card input badge. Verify 'npm run build' passes.",
+      "done": false,
+      "priority": 1,
+      "depends_on": ["INFRA-001"]
+    },
+    {
+      "id": "INFRA-003",
+      "category": "Infrastructure",
+      "name": "Dark glassmorphism theme and globals.css",
+      "description": "Configure globals.css with dark glassmorphism theme matching Demo/Specs/payouttoggle.tsx design language: bg-neutral-950 background, glassmorphism cards (backdrop-blur-xl, bg-white/5, border-white/10), indigo accent colors. Set Inter font. Configure Tailwind for the design system.",
+      "done": false,
+      "priority": 1,
+      "depends_on": ["INFRA-002"]
+    },
+    {
+      "id": "INFRA-004",
+      "category": "Infrastructure",
+      "name": "Directory structure and TypeScript types",
+      "description": "Create directory structure: components/, components/ui/ (shadcn), components/dashboard/, components/payout/, components/network/, lib/, lib/contracts/, lib/hooks/, types/. Create types/index.ts with interfaces: DemoAccount (name, role, address, balance), Transaction (from, to, amount, txHash, timestamp, status), ContractConfig (address, abi, chainId), PayoutMode ('sage' | 'traditional'). Define Base Sepolia chain constants in lib/chains.ts.",
+      "done": false,
+      "priority": 1,
+      "depends_on": ["INFRA-003"]
+    },
+    {
+      "id": "INFRA-005",
+      "category": "Infrastructure",
+      "name": "Environment configuration",
+      "description": "Create .env.example with all required vars documented: NEXT_PUBLIC_PRIVY_APP_ID, NEXT_PUBLIC_SAGECOIN_ADDRESS, NEXT_PUBLIC_BASE_SEPOLIA_RPC (https://sepolia.base.org), DEPLOYER_PRIVATE_KEY (DO NOT commit real key). Add .env.local to .gitignore. Create lib/config.ts to export validated env vars.",
+      "done": false,
+      "priority": 1,
+      "depends_on": ["INFRA-004"]
+    },
+    {
+      "id": "INFRA-006",
+      "category": "Infrastructure",
+      "name": ".gitignore and project config",
+      "description": "Ensure .gitignore includes: node_modules, .next, .env, .env.local, *.log, .DS_Store, contracts/out, contracts/cache, logs/, screenshots/. Verify Demo/Specs/ files are tracked.",
+      "done": false,
+      "priority": 1,
+      "depends_on": ["INFRA-001"]
+    },
+    {
+      "id": "SC-001",
+      "category": "Smart Contract",
+      "name": "Foundry project setup",
+      "description": "Create contracts/ directory. Run 'cd contracts && forge init --no-git'. Install OpenZeppelin: 'forge install OpenZeppelin/openzeppelin-contracts --no-git'. Configure foundry.toml with remappings for @openzeppelin/. Verify 'forge build' passes.",
+      "done": false,
+      "priority": 1,
+      "depends_on": []
+    },
+    {
+      "id": "SC-002",
+      "category": "Smart Contract",
+      "name": "Sagecoin contract implementation",
+      "description": "Copy Demo/Specs/sagecoin.sol to contracts/src/Sagecoin.sol. Verify it compiles with 'forge build'. The contract implements: shares-based rebasing ERC-20, linear interest accrual (5% APY = 500 basis points), owner-only mint/burn, dynamic balanceOf via getCurrentMultiplier(). Do NOT modify the contract logic — use it exactly as specified.",
+      "done": false,
+      "priority": 1,
+      "depends_on": ["SC-001"]
+    },
+    {
+      "id": "SC-003",
+      "category": "Smart Contract",
+      "name": "Deployment script for Base Sepolia",
+      "description": "Create contracts/script/Deploy.s.sol — a Foundry deployment script that deploys Sagecoin with name='Sagecoin' and symbol='SGUSD' to Base Sepolia (chain ID 84532, RPC https://sepolia.base.org). Create contracts/deploy.sh helper script that runs the forge script with --broadcast flag. Document the deployment process in contracts/README.md.",
+      "done": false,
+      "priority": 1,
+      "depends_on": ["SC-002"]
+    },
+    {
+      "id": "SC-004",
+      "category": "Smart Contract",
+      "name": "Generate TypeScript ABI and constants",
+      "description": "Create lib/contracts/sagecoin-abi.ts — export the Sagecoin ABI as a const array (extract from Foundry's out/Sagecoin.sol/Sagecoin.json after build). Create lib/contracts/addresses.ts with SAGECOIN_ADDRESS constant that reads from NEXT_PUBLIC_SAGECOIN_ADDRESS env var. Create lib/contracts/index.ts that re-exports both. These will be used by wagmi hooks.",
+      "done": false,
+      "priority": 2,
+      "depends_on": ["SC-003", "INFRA-005"]
+    },
+    {
+      "id": "AUTH-001",
+      "category": "Authentication",
+      "name": "Privy provider setup",
+      "description": "Install @privy-io/react-auth. Create components/providers/PrivyProvider.tsx wrapping the app with PrivyProvider configured for Base Sepolia. Configure login methods: email only (no wallet connect, no social). Set appearance to dark theme matching the glassmorphism design. Wrap the root layout in app/layout.tsx with the provider. Verify the app builds.",
+      "done": false,
+      "priority": 2,
+      "depends_on": ["INFRA-005"]
+    },
+    {
+      "id": "AUTH-002",
+      "category": "Authentication",
+      "name": "Login flow with embedded wallets",
+      "description": "Create components/auth/LoginScreen.tsx — a glassmorphism login card with email input and 'Enter SageBridge' button. Use Privy's useLogin hook. On successful login, Privy auto-creates an embedded wallet (no seed phrases). Create a useAuth hook in lib/hooks/useAuth.ts that exposes: isAuthenticated, user, walletAddress, login, logout. Gate the main app behind authentication.",
+      "done": false,
+      "priority": 2,
+      "depends_on": ["AUTH-001"]
+    },
+    {
+      "id": "AUTH-003",
+      "category": "Authentication",
+      "name": "Wagmi provider with Base Sepolia",
+      "description": "Install @privy-io/wagmi. Create components/providers/WagmiProvider.tsx that configures wagmi with Base Sepolia chain. Set up the provider chain: PrivyProvider > WagmiProvider > QueryClientProvider. Ensure wagmi's useAccount, useReadContract, useWriteContract hooks work with the Privy embedded wallet.",
+      "done": false,
+      "priority": 2,
+      "depends_on": ["AUTH-002"]
+    },
+    {
+      "id": "CHAIN-001",
+      "category": "Blockchain",
+      "name": "Contract read hooks",
+      "description": "Create lib/hooks/useBalanceOf.ts — wagmi useReadContract hook that calls Sagecoin.balanceOf(address) and returns the formatted balance with 18 decimal precision. Create lib/hooks/useMultiplier.ts — reads getCurrentMultiplier() from the contract. Create lib/hooks/useTotalSupply.ts. All hooks should poll every 10 seconds for fresh on-chain data. Use the ABI from lib/contracts/sagecoin-abi.ts.",
+      "done": false,
+      "priority": 2,
+      "depends_on": ["SC-004", "AUTH-003"]
+    },
+    {
+      "id": "CHAIN-002",
+      "category": "Blockchain",
+      "name": "Contract write hooks (mint, transfer, burn)",
+      "description": "Create lib/hooks/useMint.ts — wagmi useWriteContract hook for Sagecoin.mint(address, amount). Create lib/hooks/useTransfer.ts — hook for Sagecoin.transfer(to, amount). Create lib/hooks/useBurn.ts — hook for Sagecoin.burn(address, amount). Each hook should handle loading states, error states, and return the transaction hash on success. Include tx confirmation waiting.",
+      "done": false,
+      "priority": 2,
+      "depends_on": ["CHAIN-001"]
+    },
+    {
+      "id": "CHAIN-003",
+      "category": "Blockchain",
+      "name": "Real-time balance interpolation",
+      "description": "Create lib/hooks/useTickingBalance.ts — the core hook for the 'ticking' effect. It reads the on-chain balance every 10 seconds, then uses off-chain math to interpolate the balance between reads. The interpolation uses the same formula as the contract: balance grows by (balance × 500 / 10000 / 31536000) per second. Returns a number that updates every 50ms for smooth animation. Must show 6+ decimal precision.",
+      "done": false,
+      "priority": 2,
+      "depends_on": ["CHAIN-001"]
+    },
+    {
+      "id": "CHAIN-004",
+      "category": "Blockchain",
+      "name": "BaseScan link generation",
+      "description": "Create lib/basescan.ts with helper functions: getTxUrl(txHash) returns 'https://sepolia.basescan.org/tx/{hash}', getAddressUrl(address) returns 'https://sepolia.basescan.org/address/{address}', getContractUrl() returns the Sagecoin contract page. All URLs MUST use sepolia.basescan.org (testnet), never basescan.org (mainnet).",
+      "done": false,
+      "priority": 2,
+      "depends_on": ["INFRA-004"]
+    },
+    {
+      "id": "UI-001",
+      "category": "Frontend",
+      "name": "App layout shell",
+      "description": "Create the main app layout in app/layout.tsx and app/page.tsx. Dark glassmorphism design: bg-neutral-950 full page background. Header with SageBridge logo/title, connected wallet indicator, and logout button. Main content area centered with max-w-6xl. Use the design language from Demo/Specs/payouttoggle.tsx. The layout should wrap all pages.",
+      "done": false,
+      "priority": 3,
+      "depends_on": ["AUTH-002", "INFRA-003"]
+    },
+    {
+      "id": "UI-002",
+      "category": "Frontend",
+      "name": "Treasury dashboard - balance display",
+      "description": "Create components/dashboard/TreasuryDashboard.tsx — the main dashboard view. Display the account name (e.g., 'Acme Inc.'), role ('SMB Treasury'), and SGUSD balance. The balance must show 6+ decimal places (e.g., $10,000.045219). Use a large, prominent font for the dollar amount. Glassmorphism card styling. Include a subtle 'SGUSD' badge next to the balance.",
+      "done": false,
+      "priority": 3,
+      "depends_on": ["CHAIN-003", "UI-001"]
+    },
+    {
+      "id": "UI-003",
+      "category": "Frontend",
+      "name": "Treasury dashboard - live ticking animation",
+      "description": "Integrate useTickingBalance hook into TreasuryDashboard. The decimal digits must 'flutter/tick upward' smoothly in real-time to visualize the programmable yield. Use Framer Motion for the digit transition animations. Each decimal digit should animate independently when it changes. The effect should be visually compelling — this is the hero moment of the demo.",
+      "done": false,
+      "priority": 3,
+      "depends_on": ["UI-002"]
+    },
+    {
+      "id": "UI-004",
+      "category": "Frontend",
+      "name": "Treasury dashboard - fees saved counter",
+      "description": "Add a 'Fees Saved vs. Traditional Banking' counter to the TreasuryDashboard. Calculate against baseline: 3% FX markup + $45 wire fee per transaction. Show a running total of savings. Display as a secondary metric below the main balance. Use green accent color for the savings amount.",
+      "done": false,
+      "priority": 3,
+      "depends_on": ["UI-002"]
+    },
+    {
+      "id": "UI-005",
+      "category": "Frontend",
+      "name": "Payout toggle component (Ghost Mode)",
+      "description": "Create components/payout/PayoutToggle.tsx — adapt from Demo/Specs/payouttoggle.tsx. Toggle between 'Traditional Wire' and 'SageBridge (SGUSD)' modes. Traditional: 3-day ETA, $45 wire fee, 3% FX markup. Sage: <2 second ETA, $0 fees, 1:1 settlement. Dynamic fee calculations based on invoice amount input. Animated breakdown with Framer Motion. Include 'Authorize Instant Transfer' / 'Initiate Wire Transfer' action button.",
+      "done": false,
+      "priority": 3,
+      "depends_on": ["UI-001"]
+    },
+    {
+      "id": "UI-006",
+      "category": "Frontend",
+      "name": "Payout toggle - blockchain integration",
+      "description": "Wire the PayoutToggle action button to the useTransfer hook. In Sage mode, clicking 'Authorize Instant Transfer' calls Sagecoin.transfer() on-chain. Show a loading spinner during transaction. On success, display the confirmation toast with BaseScan link. In Traditional mode, the button is disabled with a 'Demo only' tooltip. Update the sender's ticking balance after transfer.",
+      "done": false,
+      "priority": 3,
+      "depends_on": ["UI-005", "CHAIN-002"]
+    },
+    {
+      "id": "UI-007",
+      "category": "Frontend",
+      "name": "Sage Network visualization",
+      "description": "Create components/network/NetworkVisualization.tsx — a simple node-based map showing funds moving from sender to receiver. Display two nodes ('Acme Inc.' and 'Global Logistics') connected by an animated line/path. When a transfer completes, animate the payment flowing along the path. Show confirmation toast: 'Transaction settled 100% within the Sage Trust Network.' Include BaseScan verification link.",
+      "done": false,
+      "priority": 3,
+      "depends_on": ["UI-001", "CHAIN-004"]
+    },
+    {
+      "id": "UI-008",
+      "category": "Frontend",
+      "name": "Transaction confirmation toast",
+      "description": "Create components/ui/TransactionToast.tsx — a glassmorphism toast notification that appears when a transaction settles. Shows: transaction type (mint/transfer), amount, recipient, settlement time ('<2 seconds'), and a clickable BaseScan link. Auto-dismisses after 8 seconds. Use Framer Motion for slide-in animation. Green accent for success state.",
+      "done": false,
+      "priority": 3,
+      "depends_on": ["CHAIN-004", "UI-001"]
+    },
+    {
+      "id": "DEMO-001",
+      "category": "Demo Flow",
+      "name": "Demo accounts and state management",
+      "description": "Create lib/demo/accounts.ts — define demo accounts: Acme Inc. (US SMB, payer) and Global Logistics (international contractor, receiver). Create lib/demo/useDemoState.ts — a React context/hook that tracks demo state: current step, transaction history, accounts with balances. The demo should work with real on-chain data but provide a guided walkthrough experience.",
+      "done": false,
+      "priority": 3,
+      "depends_on": ["CHAIN-001", "INFRA-004"]
+    },
+    {
+      "id": "DEMO-002",
+      "category": "Demo Flow",
+      "name": "Consumer payment simulation (mint)",
+      "description": "Create components/demo/MintStep.tsx — the first demo step. Shows 'Consumer pays $10,000 invoice' narrative. Button triggers Sagecoin.mint() to the connected wallet, simulating receiving SGUSD. After mint succeeds, the ticking dashboard immediately shows the balance growing. Include a BaseScan link for the mint transaction.",
+      "done": false,
+      "priority": 3,
+      "depends_on": ["DEMO-001", "CHAIN-002", "UI-002"]
+    },
+    {
+      "id": "DEMO-003",
+      "category": "Demo Flow",
+      "name": "Supplier payout flow (transfer)",
+      "description": "Create components/demo/PayoutStep.tsx — the second demo step. Shows 'Pay Global Logistics $5,000' narrative. Integrates the PayoutToggle in Sage mode. On transfer, shows the NetworkVisualization animation. After transfer settles, both the sender's reduced balance and the network visualization confirm the payment.",
+      "done": false,
+      "priority": 3,
+      "depends_on": ["DEMO-001", "UI-006", "UI-007"]
+    },
+    {
+      "id": "DEMO-004",
+      "category": "Demo Flow",
+      "name": "Demo page orchestration",
+      "description": "Create app/demo/page.tsx — a guided demo page that walks through the full narrative: (1) Consumer payment → mint, (2) Watch yield tick, (3) Supplier payout → transfer, (4) Network confirmation. Use step indicators and narrative text. Each step transitions smoothly with Framer Motion. Add a 'Reset Demo' button that returns to step 1.",
+      "done": false,
+      "priority": 3,
+      "depends_on": ["DEMO-002", "DEMO-003"]
+    },
+    {
+      "id": "GAS-001",
+      "category": "Gas Sponsorship",
+      "name": "Paymaster integration for gasless transactions",
+      "description": "Integrate gas sponsorship so users never see gas fees. Options: (1) Use Privy's built-in gas sponsorship if available, (2) Configure a Paymaster via Alchemy/Pimlico for ERC-4337, (3) Use a simple relayer pattern where the deployer wallet pays gas on behalf of users. Choose the simplest option that works on Base Sepolia. The key requirement: users must NEVER be prompted to pay gas. Document the chosen approach in activity.md.",
+      "done": false,
+      "priority": 3,
+      "depends_on": ["AUTH-003", "CHAIN-002"]
+    },
+    {
+      "id": "POLISH-001",
+      "category": "Polish",
+      "name": "Loading states and skeleton screens",
+      "description": "Add loading states throughout the app: skeleton screens for the dashboard while balance loads, spinner on transaction buttons during confirmation, pulsing placeholder for the network visualization before first transfer. Use Tailwind's animate-pulse for skeletons. Ensure no layout shift when data loads.",
+      "done": false,
+      "priority": 4,
+      "depends_on": ["UI-003", "UI-006", "UI-007"]
+    },
+    {
+      "id": "POLISH-002",
+      "category": "Polish",
+      "name": "Error handling and fallback UI",
+      "description": "Add error boundaries and user-friendly error states: contract call failures (show retry button), network disconnection (show reconnect prompt), wrong network (show 'Switch to Base Sepolia' button), wallet not connected (redirect to login). Use toast notifications for transient errors. Never show raw error messages or stack traces.",
+      "done": false,
+      "priority": 4,
+      "depends_on": ["POLISH-001"]
+    },
+    {
+      "id": "POLISH-003",
+      "category": "Polish",
+      "name": "Responsive layout and mobile optimization",
+      "description": "Ensure the entire app works well on mobile viewports (375px+). The treasury dashboard should stack vertically on mobile. The payout toggle should be full-width. The network visualization should simplify on small screens. Test at 375px, 768px, and 1024px breakpoints.",
+      "done": false,
+      "priority": 4,
+      "depends_on": ["POLISH-001"]
+    },
+    {
+      "id": "POLISH-004",
+      "category": "Polish",
+      "name": "Final visual polish and animations",
+      "description": "Review all components for visual consistency with the glassmorphism design language. Ensure Framer Motion animations are smooth and purposeful. Add subtle hover effects on interactive elements. Verify the indigo glow effects work correctly. Check that the 'ticking' animation is the visual hero moment — it should immediately convey 'your money is growing.'",
+      "done": false,
+      "priority": 4,
+      "depends_on": ["POLISH-002", "POLISH-003"]
+    },
+    {
+      "id": "POLISH-005",
+      "category": "Polish",
+      "name": "End-to-end demo verification",
+      "description": "Run the complete demo flow end-to-end: login with email → see empty dashboard → mint SGUSD (consumer payment) → watch balance tick up → initiate payout via toggle → see network visualization → verify BaseScan links work → verify receiver balance. Fix any issues found. This is the final task — everything must work together seamlessly. Document the verification in activity.md.",
+      "done": false,
+      "priority": 4,
+      "depends_on": ["POLISH-004", "DEMO-004", "GAS-001"]
+    }
+  ]
+}
