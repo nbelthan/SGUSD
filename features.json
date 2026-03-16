@@ -4,7 +4,7 @@
     "version": "v1.0",
     "description": "Functional MVP demo of a programmable, interest-bearing stablecoin (SGUSD/Sagecoin) for SMB payouts with yield on Base Sepolia testnet. Demonstrates zero-fee remittance, real-time yield accrual, and frictionless onboarding.",
     "total_features": 36,
-    "completed_features": 11,
+    "completed_features": 12,
     "last_updated": "2026-03-16",
     "IMPORTANT": "DO NOT remove or edit existing features. Only update the 'done' field to true when a feature is fully implemented AND verified. DO NOT mark features as done without testing."
   },
@@ -122,7 +122,7 @@
       "category": "Authentication",
       "name": "Login flow with embedded wallets",
       "description": "Create components/auth/LoginScreen.tsx — a glassmorphism login card with email input and 'Enter SageBridge' button. Use Privy's useLogin hook. On successful login, Privy auto-creates an embedded wallet (no seed phrases). Create a useAuth hook in lib/hooks/useAuth.ts that exposes: isAuthenticated, user, walletAddress, login, logout. Gate the main app behind authentication.",
-      "done": false,
+      "done": true,
       "priority": 2,
       "depends_on": ["AUTH-001"]
     },

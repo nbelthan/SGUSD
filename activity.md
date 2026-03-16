@@ -2,8 +2,8 @@
 
 ## Current Status
 **Last Updated:** 2026-03-16
-**Tasks Completed:** 11 / 36
-**Current Task:** AUTH-001 (completed)
+**Tasks Completed:** 12 / 36
+**Current Task:** AUTH-002 (completed)
 
 ---
 
@@ -237,3 +237,32 @@
 - `createOnLogin` config is nested under `embeddedWallets.ethereum` in Privy v3 (not directly under `embeddedWallets`)
 
 **Next session:** AUTH-002 (Login flow with embedded wallets) — depends on AUTH-001 (now done). Or SC-003b if .env.local becomes available.
+
+### Session 12 — 2026-03-16
+**Task:** AUTH-002 — Login flow with embedded wallets
+**What was done:**
+- Created lib/hooks/useAuth.ts — custom hook wrapping Privy's usePrivy and useWallets hooks
+  - Exposes: ready, isAuthenticated, user, walletAddress (embedded wallet address), walletsReady, login, logout
+  - Finds the Privy embedded wallet specifically (walletClientType === 'privy')
+- Created components/auth/LoginScreen.tsx — glassmorphism login card with:
+  - ShieldCheck icon in indigo-tinted container
+  - SageBridge title and tagline
+  - "Enter SageBridge" button that triggers Privy's login modal (email-only)
+  - Subtitle: "Sign in with email — no wallet or seed phrase needed"
+  - Uses existing glass-card and btn-sage CSS utility classes
+  - Framer Motion entrance animation (fade + slide up)
+- Updated app/page.tsx to gate behind authentication:
+  - Shows loading spinner while Privy initializes (ready === false)
+  - Shows LoginScreen when not authenticated
+  - Shows authenticated dashboard with wallet address (truncated), email, and Sign Out button
+  - All states use glassmorphism design language
+
+**Commands run:**
+- `npx tsc --noEmit` — no type errors
+- `npm run build` — passes cleanly
+- `npm run lint` — no warnings or errors
+
+**Issues:**
+- None.
+
+**Next session:** AUTH-003 (Wagmi provider with Base Sepolia) — depends on AUTH-002 (now done). Or SC-003b if .env.local becomes available.
