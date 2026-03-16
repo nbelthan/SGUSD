@@ -4,7 +4,7 @@
     "version": "v1.0",
     "description": "Functional MVP demo of a programmable, interest-bearing stablecoin (SGUSD/Sagecoin) for SMB payouts with yield on Base Sepolia testnet. Demonstrates zero-fee remittance, real-time yield accrual, and frictionless onboarding.",
     "total_features": 36,
-    "completed_features": 15,
+    "completed_features": 16,
     "last_updated": "2026-03-16",
     "IMPORTANT": "DO NOT remove or edit existing features. Only update the 'done' field to true when a feature is fully implemented AND verified. DO NOT mark features as done without testing."
   },
@@ -230,7 +230,7 @@
       "category": "Frontend",
       "name": "Sage Network visualization",
       "description": "Create components/network/NetworkVisualization.tsx — a simple node-based map showing funds moving from sender to receiver. Display two nodes ('Acme Inc.' and 'Global Logistics') connected by an animated line/path. When a transfer completes, animate the payment flowing along the path. Show confirmation toast: 'Transaction settled 100% within the Sage Trust Network.' Include BaseScan verification link.",
-      "done": false,
+      "done": true,
       "priority": 3,
       "depends_on": ["UI-001", "CHAIN-004"]
     },
