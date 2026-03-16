@@ -4,7 +4,7 @@
     "version": "v1.0",
     "description": "Functional MVP demo of a programmable, interest-bearing stablecoin (SGUSD/Sagecoin) for SMB payouts with yield on Base Sepolia testnet. Demonstrates zero-fee remittance, real-time yield accrual, and frictionless onboarding.",
     "total_features": 36,
-    "completed_features": 9,
+    "completed_features": 10,
     "last_updated": "2026-03-16",
     "IMPORTANT": "DO NOT remove or edit existing features. Only update the 'done' field to true when a feature is fully implemented AND verified. DO NOT mark features as done without testing."
   },
@@ -167,7 +167,7 @@
       "category": "Blockchain",
       "name": "BaseScan link generation",
       "description": "Create lib/basescan.ts with helper functions: getTxUrl(txHash) returns 'https://sepolia.basescan.org/tx/{hash}', getAddressUrl(address) returns 'https://sepolia.basescan.org/address/{address}', getContractUrl() returns the Sagecoin contract page. All URLs MUST use sepolia.basescan.org (testnet), never basescan.org (mainnet).",
-      "done": false,
+      "done": true,
       "priority": 2,
       "depends_on": ["INFRA-004"]
     },

@@ -2,8 +2,8 @@
 
 ## Current Status
 **Last Updated:** 2026-03-16
-**Tasks Completed:** 9 / 36
-**Current Task:** SC-003 (completed)
+**Tasks Completed:** 10 / 36
+**Current Task:** CHAIN-004 (completed)
 
 ---
 
@@ -193,3 +193,22 @@
 - None. Forge is still not in PATH; used ~/.foundry/bin/forge. deploy.sh handles this by checking both PATH and ~/.foundry/bin/.
 
 **Next session:** SC-003b (Deploy Sagecoin to Base Sepolia) — run bash contracts/deploy.sh and update .env.local with the deployed address.
+
+### Session 10 — 2026-03-16
+**Task:** CHAIN-004 — BaseScan link generation
+**What was done:**
+- Created lib/basescan.ts with three helper functions:
+  - `getTxUrl(txHash)` — returns `https://sepolia.basescan.org/tx/{hash}`
+  - `getAddressUrl(address)` — returns `https://sepolia.basescan.org/address/{address}`
+  - `getContractUrl()` — returns BaseScan page for the deployed Sagecoin contract (reads NEXT_PUBLIC_SAGECOIN_ADDRESS env var, falls back to explorer root)
+- All URLs use BLOCK_EXPLORER_URL constant from lib/chains.ts (sepolia.basescan.org), never mainnet
+
+**Commands run:**
+- `npx tsc --noEmit` — no type errors
+- `npm run build` — passes cleanly
+- `npm run lint` — no warnings or errors
+
+**Issues:**
+- SC-003b (Deploy Sagecoin) was attempted first but failed — .env.local does not exist. Deployment requires .env.local with DEPLOYER_PRIVATE_KEY. Pivoted to CHAIN-004 instead.
+
+**Next session:** SC-003b (Deploy Sagecoin to Base Sepolia) — requires creating .env.local from .env.example with a funded deployer wallet. Or AUTH-001 (Privy provider setup) if deployment is still blocked.
