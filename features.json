@@ -4,7 +4,7 @@
     "version": "v1.0",
     "description": "Functional MVP demo of a programmable, interest-bearing stablecoin (SGUSD/Sagecoin) for SMB payouts with yield on Base Sepolia testnet. Demonstrates zero-fee remittance, real-time yield accrual, and frictionless onboarding.",
     "total_features": 36,
-    "completed_features": 8,
+    "completed_features": 9,
     "last_updated": "2026-03-16",
     "IMPORTANT": "DO NOT remove or edit existing features. Only update the 'done' field to true when a feature is fully implemented AND verified. DO NOT mark features as done without testing."
   },
@@ -86,7 +86,7 @@
       "category": "Smart Contract",
       "name": "Deployment script for Base Sepolia",
       "description": "Create contracts/script/Deploy.s.sol — a Foundry deployment script that deploys Sagecoin with name='Sagecoin' and symbol='SGUSD' to Base Sepolia (chain ID 84532, RPC https://sepolia.base.org). Create contracts/deploy.sh helper script that sources ../.env.local for DEPLOYER_PRIVATE_KEY and runs the forge script with --broadcast flag. The deploy.sh script must handle the private key internally so the agent only needs to run 'bash contracts/deploy.sh'. Document the deployment process in contracts/README.md.",
-      "done": false,
+      "done": true,
       "priority": 1,
       "depends_on": ["SC-002"]
     },

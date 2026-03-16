@@ -2,8 +2,8 @@
 
 ## Current Status
 **Last Updated:** 2026-03-16
-**Tasks Completed:** 8 / 36
-**Current Task:** SC-002 (completed)
+**Tasks Completed:** 9 / 36
+**Current Task:** SC-003 (completed)
 
 ---
 
@@ -171,3 +171,25 @@
 - Minor compiler warnings (decimals() could be pure, import style suggestions) — not modifying contract per task instructions
 
 **Next session:** SC-003 (Deployment script for Base Sepolia) — create Deploy.s.sol and deploy.sh helper script.
+
+### Session 9 — 2026-03-16
+**Task:** SC-003 — Deployment script for Base Sepolia
+**What was done:**
+- Created contracts/script/Deploy.s.sol — Foundry deployment script that deploys Sagecoin with name="Sagecoin" and symbol="SGUSD"
+- Script reads DEPLOYER_PRIVATE_KEY from environment, uses vm.startBroadcast/stopBroadcast pattern
+- Logs deployed address, chain ID, and deployer address on completion
+- Created contracts/deploy.sh — bash helper that sources ../.env.local, validates DEPLOYER_PRIVATE_KEY, auto-detects forge path, builds, then deploys with --broadcast and Blockscout verification
+- deploy.sh includes clear error messages for missing .env.local, placeholder key, and missing Foundry
+- Replaced contracts/README.md (default Foundry boilerplate) with project-specific deployment documentation
+- Removed contracts/script/.gitkeep placeholder (replaced by Deploy.s.sol)
+
+**Commands run:**
+- `forge build` — compiles successfully (16 files, Solc 0.8.20) with only lint notes and one pure-mutability warning
+- `npx tsc --noEmit` — no type errors
+- `npm run build` — Next.js build passes cleanly
+- `npm run lint` — no warnings or errors
+
+**Issues:**
+- None. Forge is still not in PATH; used ~/.foundry/bin/forge. deploy.sh handles this by checking both PATH and ~/.foundry/bin/.
+
+**Next session:** SC-003b (Deploy Sagecoin to Base Sepolia) — run bash contracts/deploy.sh and update .env.local with the deployed address.

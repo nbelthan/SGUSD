@@ -1,66 +1,55 @@
-## Foundry
+# Sagecoin (SGUSD) — Smart Contract
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+Rebasing ERC-20 stablecoin with linear interest accrual (5% APY) on Base Sepolia.
 
-Foundry consists of:
+## Prerequisites
 
-- **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
-- **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
-- **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
-- **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+- [Foundry](https://book.getfoundry.sh/getting-started/installation) installed
+- Deployer wallet funded with Base Sepolia ETH
+  - Faucet: https://www.coinbase.com/faucets/base-ethereum-goerli-faucet
 
-## Documentation
+## Build
 
-https://book.getfoundry.sh/
-
-## Usage
-
-### Build
-
-```shell
-$ forge build
+```bash
+cd contracts
+forge build
 ```
 
-### Test
+## Deploy to Base Sepolia
 
-```shell
-$ forge test
-```
+1. Copy `.env.example` to `.env.local` in the project root (if not already done):
 
-### Format
+   ```bash
+   cp .env.example .env.local
+   ```
 
-```shell
-$ forge fmt
-```
+2. Set `DEPLOYER_PRIVATE_KEY` in `.env.local` to a funded wallet's private key.
 
-### Gas Snapshots
+3. Run the deployment script from the project root:
 
-```shell
-$ forge snapshot
-```
+   ```bash
+   bash contracts/deploy.sh
+   ```
 
-### Anvil
+4. Copy the deployed contract address from the output and update `.env.local`:
 
-```shell
-$ anvil
-```
+   ```
+   NEXT_PUBLIC_SAGECOIN_ADDRESS=0x...
+   ```
 
-### Deploy
+## Network Details
 
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
+| Property       | Value                              |
+| -------------- | ---------------------------------- |
+| Network        | Base Sepolia Testnet               |
+| Chain ID       | 84532                              |
+| RPC URL        | https://sepolia.base.org           |
+| Block Explorer | https://sepolia.basescan.org       |
 
-### Cast
+## Contract Details
 
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+- **Name:** Sagecoin
+- **Symbol:** SGUSD
+- **Decimals:** 18
+- **Interest Rate:** 500 basis points (5% APY, linear)
+- **Mechanism:** Shares-based rebasing — `balance = shares × multiplier / PRECISION`
