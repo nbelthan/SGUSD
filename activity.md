@@ -2,8 +2,8 @@
 
 ## Current Status
 **Last Updated:** 2026-03-16
-**Tasks Completed:** 15 / 36
-**Current Task:** UI-005 (completed)
+**Tasks Completed:** 17 / 36
+**Current Task:** UI-008 (completed)
 
 ---
 
@@ -371,3 +371,29 @@
 - None. SC-003b (Deploy Sagecoin) still blocked — .env.local does not exist.
 
 **Next session:** UI-008 (Transaction confirmation toast) — all dependencies met. Or SC-003b if .env.local becomes available.
+
+### Session 17 — 2026-03-16
+**Task:** UI-008 — Transaction confirmation toast
+**What was done:**
+- Created components/ui/TransactionToast.tsx — glassmorphism toast notification component
+  - Shows transaction type (mint/transfer/burn), amount in SGUSD, optional recipient (truncated address)
+  - Settlement time display: "Settled in <2 seconds"
+  - Clickable BaseScan link with truncated transaction hash and external link icon
+  - Auto-dismisses after 8 seconds, manual dismiss via X button
+  - Framer Motion spring-based slide-in from right, slide-out on dismiss
+  - Emerald green accent: CheckCircle2 icon, settlement text, subtle background glow
+  - Glass-card styling matching the design system
+- Created useTransactionToast() hook for managing multiple toasts
+  - showToast() adds a toast with auto-generated ID
+  - dismissToast() removes by ID
+  - ToastContainer component renders all active toasts with stacking
+
+**Commands run:**
+- `npx tsc --noEmit` — no type errors
+- `npm run build` — passes cleanly
+- `npm run lint` — no warnings or errors
+
+**Issues:**
+- None. SC-003b (Deploy Sagecoin) still blocked — .env.local does not exist.
+
+**Next session:** SC-003b if .env.local becomes available. Otherwise DEMO-001 (Demo accounts and state management) — blocked by CHAIN-001 which is blocked by SC-004 → SC-003b. All remaining tasks are blocked on SC-003b (contract deployment).

@@ -4,7 +4,7 @@
     "version": "v1.0",
     "description": "Functional MVP demo of a programmable, interest-bearing stablecoin (SGUSD/Sagecoin) for SMB payouts with yield on Base Sepolia testnet. Demonstrates zero-fee remittance, real-time yield accrual, and frictionless onboarding.",
     "total_features": 36,
-    "completed_features": 16,
+    "completed_features": 17,
     "last_updated": "2026-03-16",
     "IMPORTANT": "DO NOT remove or edit existing features. Only update the 'done' field to true when a feature is fully implemented AND verified. DO NOT mark features as done without testing."
   },
@@ -239,7 +239,7 @@
       "category": "Frontend",
       "name": "Transaction confirmation toast",
       "description": "Create components/ui/TransactionToast.tsx — a glassmorphism toast notification that appears when a transaction settles. Shows: transaction type (mint/transfer), amount, recipient, settlement time ('<2 seconds'), and a clickable BaseScan link. Auto-dismisses after 8 seconds. Use Framer Motion for slide-in animation. Green accent for success state.",
-      "done": false,
+      "done": true,
       "priority": 3,
       "depends_on": ["CHAIN-004", "UI-001"]
     },
