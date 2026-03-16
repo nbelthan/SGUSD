@@ -2,8 +2,8 @@
 
 ## Current Status
 **Last Updated:** 2026-03-16
-**Tasks Completed:** 10 / 36
-**Current Task:** CHAIN-004 (completed)
+**Tasks Completed:** 11 / 36
+**Current Task:** AUTH-001 (completed)
 
 ---
 
@@ -212,3 +212,28 @@
 - SC-003b (Deploy Sagecoin) was attempted first but failed — .env.local does not exist. Deployment requires .env.local with DEPLOYER_PRIVATE_KEY. Pivoted to CHAIN-004 instead.
 
 **Next session:** SC-003b (Deploy Sagecoin to Base Sepolia) — requires creating .env.local from .env.example with a funded deployer wallet. Or AUTH-001 (Privy provider setup) if deployment is still blocked.
+
+### Session 11 — 2026-03-16
+**Task:** AUTH-001 — Privy provider setup
+**What was done:**
+- Installed @privy-io/react-auth@3.17.0 (with --legacy-peer-deps due to peer dep conflicts)
+- Created components/providers/PrivyProvider.tsx — wraps the app with Privy's PrivyProvider
+  - Configured for Base Sepolia as default and only supported chain
+  - Login methods: email only (no wallet connect, no social logins)
+  - Appearance: dark theme (#0a0a0a background), indigo accent (#6366f1), custom landing header/message
+  - Embedded wallets: auto-create Ethereum wallet on login for users without wallets
+  - Empty walletList to suppress external wallet UI
+  - Graceful fallback: if NEXT_PUBLIC_PRIVY_APP_ID is not set, renders children without Privy wrapper (prevents build failures when .env.local is missing)
+- Updated app/layout.tsx to wrap children with PrivyProvider
+
+**Commands run:**
+- `npm install @privy-io/react-auth --legacy-peer-deps` — installed Privy SDK
+- `npx tsc --noEmit` — no type errors
+- `npm run build` — passes cleanly
+- `npm run lint` — no warnings or errors
+
+**Issues:**
+- Initial peer dep conflict with npm install (resolved with --legacy-peer-deps)
+- `createOnLogin` config is nested under `embeddedWallets.ethereum` in Privy v3 (not directly under `embeddedWallets`)
+
+**Next session:** AUTH-002 (Login flow with embedded wallets) — depends on AUTH-001 (now done). Or SC-003b if .env.local becomes available.
