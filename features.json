@@ -4,7 +4,7 @@
     "version": "v1.0",
     "description": "Functional MVP demo of a programmable, interest-bearing stablecoin (SGUSD/Sagecoin) for SMB payouts with yield on Base Sepolia testnet. Demonstrates zero-fee remittance, real-time yield accrual, and frictionless onboarding.",
     "total_features": 36,
-    "completed_features": 6,
+    "completed_features": 7,
     "last_updated": "2026-03-16",
     "IMPORTANT": "DO NOT remove or edit existing features. Only update the 'done' field to true when a feature is fully implemented AND verified. DO NOT mark features as done without testing."
   },
@@ -68,7 +68,7 @@
       "category": "Smart Contract",
       "name": "Foundry project setup",
       "description": "Create contracts/ directory. Run 'cd contracts && forge init --no-git'. Install OpenZeppelin: 'forge install OpenZeppelin/openzeppelin-contracts --no-git'. Configure foundry.toml with remappings for @openzeppelin/. Verify 'forge build' passes.",
-      "done": false,
+      "done": true,
       "priority": 1,
       "depends_on": []
     },

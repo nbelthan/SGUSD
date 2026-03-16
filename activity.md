@@ -2,8 +2,8 @@
 
 ## Current Status
 **Last Updated:** 2026-03-16
-**Tasks Completed:** 6 / 36
-**Current Task:** INFRA-006 (completed)
+**Tasks Completed:** 7 / 36
+**Current Task:** SC-001 (completed)
 
 ---
 
@@ -129,3 +129,28 @@
 - None.
 
 **Next session:** SC-001 (Foundry project setup) — no dependencies, priority 1.
+
+### Session 7 — 2026-03-16
+**Task:** SC-001 — Foundry project setup
+**What was done:**
+- Installed Foundry toolchain (forge 1.5.1-stable, cast, anvil, chisel) via foundryup
+- Created contracts/ directory with `forge init --no-git` (scaffolded src/, test/, script/, lib/, foundry.toml)
+- Cloned forge-std (depth 1) into contracts/lib/forge-std/
+- Cloned OpenZeppelin contracts (depth 1) into contracts/lib/openzeppelin-contracts/
+- Configured foundry.toml with remappings: `@openzeppelin/contracts/` → OZ lib, `forge-std/` → forge-std lib
+- Set solc_version to 0.8.20, optimizer enabled with 200 runs
+- Removed placeholder Counter.sol, Counter.t.sol, Counter.s.sol
+- Added .gitkeep files to empty src/, test/, script/ directories
+
+**Commands run:**
+- `foundryup` — installed Foundry toolchain
+- `forge init --no-git` — scaffolded project structure
+- `git clone` (depth 1) — forge-std and openzeppelin-contracts
+- `forge build` — passes (nothing to compile, empty src/)
+- `npm run build` — Next.js build still passes
+
+**Issues:**
+- `forge init --no-git` partially failed initially due to sandbox restrictions on git clone hooks. The directory structure was created but forge-std wasn't cloned. Resolved by manually cloning forge-std and openzeppelin-contracts with `git clone --depth 1`.
+- Foundry optimizer config format: `[profile.default.optimizer]` section format was invalid; switched to flat `optimizer = true` and `optimizer_runs = 200`.
+
+**Next session:** SC-002 (Sagecoin contract implementation) — copy sagecoin.sol and verify forge build.
