@@ -2,8 +2,8 @@
 
 ## Current Status
 **Last Updated:** 2026-03-16
-**Tasks Completed:** 19 / 36
-**Current Task:** CHAIN-001 (completed)
+**Tasks Completed:** 22 / 36
+**Current Task:** UI-002 (completed)
 
 ---
 
@@ -489,3 +489,29 @@
 - None. SC-003b (Deploy Sagecoin) still blocked — .env.local does not exist.
 
 **Next session:** UI-002 (Treasury dashboard - balance display) — depends on CHAIN-003 (now done) and UI-001 (done). Or SC-003b if .env.local becomes available.
+
+### Session 22 — 2026-03-16
+**Task:** UI-002 — Treasury dashboard - balance display
+**What was done:**
+- Created components/dashboard/TreasuryDashboard.tsx — the main dashboard view with:
+  - Account info header: "Acme Inc." name, "SMB Treasury" role, truncated wallet address
+  - Large balance display with dollar sign, integer part (with thousands separators), and decimal part (8 decimal places) using `text-balance-ticker` for tabular-nums
+  - SGUSD badge (indigo-tinted) next to the balance using shadcn Badge component
+  - Yield indicator showing "5.00% APY · Earning yield in real-time" with emerald accent (only shown when balance > 0)
+  - Loading skeleton state (animate-pulse) while balance loads
+  - Error state for failed balance reads
+  - Glassmorphism card with dual indigo background glows
+  - Responsive typography: text-4xl to text-6xl for balance across breakpoints
+  - Framer Motion entrance animation
+- Updated app/page.tsx to render TreasuryDashboard as the main authenticated view (replacing the placeholder welcome card)
+- Integrated useTickingBalance hook for real-time balance display with 8 decimal precision
+
+**Commands run:**
+- `npx tsc --noEmit` — no type errors
+- `npm run build` — passes cleanly
+- `npm run lint` — no warnings or errors
+
+**Issues:**
+- None. SC-003b (Deploy Sagecoin) still blocked — .env.local does not exist.
+
+**Next session:** UI-003 (Treasury dashboard - live ticking animation) — depends on UI-002 (now done). Or UI-006 (Payout toggle blockchain integration) or DEMO-001 (Demo accounts and state management) — both have all dependencies met.

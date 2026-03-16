@@ -4,7 +4,7 @@
     "version": "v1.0",
     "description": "Functional MVP demo of a programmable, interest-bearing stablecoin (SGUSD/Sagecoin) for SMB payouts with yield on Base Sepolia testnet. Demonstrates zero-fee remittance, real-time yield accrual, and frictionless onboarding.",
     "total_features": 36,
-    "completed_features": 21,
+    "completed_features": 22,
     "last_updated": "2026-03-16",
     "IMPORTANT": "DO NOT remove or edit existing features. Only update the 'done' field to true when a feature is fully implemented AND verified. DO NOT mark features as done without testing."
   },
@@ -185,7 +185,7 @@
       "category": "Frontend",
       "name": "Treasury dashboard - balance display",
       "description": "Create components/dashboard/TreasuryDashboard.tsx — the main dashboard view. Display the account name (e.g., 'Acme Inc.'), role ('SMB Treasury'), and SGUSD balance. The balance must show 6+ decimal places (e.g., $10,000.045219). Use a large, prominent font for the dollar amount. Glassmorphism card styling. Include a subtle 'SGUSD' badge next to the balance.",
-      "done": false,
+      "done": true,
       "priority": 3,
       "depends_on": ["CHAIN-003", "UI-001"]
     },
