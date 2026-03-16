@@ -1,5 +1,26 @@
-Demo/.DS_Store
+# Dependencies
 node_modules
+
+# Next.js
 .next
+
+# Environment variables
 .env
 .env.local
+
+# Logs
+*.log
+logs/
+
+# OS files
+.DS_Store
+
+# Foundry (smart contracts)
+contracts/out
+contracts/cache
+
+# Screenshots
+screenshots/
+
+# Build artifacts
+tsconfig.tsbuildinfo

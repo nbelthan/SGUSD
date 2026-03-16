@@ -2,8 +2,8 @@
 
 ## Current Status
 **Last Updated:** 2026-03-16
-**Tasks Completed:** 4 / 36
-**Current Task:** INFRA-004 (completed)
+**Tasks Completed:** 6 / 36
+**Current Task:** INFRA-006 (completed)
 
 ---
 
@@ -112,3 +112,20 @@
 - None.
 
 **Next session:** INFRA-006 (.gitignore and project config) or SC-001 (Foundry project setup) — both have all dependencies met.
+
+### Session 6 — 2026-03-16
+**Task:** INFRA-006 — .gitignore and project config
+**What was done:**
+- Updated .gitignore with comprehensive entries: node_modules, .next, .env, .env.local, *.log, logs/, .DS_Store, contracts/out, contracts/cache, screenshots/, tsconfig.tsbuildinfo
+- Verified Demo/Specs/ files (payouttoggle.tsx, prd.md, sagecoin.sol) are tracked in git
+- Removed the old minimal .gitignore and replaced with properly organized version
+
+**Commands run:**
+- `npx tsc --noEmit` — no type errors
+- `npm run build` — passes cleanly
+- `npm run lint` — no warnings or errors
+
+**Issues:**
+- None.
+
+**Next session:** SC-001 (Foundry project setup) — no dependencies, priority 1.
