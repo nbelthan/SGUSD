@@ -2,8 +2,8 @@
 
 ## Current Status
 **Last Updated:** 2026-03-16
-**Tasks Completed:** 7 / 36
-**Current Task:** SC-001 (completed)
+**Tasks Completed:** 8 / 36
+**Current Task:** SC-002 (completed)
 
 ---
 
@@ -154,3 +154,20 @@
 - Foundry optimizer config format: `[profile.default.optimizer]` section format was invalid; switched to flat `optimizer = true` and `optimizer_runs = 200`.
 
 **Next session:** SC-002 (Sagecoin contract implementation) — copy sagecoin.sol and verify forge build.
+
+### Session 8 — 2026-03-16
+**Task:** SC-002 — Sagecoin contract implementation
+**What was done:**
+- Copied Demo/Specs/sagecoin.sol to contracts/src/Sagecoin.sol (exact copy, no modifications)
+- Contract implements: shares-based rebasing ERC-20, linear interest accrual (5% APY = 500 basis points), owner-only mint/burn, dynamic balanceOf via getCurrentMultiplier()
+- Removed .gitkeep placeholder from contracts/src/
+
+**Commands run:**
+- `forge build` — compiles successfully (5 files compiled with Solc 0.8.20)
+- `npm run build` — Next.js build still passes cleanly
+
+**Issues:**
+- Foundry not available in PATH this session — used full path `/Users/neetabelthan/.foundry/bin/forge`
+- Minor compiler warnings (decimals() could be pure, import style suggestions) — not modifying contract per task instructions
+
+**Next session:** SC-003 (Deployment script for Base Sepolia) — create Deploy.s.sol and deploy.sh helper script.

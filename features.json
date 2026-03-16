@@ -4,7 +4,7 @@
     "version": "v1.0",
     "description": "Functional MVP demo of a programmable, interest-bearing stablecoin (SGUSD/Sagecoin) for SMB payouts with yield on Base Sepolia testnet. Demonstrates zero-fee remittance, real-time yield accrual, and frictionless onboarding.",
     "total_features": 36,
-    "completed_features": 7,
+    "completed_features": 8,
     "last_updated": "2026-03-16",
     "IMPORTANT": "DO NOT remove or edit existing features. Only update the 'done' field to true when a feature is fully implemented AND verified. DO NOT mark features as done without testing."
   },
@@ -77,7 +77,7 @@
       "category": "Smart Contract",
       "name": "Sagecoin contract implementation",
       "description": "Copy Demo/Specs/sagecoin.sol to contracts/src/Sagecoin.sol. Verify it compiles with 'forge build'. The contract implements: shares-based rebasing ERC-20, linear interest accrual (5% APY = 500 basis points), owner-only mint/burn, dynamic balanceOf via getCurrentMultiplier(). Do NOT modify the contract logic — use it exactly as specified.",
-      "done": false,
+      "done": true,
       "priority": 1,
       "depends_on": ["SC-001"]
     },
