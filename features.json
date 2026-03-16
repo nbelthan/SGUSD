@@ -4,7 +4,7 @@
     "version": "v1.0",
     "description": "Functional MVP demo of a programmable, interest-bearing stablecoin (SGUSD/Sagecoin) for SMB payouts with yield on Base Sepolia testnet. Demonstrates zero-fee remittance, real-time yield accrual, and frictionless onboarding.",
     "total_features": 36,
-    "completed_features": 19,
+    "completed_features": 20,
     "last_updated": "2026-03-16",
     "IMPORTANT": "DO NOT remove or edit existing features. Only update the 'done' field to true when a feature is fully implemented AND verified. DO NOT mark features as done without testing."
   },
@@ -149,7 +149,7 @@
       "category": "Blockchain",
       "name": "Contract write hooks (mint, transfer, burn)",
       "description": "Create lib/hooks/useMint.ts — wagmi useWriteContract hook for Sagecoin.mint(address, amount). Create lib/hooks/useTransfer.ts — hook for Sagecoin.transfer(to, amount). Create lib/hooks/useBurn.ts — hook for Sagecoin.burn(address, amount). Each hook should handle loading states, error states, and return the transaction hash on success. Include tx confirmation waiting.",
-      "done": false,
+      "done": true,
       "priority": 2,
       "depends_on": ["CHAIN-001"]
     },

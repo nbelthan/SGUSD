@@ -442,3 +442,28 @@
 - None. SC-003b (Deploy Sagecoin) still blocked — .env.local does not exist.
 
 **Next session:** CHAIN-002 (Contract write hooks) or CHAIN-003 (Real-time balance interpolation) — both depend on CHAIN-001 (now done). SC-003b still needed before end-to-end testing.
+
+### Session 20 — 2026-03-16
+**Task:** CHAIN-002 — Contract write hooks (mint, transfer, burn)
+**What was done:**
+- Created lib/hooks/useMint.ts — wagmi useWriteContract hook for Sagecoin.mint(to, amount)
+  - Accepts `to` address and `amount` string (parsed to 18 decimals via parseUnits)
+  - Returns txHash, isLoading (write pending OR confirming), isConfirming, isConfirmed, isError, error, reset
+  - Uses useWaitForTransactionReceipt for tx confirmation waiting
+- Created lib/hooks/useTransfer.ts — hook for Sagecoin.transfer(to, amount)
+  - Same pattern: parseUnits for amount, useWaitForTransactionReceipt for confirmation
+  - Returns same state interface as useMint
+- Created lib/hooks/useBurn.ts — hook for Sagecoin.burn(from, amount)
+  - Same pattern: parseUnits for amount, useWaitForTransactionReceipt for confirmation
+  - Returns same state interface as useMint
+- All hooks use SAGECOIN_ABI and SAGECOIN_ADDRESS from lib/contracts/
+
+**Commands run:**
+- `npx tsc --noEmit` — no type errors
+- `npm run build` — passes cleanly
+- `npm run lint` — no warnings or errors
+
+**Issues:**
+- None. SC-003b (Deploy Sagecoin) still blocked — .env.local does not exist.
+
+**Next session:** CHAIN-003 (Real-time balance interpolation) — depends on CHAIN-001 (done). Or SC-003b if .env.local becomes available.
