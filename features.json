@@ -4,7 +4,7 @@
     "version": "v1.0",
     "description": "Functional MVP demo of a programmable, interest-bearing stablecoin (SGUSD/Sagecoin) for SMB payouts with yield on Base Sepolia testnet. Demonstrates zero-fee remittance, real-time yield accrual, and frictionless onboarding.",
     "total_features": 36,
-    "completed_features": 4,
+    "completed_features": 5,
     "last_updated": "2026-03-16",
     "IMPORTANT": "DO NOT remove or edit existing features. Only update the 'done' field to true when a feature is fully implemented AND verified. DO NOT mark features as done without testing."
   },
@@ -50,7 +50,7 @@
       "category": "Infrastructure",
       "name": "Environment configuration",
       "description": "Create .env.example with all required vars documented: NEXT_PUBLIC_PRIVY_APP_ID, NEXT_PUBLIC_SAGECOIN_ADDRESS, NEXT_PUBLIC_BASE_SEPOLIA_RPC (https://sepolia.base.org), DEPLOYER_PRIVATE_KEY (DO NOT commit real key). Add .env.local to .gitignore. Create lib/config.ts to export validated env vars.",
-      "done": false,
+      "done": true,
       "priority": 1,
       "depends_on": ["INFRA-004"]
     },

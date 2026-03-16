@@ -94,3 +94,21 @@
 - None.
 
 **Next session:** INFRA-005 (environment configuration) or INFRA-006 (.gitignore) or SC-001 (Foundry project setup).
+
+### Session 5 — 2026-03-16
+**Task:** INFRA-005 — Environment configuration
+**What was done:**
+- Created `.env.example` with all required environment variables documented: NEXT_PUBLIC_PRIVY_APP_ID, NEXT_PUBLIC_SAGECOIN_ADDRESS, NEXT_PUBLIC_BASE_SEPOLIA_RPC (defaulting to https://sepolia.base.org), DEPLOYER_PRIVATE_KEY
+- `.env.local` was already in `.gitignore` from prior sessions
+- Created `lib/config.ts` with validated env var exports: PRIVY_APP_ID, SAGECOIN_ADDRESS (typed as `0x${string}`), BASE_SEPOLIA_RPC (with fallback), CHAIN_ID constant
+- Validation throws clear error messages if env vars are missing or still contain placeholder values
+
+**Commands run:**
+- `npx tsc --noEmit` — no type errors
+- `npm run build` — passes cleanly
+- `npm run lint` — no warnings or errors
+
+**Issues:**
+- None.
+
+**Next session:** INFRA-006 (.gitignore and project config) or SC-001 (Foundry project setup) — both have all dependencies met.
