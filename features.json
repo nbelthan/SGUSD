@@ -4,7 +4,7 @@
     "version": "v1.0",
     "description": "Functional MVP demo of a programmable, interest-bearing stablecoin (SGUSD/Sagecoin) for SMB payouts with yield on Base Sepolia testnet. Demonstrates zero-fee remittance, real-time yield accrual, and frictionless onboarding.",
     "total_features": 36,
-    "completed_features": 12,
+    "completed_features": 13,
     "last_updated": "2026-03-16",
     "IMPORTANT": "DO NOT remove or edit existing features. Only update the 'done' field to true when a feature is fully implemented AND verified. DO NOT mark features as done without testing."
   },
@@ -131,7 +131,7 @@
       "category": "Authentication",
       "name": "Wagmi provider with Base Sepolia",
       "description": "Install @privy-io/wagmi. Create components/providers/WagmiProvider.tsx that configures wagmi with Base Sepolia chain. Set up the provider chain: PrivyProvider > WagmiProvider > QueryClientProvider. Ensure wagmi's useAccount, useReadContract, useWriteContract hooks work with the Privy embedded wallet.",
-      "done": false,
+      "done": true,
       "priority": 2,
       "depends_on": ["AUTH-002"]
     },

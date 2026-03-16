@@ -1,6 +1,7 @@
 'use client';
 
 import { PrivyProvider as PrivyProviderBase } from '@privy-io/react-auth';
+import WagmiProvider from '@/components/providers/WagmiProvider';
 import { baseSepolia } from '@/lib/chains';
 
 const PRIVY_APP_ID = process.env.NEXT_PUBLIC_PRIVY_APP_ID ?? '';
@@ -31,7 +32,7 @@ export default function PrivyProvider({ children }: { children: React.ReactNode 
         },
       }}
     >
-      {children}
+      <WagmiProvider>{children}</WagmiProvider>
     </PrivyProviderBase>
   );
 }

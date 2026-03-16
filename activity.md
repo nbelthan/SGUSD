@@ -266,3 +266,27 @@
 - None.
 
 **Next session:** AUTH-003 (Wagmi provider with Base Sepolia) — depends on AUTH-002 (now done). Or SC-003b if .env.local becomes available.
+
+### Session 13 — 2026-03-16
+**Task:** AUTH-003 — Wagmi provider with Base Sepolia
+**What was done:**
+- Installed @privy-io/wagmi@4.0.2 (with --legacy-peer-deps due to peer dep conflicts)
+- Created components/providers/WagmiProvider.tsx — wraps children with Privy's WagmiProvider and QueryClientProvider
+  - Uses `createConfig` from `@privy-io/wagmi` (not wagmi directly) to create wagmi config with Base Sepolia chain
+  - Configures HTTP transport for Base Sepolia RPC
+  - Creates QueryClient for @tanstack/react-query
+  - Exports wagmiConfig for use by other hooks if needed
+- Updated components/providers/PrivyProvider.tsx to nest WagmiProvider inside PrivyProvider
+  - Provider chain is now: PrivyProvider > WagmiProvider > QueryClientProvider > children
+  - This ensures wagmi hooks (useAccount, useReadContract, useWriteContract) automatically connect to the Privy embedded wallet
+
+**Commands run:**
+- `npm install @privy-io/wagmi --legacy-peer-deps` — installed Privy wagmi bindings
+- `npx tsc --noEmit` — no type errors
+- `npm run build` — passes cleanly
+- `npm run lint` — no warnings or errors
+
+**Issues:**
+- None.
+
+**Next session:** SC-003b (Deploy Sagecoin to Base Sepolia) if .env.local becomes available. Otherwise SC-004 (Generate TypeScript ABI) is blocked by SC-003b. The next unblocked priority 2 tasks would be CHAIN-001 and CHAIN-002 (once SC-004 is done).
