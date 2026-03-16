@@ -3,8 +3,8 @@
     "project": "SageBridge — SGUSD Programmable Stablecoin Demo",
     "version": "v1.0",
     "description": "Functional MVP demo of a programmable, interest-bearing stablecoin (SGUSD/Sagecoin) for SMB payouts with yield on Base Sepolia testnet. Demonstrates zero-fee remittance, real-time yield accrual, and frictionless onboarding.",
-    "total_features": 35,
-    "completed_features": 0,
+    "total_features": 36,
+    "completed_features": 1,
     "last_updated": "2026-03-16",
     "IMPORTANT": "DO NOT remove or edit existing features. Only update the 'done' field to true when a feature is fully implemented AND verified. DO NOT mark features as done without testing."
   },
@@ -14,7 +14,7 @@
       "category": "Infrastructure",
       "name": "Next.js 14 project scaffold",
       "description": "Run: npx create-next-app@14 . --typescript --tailwind --eslint --app --src-dir=false --import-alias='@/*'. Verify 'npm run dev' starts cleanly. DO NOT overwrite existing files (Demo/, features.json, CLAUDE.md, PROMPT.md, activity.md, ralph.sh, init.sh).",
-      "done": false,
+      "done": true,
       "priority": 1,
       "depends_on": []
     },
@@ -85,10 +85,19 @@
       "id": "SC-003",
       "category": "Smart Contract",
       "name": "Deployment script for Base Sepolia",
-      "description": "Create contracts/script/Deploy.s.sol — a Foundry deployment script that deploys Sagecoin with name='Sagecoin' and symbol='SGUSD' to Base Sepolia (chain ID 84532, RPC https://sepolia.base.org). Create contracts/deploy.sh helper script that runs the forge script with --broadcast flag. Document the deployment process in contracts/README.md.",
+      "description": "Create contracts/script/Deploy.s.sol — a Foundry deployment script that deploys Sagecoin with name='Sagecoin' and symbol='SGUSD' to Base Sepolia (chain ID 84532, RPC https://sepolia.base.org). Create contracts/deploy.sh helper script that sources ../.env.local for DEPLOYER_PRIVATE_KEY and runs the forge script with --broadcast flag. The deploy.sh script must handle the private key internally so the agent only needs to run 'bash contracts/deploy.sh'. Document the deployment process in contracts/README.md.",
       "done": false,
       "priority": 1,
       "depends_on": ["SC-002"]
+    },
+    {
+      "id": "SC-003b",
+      "category": "Smart Contract",
+      "name": "Deploy Sagecoin to Base Sepolia",
+      "description": "Run the deployment by executing: bash contracts/deploy.sh (this script sources .env.local for the private key internally). Verify the contract is deployed by checking the output address on https://sepolia.basescan.org. Use the Edit tool to update .env.local — replace the placeholder 'your_deployed_contract_address_here' value for NEXT_PUBLIC_SAGECOIN_ADDRESS with the actual deployed address. Log the deployed address in activity.md. If deployment fails due to insufficient ETH, document how to get Base Sepolia ETH from the faucet.",
+      "done": false,
+      "priority": 2,
+      "depends_on": ["SC-003"]
     },
     {
       "id": "SC-004",
@@ -97,7 +106,7 @@
       "description": "Create lib/contracts/sagecoin-abi.ts — export the Sagecoin ABI as a const array (extract from Foundry's out/Sagecoin.sol/Sagecoin.json after build). Create lib/contracts/addresses.ts with SAGECOIN_ADDRESS constant that reads from NEXT_PUBLIC_SAGECOIN_ADDRESS env var. Create lib/contracts/index.ts that re-exports both. These will be used by wagmi hooks.",
       "done": false,
       "priority": 2,
-      "depends_on": ["SC-003", "INFRA-005"]
+      "depends_on": ["SC-003b", "INFRA-005"]
     },
     {
       "id": "AUTH-001",
