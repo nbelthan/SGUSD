@@ -467,3 +467,25 @@
 - None. SC-003b (Deploy Sagecoin) still blocked — .env.local does not exist.
 
 **Next session:** CHAIN-003 (Real-time balance interpolation) — depends on CHAIN-001 (done). Or SC-003b if .env.local becomes available.
+
+### Session 21 — 2026-03-16
+**Task:** CHAIN-003 — Real-time balance interpolation
+**What was done:**
+- Created lib/hooks/useTickingBalance.ts — the core hook for the "ticking" balance effect
+  - Reads on-chain balance every 10 seconds via useBalanceOf hook
+  - Between reads, interpolates balance using the same linear interest formula as the Sagecoin contract: `balance × (1 + rate × elapsed / (BASIS_POINTS × SECONDS_IN_YEAR))`
+  - Captures a snapshot (balance + timestamp) on each on-chain read
+  - Runs a 50ms interval timer to compute interpolated balance from the snapshot
+  - Returns displayBalance (8 decimal places string), numericBalance (number), rawBalance (bigint), formattedBalance (raw on-chain string)
+  - Stops ticking when balance is zero or address is undefined
+  - Properly cleans up intervals on unmount and re-snapshot
+
+**Commands run:**
+- `npx tsc --noEmit` — no type errors
+- `npm run build` — passes cleanly
+- `npm run lint` — no warnings or errors
+
+**Issues:**
+- None. SC-003b (Deploy Sagecoin) still blocked — .env.local does not exist.
+
+**Next session:** UI-002 (Treasury dashboard - balance display) — depends on CHAIN-003 (now done) and UI-001 (done). Or SC-003b if .env.local becomes available.
