@@ -397,3 +397,22 @@
 - None. SC-003b (Deploy Sagecoin) still blocked — .env.local does not exist.
 
 **Next session:** SC-003b if .env.local becomes available. Otherwise DEMO-001 (Demo accounts and state management) — blocked by CHAIN-001 which is blocked by SC-004 → SC-003b. All remaining tasks are blocked on SC-003b (contract deployment).
+
+### Session 18 — 2026-03-16
+**Task:** SC-004 — Generate TypeScript ABI and constants
+**What was done:**
+- Created lib/contracts/sagecoin-abi.ts — exported the full Sagecoin ABI as a `const` array, extracted from Foundry build artifacts (contracts/out/Sagecoin.sol/Sagecoin.json)
+  - Includes all 20 functions (balanceOf, mint, burn, transfer, transferFrom, getCurrentMultiplier, etc.), 3 events (Transfer, Approval, OwnershipTransferred), and 2 custom errors
+  - Typed with `as const` for wagmi type inference
+- Created lib/contracts/addresses.ts — exports SAGECOIN_ADDRESS constant reading from NEXT_PUBLIC_SAGECOIN_ADDRESS env var, typed as `0x${string}`, falls back to zero address
+- Created lib/contracts/index.ts — re-exports SAGECOIN_ABI and SAGECOIN_ADDRESS
+
+**Commands run:**
+- `npx tsc --noEmit` — no type errors
+- `npm run build` — passes cleanly
+- `npm run lint` — no warnings or errors
+
+**Issues:**
+- SC-003b (Deploy Sagecoin) still blocked — .env.local does not exist. Proceeded with SC-004 since ABI extraction only requires build artifacts, not a deployed contract. The address reads from env var at runtime.
+
+**Next session:** CHAIN-001 (Contract read hooks) — depends on SC-004 (now done) and AUTH-003 (done). Can proceed without SC-003b since hooks read from env var address. SC-003b still needed before end-to-end testing.

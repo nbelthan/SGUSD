@@ -4,7 +4,7 @@
     "version": "v1.0",
     "description": "Functional MVP demo of a programmable, interest-bearing stablecoin (SGUSD/Sagecoin) for SMB payouts with yield on Base Sepolia testnet. Demonstrates zero-fee remittance, real-time yield accrual, and frictionless onboarding.",
     "total_features": 36,
-    "completed_features": 17,
+    "completed_features": 18,
     "last_updated": "2026-03-16",
     "IMPORTANT": "DO NOT remove or edit existing features. Only update the 'done' field to true when a feature is fully implemented AND verified. DO NOT mark features as done without testing."
   },
@@ -104,7 +104,7 @@
       "category": "Smart Contract",
       "name": "Generate TypeScript ABI and constants",
       "description": "Create lib/contracts/sagecoin-abi.ts — export the Sagecoin ABI as a const array (extract from Foundry's out/Sagecoin.sol/Sagecoin.json after build). Create lib/contracts/addresses.ts with SAGECOIN_ADDRESS constant that reads from NEXT_PUBLIC_SAGECOIN_ADDRESS env var. Create lib/contracts/index.ts that re-exports both. These will be used by wagmi hooks.",
-      "done": false,
+      "done": true,
       "priority": 2,
       "depends_on": ["SC-003b", "INFRA-005"]
     },
