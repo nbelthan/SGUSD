@@ -4,6 +4,7 @@ import { useAuth } from '@/lib/hooks/useAuth';
 import LoginScreen from '@/components/auth/LoginScreen';
 import Header from '@/components/layout/Header';
 import TreasuryDashboard from '@/components/dashboard/TreasuryDashboard';
+import FundButton from '@/components/dashboard/FundButton';
 import ConnectedPayoutToggle from '@/components/payout/ConnectedPayoutToggle';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import NetworkGuard from '@/components/NetworkGuard';
@@ -33,6 +34,9 @@ export default function Home() {
         <NetworkGuard>
           <ErrorBoundary>
             <TreasuryDashboard />
+          </ErrorBoundary>
+          <ErrorBoundary>
+            <FundButton />
           </ErrorBoundary>
           <div className="flex justify-center">
             <ErrorBoundary>
