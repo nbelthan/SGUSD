@@ -46,7 +46,7 @@ export default function NetworkVisualization({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute -top-20 left-1/2 -translate-x-1/2 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"
+            className="absolute -top-20 left-1/2 -translate-x-1/2 w-80 h-80 bg-emerald-500 rounded-full blur-3xl pointer-events-none glow-pulse-emerald"
           />
         )}
       </AnimatePresence>
@@ -107,7 +107,10 @@ export default function NetworkVisualization({
                 transition={{ duration: 1.5, ease: 'easeInOut' }}
                 className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2"
               >
-                <div className="w-3 h-3 rounded-full bg-indigo-500 shadow-[0_0_12px_rgba(99,102,241,0.6)]" />
+                <div className="relative">
+                  <div className="w-3 h-3 rounded-full bg-indigo-500 shadow-[0_0_12px_rgba(99,102,241,0.6)]" />
+                  <div className="absolute inset-0 w-3 h-3 rounded-full bg-indigo-400/40 blur-sm animate-ping" />
+                </div>
               </motion.div>
             )}
           </AnimatePresence>
@@ -118,7 +121,7 @@ export default function NetworkVisualization({
               <motion.div
                 initial={{ scaleX: 0 }}
                 animate={{ scaleX: 1 }}
-                className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[2px] bg-emerald-500/60 rounded-full origin-left"
+                className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[2px] bg-emerald-500/60 rounded-full origin-left shadow-[0_0_8px_rgba(16,185,129,0.4)]"
                 transition={{ duration: 0.4, ease: 'easeOut' }}
               />
             )}

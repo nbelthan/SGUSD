@@ -15,13 +15,17 @@ export default function LoginScreen() {
         transition={{ duration: 0.6 }}
         className="glass-card p-12 text-center relative overflow-hidden w-full max-w-md"
       >
-        <div className="absolute -top-20 -right-20 w-64 h-64 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -top-20 -right-20 w-64 h-64 bg-indigo-500 rounded-full blur-3xl pointer-events-none glow-pulse-indigo" />
 
         <div className="relative z-10">
           <div className="flex justify-center mb-6">
-            <div className="w-16 h-16 rounded-2xl bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center">
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+              className="w-16 h-16 rounded-2xl bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center"
+            >
               <ShieldCheck size={32} className="text-indigo-400" />
-            </div>
+            </motion.div>
           </div>
 
           <h1 className="text-4xl font-bold tracking-tight text-white mb-2">
@@ -31,12 +35,14 @@ export default function LoginScreen() {
             Programmable stablecoin treasury for instant, zero-fee global payouts
           </p>
 
-          <button
+          <motion.button
             onClick={() => login()}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
             className="btn-sage w-full py-4 rounded-xl flex items-center justify-center gap-2 text-lg"
           >
             Enter SageBridge
-          </button>
+          </motion.button>
 
           <p className="text-xs text-slate-500 mt-4">
             Sign in with email &mdash; no wallet or seed phrase needed

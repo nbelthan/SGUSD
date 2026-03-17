@@ -17,14 +17,14 @@ export default function TickingDigit({ digit, className = '' }: TickingDigitProp
       <AnimatePresence mode="popLayout" initial={false}>
         <motion.span
           key={digit}
-          initial={{ y: '100%', opacity: 0 }}
-          animate={{ y: '0%', opacity: 1 }}
-          exit={{ y: '-100%', opacity: 0 }}
+          initial={{ y: '80%', opacity: 0, filter: 'blur(2px)' }}
+          animate={{ y: '0%', opacity: 1, filter: 'blur(0px)' }}
+          exit={{ y: '-80%', opacity: 0, filter: 'blur(2px)' }}
           transition={{
             type: 'spring',
-            stiffness: 300,
-            damping: 30,
-            mass: 0.8,
+            stiffness: 200,
+            damping: 25,
+            mass: 0.5,
           }}
           className="inline-block"
         >

@@ -4,7 +4,7 @@
     "version": "v1.0",
     "description": "Functional MVP demo of a programmable, interest-bearing stablecoin (SGUSD/Sagecoin) for SMB payouts with yield on Base Sepolia testnet. Demonstrates zero-fee remittance, real-time yield accrual, and frictionless onboarding.",
     "total_features": 36,
-    "completed_features": 33,
+    "completed_features": 34,
     "last_updated": "2026-03-16",
     "IMPORTANT": "DO NOT remove or edit existing features. Only update the 'done' field to true when a feature is fully implemented AND verified. DO NOT mark features as done without testing."
   },
@@ -320,7 +320,7 @@
       "category": "Polish",
       "name": "Final visual polish and animations",
       "description": "Review all components for visual consistency with the glassmorphism design language. Ensure Framer Motion animations are smooth and purposeful. Add subtle hover effects on interactive elements. Verify the indigo glow effects work correctly. Check that the 'ticking' animation is the visual hero moment — it should immediately convey 'your money is growing.'",
-      "done": false,
+      "done": true,
       "priority": 4,
       "depends_on": ["POLISH-002", "POLISH-003"]
     },

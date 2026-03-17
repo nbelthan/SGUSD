@@ -19,7 +19,7 @@ export default function Header() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
         {/* Logo / Title */}
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center">
+          <div className="w-9 h-9 rounded-xl bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center transition-shadow duration-300 hover:shadow-[0_0_12px_rgba(99,102,241,0.3)]">
             <ShieldCheck size={20} className="text-indigo-400" />
           </div>
           <span className="text-lg font-semibold tracking-tight text-white">
@@ -30,7 +30,7 @@ export default function Header() {
         {/* Wallet + Logout */}
         <div className="flex items-center gap-2 sm:gap-4">
           {walletAddress && (
-            <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-sm">
+            <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-sm hover:bg-white/[0.07] hover:border-white/15 transition-all duration-200">
               <Wallet size={14} className="text-indigo-400" />
               <span className="font-mono text-slate-300">
                 {walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}

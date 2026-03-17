@@ -50,11 +50,14 @@ function StepIndicator({ currentStep }: { currentStep: DemoStep }) {
               <span className="sm:hidden">{i + 1}</span>
             </motion.div>
             {i < STEPS.length - 1 && (
-              <div
-                className={`w-4 sm:w-8 h-px ${
-                  isComplete ? 'bg-emerald-500/40' : 'bg-white/10'
-                }`}
-              />
+              <div className="w-4 sm:w-8 h-px bg-white/10 relative overflow-hidden rounded-full">
+                <motion.div
+                  initial={{ scaleX: 0 }}
+                  animate={{ scaleX: isComplete ? 1 : 0 }}
+                  transition={{ duration: 0.5, ease: 'easeOut' }}
+                  className="absolute inset-0 bg-emerald-500/60 origin-left shadow-[0_0_4px_rgba(16,185,129,0.4)]"
+                />
+              </div>
             )}
           </div>
         );
@@ -159,6 +162,7 @@ function DemoContent() {
               className="glass-card p-5 sm:p-8 md:p-10 text-center relative overflow-hidden"
             >
               <div className="absolute inset-0 bg-emerald-500/[0.03] pointer-events-none" />
+              <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-60 h-60 bg-emerald-500 rounded-full blur-3xl pointer-events-none glow-pulse-emerald" />
               <div className="relative z-10">
                 <div className="flex items-center justify-center w-14 h-14 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 mx-auto mb-5">
                   <CheckCircle2 size={28} className="text-emerald-400" />
@@ -175,13 +179,15 @@ function DemoContent() {
                   Every transaction is verifiable on{' '}
                   <span className="text-indigo-400">Base Sepolia</span> via BaseScan.
                 </p>
-                <button
+                <motion.button
                   onClick={handleReset}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white/[0.05] hover:bg-white/[0.08] border border-white/10 text-sm text-slate-300 transition-colors"
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white/[0.05] hover:bg-white/[0.08] border border-white/10 hover:border-white/15 text-sm text-slate-300 transition-colors"
                 >
                   <RotateCcw size={14} />
                   Reset Demo
-                </button>
+                </motion.button>
               </div>
             </motion.div>
           </motion.div>

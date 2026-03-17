@@ -817,3 +817,28 @@
 - None.
 
 **Next session:** POLISH-004 (Final visual polish and animations) — depends on POLISH-002 (done) and POLISH-003 (now done).
+
+### Session 34 — 2026-03-16
+**Task:** POLISH-004 — Final visual polish and animations
+**What was done:**
+- Reviewed all 12 UI components for visual consistency with the glassmorphism design language
+- **globals.css**: Added `glow-pulse-indigo` and `glow-pulse-emerald` CSS animations — subtle breathing pulse effect for background glows (scale 1→1.05, opacity oscillation over 3s)
+- **TickingDigit.tsx**: Refined spring animation parameters (stiffness 200, damping 25, mass 0.5 — smoother and more elegant than the previous bouncy 300/30/0.8). Added blur(2px) transition during digit changes for a softer visual effect
+- **TreasuryDashboard.tsx**: Converted static background glows to pulsing animated glows with staggered timing (1.5s delay between the two glow orbs). Added indigo text-shadow glow to the ticking decimal digits — enhances the "your money is growing" hero moment
+- **LoginScreen.tsx**: Animated the background glow with pulse effect. Added whileHover scale effect to the ShieldCheck icon container. Converted button to motion.button with whileHover/whileTap for haptic-style feedback
+- **Header.tsx**: Added hover glow shadow to the logo icon (shadow-[0_0_12px_rgba(99,102,241,0.3)]). Added hover effects to wallet address chip (bg/border transitions)
+- **PayoutToggle.tsx**: Converted Sage mode background glow to animated pulse. Added hover effect to ETA card
+- **NetworkVisualization.tsx**: Added pinging halo effect to the payment pulse dot during sending phase. Added glow shadow to the confirmed green line. Converted confirmed background glow to animated pulse
+- **MintStep.tsx**: Animated background glow with pulse. Added bouncing animation to the ArrowDown icon between payment boxes (y: 0→4→0, 1.5s loop)
+- **PayoutStep.tsx**: Animated background glow with pulse
+- **demo/page.tsx**: Replaced static step connector lines with animated scaleX fill when steps complete (emerald glow shadow). Added emerald pulsing glow orb to Demo Complete card. Converted Reset Demo button to motion.button with hover/tap scale effects. Added hover:border-white/15 to Reset Demo button
+
+**Commands run:**
+- `npx tsc --noEmit` — no type errors
+- `npm run build` — passes cleanly
+- `npm run lint` — no warnings or errors
+
+**Issues:**
+- None.
+
+**Next session:** POLISH-005 (End-to-end demo verification) — depends on POLISH-004 (now done), DEMO-004 (done), GAS-001 (done).

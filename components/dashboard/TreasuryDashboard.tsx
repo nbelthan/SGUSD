@@ -47,9 +47,9 @@ export default function TreasuryDashboard() {
       transition={{ duration: 0.6 }}
       className="glass-card p-5 sm:p-8 md:p-12 relative overflow-hidden"
     >
-      {/* Background glow */}
-      <div className="absolute -top-24 -right-24 w-72 h-72 bg-indigo-500/15 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute -bottom-16 -left-16 w-48 h-48 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
+      {/* Background glow — subtle breathing pulse */}
+      <div className="absolute -top-24 -right-24 w-72 h-72 bg-indigo-500 rounded-full blur-3xl pointer-events-none glow-pulse-indigo" />
+      <div className="absolute -bottom-16 -left-16 w-48 h-48 bg-indigo-500 rounded-full blur-3xl pointer-events-none glow-pulse-indigo" style={{ animationDelay: '1.5s' }} />
 
       <div className="relative z-10">
         {/* Account info */}
@@ -103,7 +103,7 @@ export default function TreasuryDashboard() {
               <span className="text-balance-ticker text-sm sm:text-lg md:text-xl lg:text-2xl font-medium text-slate-400">
                 .
               </span>
-              <span className="text-balance-ticker text-sm sm:text-lg md:text-xl lg:text-2xl font-medium text-slate-400 inline-flex">
+              <span className="text-balance-ticker text-sm sm:text-lg md:text-xl lg:text-2xl font-medium text-slate-400 inline-flex" style={{ textShadow: '0 0 8px rgba(129,140,248,0.3)' }}>
                 {decimal.split('').map((d, i) => (
                   <TickingDigit
                     key={i}

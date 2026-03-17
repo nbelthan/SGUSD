@@ -47,7 +47,7 @@ export default function PayoutToggle({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute -top-20 -right-20 w-64 h-64 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none"
+            className="absolute -top-20 -right-20 w-64 h-64 bg-indigo-500 rounded-full blur-3xl pointer-events-none glow-pulse-indigo"
           />
         )}
       </AnimatePresence>
@@ -160,7 +160,7 @@ export default function PayoutToggle({
       </div>
 
       {/* ETA */}
-      <div className="relative z-10 flex items-center justify-between mb-6 px-4 py-3 bg-white/5 rounded-xl border border-white/5">
+      <div className="relative z-10 flex items-center justify-between mb-6 px-4 py-3 bg-white/5 rounded-xl border border-white/5 hover:bg-white/[0.07] transition-colors duration-200">
         <div className="flex items-center gap-2">
           <Clock
             size={16}

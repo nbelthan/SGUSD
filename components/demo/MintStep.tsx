@@ -47,7 +47,7 @@ export default function MintStep({ onMintComplete }: MintStepProps) {
         className="glass-card p-5 sm:p-8 md:p-10 relative overflow-hidden max-w-lg mx-auto"
       >
         {/* Background glow */}
-        <div className="absolute -top-16 -right-16 w-48 h-48 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -top-16 -right-16 w-48 h-48 bg-indigo-500 rounded-full blur-3xl pointer-events-none glow-pulse-indigo" />
 
         <div className="relative z-10">
           {/* Step header */}
@@ -79,7 +79,12 @@ export default function MintStep({ onMintComplete }: MintStepProps) {
               <p className="text-2xl font-bold text-white">${formattedAmount}</p>
               <p className="text-xs text-slate-500 mt-1">SGUSD</p>
             </div>
-            <ArrowDown size={16} className="text-indigo-400" />
+            <motion.div
+              animate={{ y: [0, 4, 0] }}
+              transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+            >
+              <ArrowDown size={16} className="text-indigo-400" />
+            </motion.div>
             <div className="w-full p-3 rounded-xl bg-indigo-500/5 border border-indigo-500/10 text-center">
               <p className="text-xs text-slate-500 mb-1">Recipient</p>
               <p className="text-sm font-medium text-white">Acme Inc.</p>
