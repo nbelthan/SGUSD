@@ -2,7 +2,17 @@
 
 import { useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { RotateCcw, CircleDot, Eye, Send, CheckCircle2 } from 'lucide-react';
+import {
+  RotateCcw,
+  CircleDot,
+  Eye,
+  Send,
+  CheckCircle2,
+  Globe,
+  TrendingUp,
+  DollarSign,
+  Clock,
+} from 'lucide-react';
 import { useAuth } from '@/lib/hooks/useAuth';
 import LoginScreen from '@/components/auth/LoginScreen';
 import Header from '@/components/layout/Header';
@@ -11,7 +21,13 @@ import MintStep from '@/components/demo/MintStep';
 import PayoutStep from '@/components/demo/PayoutStep';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import NetworkGuard from '@/components/NetworkGuard';
+import { useTickingBalance } from '@/lib/hooks/useTickingBalance';
 import { DemoProvider, useDemoState, type DemoStep } from '@/lib/demo/useDemoState';
+import {
+  GLOBAL_LOGISTICS_ACCOUNT,
+  DEFAULT_PAYOUT_AMOUNT,
+  TRADITIONAL_FEES,
+} from '@/lib/demo/accounts';
 
 const STEPS: { key: DemoStep; label: string; icon: typeof CircleDot }[] = [
   { key: 'mint', label: 'Consumer Payment', icon: CircleDot },
@@ -63,6 +79,156 @@ function StepIndicator({ currentStep }: { currentStep: DemoStep }) {
         );
       })}
     </div>
+  );
+}
+
+function ConfirmationStep({ onReset }: { onReset: () => void }) {
+  const receiverAddress = GLOBAL_LOGISTICS_ACCOUNT.address as `0x${string}`;
+  const {
+    displayBalance: receiverDisplayBalance,
+    isLoading: receiverBalanceLoading,
+  } = useTickingBalance(receiverAddress);
+
+  const payoutAmount = Number(DEFAULT_PAYOUT_AMOUNT);
+  const fxMarkupSaved = payoutAmount * (TRADITIONAL_FEES.fxMarkupPercent / 100);
+  const wireFee = TRADITIONAL_FEES.wireFee;
+  const totalSaved = wireFee + fxMarkupSaved;
+
+  const formatBalance = (bal: string | undefined) => {
+    if (!bal) return { integer: '0', decimal: '00000000' };
+    const [integer, decimal = '00000000'] = bal.split('.');
+    const formattedInteger = parseInt(integer, 10).toLocaleString();
+    return { integer: formattedInteger, decimal };
+  };
+
+  const receiverBal = formatBalance(receiverDisplayBalance);
+
+  return (
+    <motion.div
+      key="confirmation"
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.95 }}
+      transition={{ duration: 0.4 }}
+      className="space-y-6"
+    >
+      {/* Acme Inc. balance (sender — reduced after payout) */}
+      <TreasuryDashboard />
+
+      {/* Global Logistics balance (receiver — ticking) */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2, duration: 0.5 }}
+        className="glass-card p-5 sm:p-8 relative overflow-hidden"
+      >
+        <div className="absolute -top-16 -right-16 w-48 h-48 bg-indigo-500 rounded-full blur-3xl pointer-events-none glow-pulse-indigo" />
+
+        <div className="relative z-10">
+          <div className="flex items-center gap-3 mb-5">
+            <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20">
+              <Globe size={20} className="text-indigo-400" />
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold text-white">
+                {GLOBAL_LOGISTICS_ACCOUNT.name}
+              </h3>
+              <p className="text-xs text-slate-400">
+                {GLOBAL_LOGISTICS_ACCOUNT.role}
+              </p>
+            </div>
+          </div>
+
+          <div className="mb-4">
+            <p className="text-xs font-medium text-slate-400 uppercase tracking-wider mb-2">
+              SGUSD Balance (Received)
+            </p>
+            {receiverBalanceLoading ? (
+              <div className="h-10 flex items-center">
+                <div className="h-6 w-32 bg-white/5 rounded animate-pulse" />
+              </div>
+            ) : (
+              <div className="flex items-baseline gap-0.5">
+                <span className="text-slate-400 text-xl sm:text-2xl font-light">$</span>
+                <span className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+                  {receiverBal.integer}
+                </span>
+                <span className="text-sm sm:text-lg font-medium text-slate-400">.</span>
+                <span
+                  className="text-sm sm:text-lg font-medium text-slate-400"
+                  style={{ textShadow: '0 0 8px rgba(129,140,248,0.3)' }}
+                >
+                  {receiverBal.decimal}
+                </span>
+              </div>
+            )}
+          </div>
+
+          <div className="flex items-center gap-2 text-sm">
+            <TrendingUp size={14} className="text-emerald-400" />
+            <span className="text-emerald-400 font-medium">5.00% APY</span>
+            <span className="text-slate-500">&middot;</span>
+            <span className="text-slate-400 text-xs">
+              Both sender and receiver earn yield from the moment funds arrive
+            </span>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Summary + Demo Complete card */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.4, duration: 0.5 }}
+        className="glass-card p-5 sm:p-8 md:p-10 text-center relative overflow-hidden"
+      >
+        <div className="absolute inset-0 bg-emerald-500/[0.03] pointer-events-none" />
+        <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-60 h-60 bg-emerald-500 rounded-full blur-3xl pointer-events-none glow-pulse-emerald" />
+        <div className="relative z-10">
+          <div className="flex items-center justify-center w-14 h-14 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 mx-auto mb-5">
+            <CheckCircle2 size={28} className="text-emerald-400" />
+          </div>
+          <h3 className="text-xl font-semibold text-white mb-2">
+            Demo Complete
+          </h3>
+          <p className="text-sm text-slate-400 leading-relaxed max-w-md mx-auto mb-4">
+            You&apos;ve experienced the full SageBridge flow: instant SGUSD receipt,
+            real-time yield accrual, and zero-fee international payout &mdash;
+            all settled on-chain in seconds.
+          </p>
+
+          {/* Savings summary */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6 mb-4">
+            <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
+              <DollarSign size={16} className="text-emerald-400" />
+              <span className="text-sm font-bold text-emerald-400">
+                Total fees saved: ${totalSaved.toLocaleString()}
+              </span>
+            </div>
+            <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-indigo-500/10 border border-indigo-500/20">
+              <Clock size={16} className="text-indigo-400" />
+              <span className="text-sm font-bold text-indigo-300">
+                Settlement: &lt;2 seconds
+              </span>
+            </div>
+          </div>
+
+          <p className="text-xs text-slate-500 mb-6">
+            Every transaction is verifiable on{' '}
+            <span className="text-indigo-400">Base Sepolia</span> via BaseScan.
+          </p>
+          <motion.button
+            onClick={onReset}
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white/[0.05] hover:bg-white/[0.08] border border-white/10 hover:border-white/15 text-sm text-slate-300 transition-colors"
+          >
+            <RotateCcw size={14} />
+            Reset Demo
+          </motion.button>
+        </div>
+      </motion.div>
+    </motion.div>
   );
 }
 
@@ -145,52 +311,7 @@ function DemoContent() {
         )}
 
         {currentStep === 'confirmation' && (
-          <motion.div
-            key="confirmation"
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            transition={{ duration: 0.4 }}
-            className="space-y-6"
-          >
-            <TreasuryDashboard />
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3, duration: 0.5 }}
-              className="glass-card p-5 sm:p-8 md:p-10 text-center relative overflow-hidden"
-            >
-              <div className="absolute inset-0 bg-emerald-500/[0.03] pointer-events-none" />
-              <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-60 h-60 bg-emerald-500 rounded-full blur-3xl pointer-events-none glow-pulse-emerald" />
-              <div className="relative z-10">
-                <div className="flex items-center justify-center w-14 h-14 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 mx-auto mb-5">
-                  <CheckCircle2 size={28} className="text-emerald-400" />
-                </div>
-                <h3 className="text-xl font-semibold text-white mb-2">
-                  Demo Complete
-                </h3>
-                <p className="text-sm text-slate-400 leading-relaxed max-w-md mx-auto mb-2">
-                  You&apos;ve experienced the full SageBridge flow: instant SGUSD receipt,
-                  real-time yield accrual, and zero-fee international payout &mdash;
-                  all settled on-chain in seconds.
-                </p>
-                <p className="text-xs text-slate-500 mb-6">
-                  Every transaction is verifiable on{' '}
-                  <span className="text-indigo-400">Base Sepolia</span> via BaseScan.
-                </p>
-                <motion.button
-                  onClick={handleReset}
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.97 }}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white/[0.05] hover:bg-white/[0.08] border border-white/10 hover:border-white/15 text-sm text-slate-300 transition-colors"
-                >
-                  <RotateCcw size={14} />
-                  Reset Demo
-                </motion.button>
-              </div>
-            </motion.div>
-          </motion.div>
+          <ConfirmationStep onReset={handleReset} />
         )}
       </AnimatePresence>
     </div>
