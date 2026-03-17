@@ -2,8 +2,8 @@
 
 ## Current Status
 **Last Updated:** 2026-03-16
-**Tasks Completed:** 26 / 36
-**Current Task:** UI-006 (completed)
+**Tasks Completed:** 27 / 36
+**Current Task:** DEMO-002 (completed)
 
 ---
 
@@ -619,3 +619,29 @@
 - None. SC-003b (Deploy Sagecoin) still blocked — .env.local does not exist.
 
 **Next session:** DEMO-002 (Consumer payment simulation) or GAS-001 (Paymaster integration) — both have all dependencies met. DEMO-003 now unblocked (depends on UI-006 done + DEMO-001 done + UI-007 done).
+
+### Session 27 — 2026-03-16
+**Task:** DEMO-002 — Consumer payment simulation (mint)
+**What was done:**
+- Created components/demo/MintStep.tsx — the first demo step component:
+  - Step header with "Step 1 — Consumer Payment" title, Banknote icon in indigo container
+  - Narrative text: "A consumer pays a $10,000 invoice. Acme Inc. receives SGUSD instantly — funds begin earning 5% APY the moment they arrive."
+  - Payment visualization: invoice amount card ($10,000 SGUSD) with arrow pointing to recipient card (Acme Inc. with truncated wallet address)
+  - "Simulate Consumer Payment" button wired to useMint hook — triggers Sagecoin.mint() to connected wallet
+  - Loading states: "Processing..." during write, "Confirming..." during tx confirmation
+  - Success state: green confirmation banner with CheckCircle2 icon + BaseScan link
+  - Error handling: user rejection message, generic failure message, "Try again" button that calls reset
+  - Toast notification via useTransactionToast on mint confirmation (with dedup via toastedRef)
+  - `onMintComplete` callback prop for parent coordination (passes txHash)
+  - Framer Motion animations: entrance (fade + slide up), AnimatePresence for action/confirmed states
+  - Glassmorphism card styling matching existing design system
+
+**Commands run:**
+- `npx tsc --noEmit` — no type errors
+- `npm run build` — passes cleanly
+- `npm run lint` — no warnings or errors
+
+**Issues:**
+- None. SC-003b (Deploy Sagecoin) still blocked — .env.local does not exist.
+
+**Next session:** DEMO-003 (Supplier payout flow) or GAS-001 (Paymaster integration) — both have all dependencies met. DEMO-004 depends on DEMO-002 (now done) + DEMO-003.

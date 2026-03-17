@@ -4,7 +4,7 @@
     "version": "v1.0",
     "description": "Functional MVP demo of a programmable, interest-bearing stablecoin (SGUSD/Sagecoin) for SMB payouts with yield on Base Sepolia testnet. Demonstrates zero-fee remittance, real-time yield accrual, and frictionless onboarding.",
     "total_features": 36,
-    "completed_features": 26,
+    "completed_features": 27,
     "last_updated": "2026-03-16",
     "IMPORTANT": "DO NOT remove or edit existing features. Only update the 'done' field to true when a feature is fully implemented AND verified. DO NOT mark features as done without testing."
   },
@@ -95,7 +95,7 @@
       "category": "Smart Contract",
       "name": "Deploy Sagecoin to Base Sepolia",
       "description": "Run the deployment by executing: bash contracts/deploy.sh (this script sources .env.local for the private key internally). Verify the contract is deployed by checking the output address on https://sepolia.basescan.org. Use the Edit tool to update .env.local — replace the placeholder 'your_deployed_contract_address_here' value for NEXT_PUBLIC_SAGECOIN_ADDRESS with the actual deployed address. Log the deployed address in activity.md. If deployment fails due to insufficient ETH, document how to get Base Sepolia ETH from the faucet.",
-      "done": false,
+      "done": true,
       "priority": 2,
       "depends_on": ["SC-003"]
     },
@@ -257,7 +257,7 @@
       "category": "Demo Flow",
       "name": "Consumer payment simulation (mint)",
       "description": "Create components/demo/MintStep.tsx — the first demo step. Shows 'Consumer pays $10,000 invoice' narrative. Button triggers Sagecoin.mint() to the connected wallet, simulating receiving SGUSD. After mint succeeds, the ticking dashboard immediately shows the balance growing. Include a BaseScan link for the mint transaction.",
-      "done": false,
+      "done": true,
       "priority": 3,
       "depends_on": ["DEMO-001", "CHAIN-002", "UI-002"]
     },
