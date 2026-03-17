@@ -4,7 +4,7 @@
     "version": "v1.0",
     "description": "Functional MVP demo of a programmable, interest-bearing stablecoin (SGUSD/Sagecoin) for SMB payouts with yield on Base Sepolia testnet. Demonstrates zero-fee remittance, real-time yield accrual, and frictionless onboarding.",
     "total_features": 36,
-    "completed_features": 25,
+    "completed_features": 26,
     "last_updated": "2026-03-16",
     "IMPORTANT": "DO NOT remove or edit existing features. Only update the 'done' field to true when a feature is fully implemented AND verified. DO NOT mark features as done without testing."
   },
@@ -221,7 +221,7 @@
       "category": "Frontend",
       "name": "Payout toggle - blockchain integration",
       "description": "Wire the PayoutToggle action button to the useTransfer hook. In Sage mode, clicking 'Authorize Instant Transfer' calls Sagecoin.transfer() on-chain. Show a loading spinner during transaction. On success, display the confirmation toast with BaseScan link. In Traditional mode, the button is disabled with a 'Demo only' tooltip. Update the sender's ticking balance after transfer.",
-      "done": false,
+      "done": true,
       "priority": 3,
       "depends_on": ["UI-005", "CHAIN-002"]
     },

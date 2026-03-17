@@ -2,8 +2,8 @@
 
 ## Current Status
 **Last Updated:** 2026-03-16
-**Tasks Completed:** 25 / 36
-**Current Task:** DEMO-001 (completed)
+**Tasks Completed:** 26 / 36
+**Current Task:** UI-006 (completed)
 
 ---
 
@@ -588,3 +588,34 @@
 - None. SC-003b (Deploy Sagecoin) still blocked — .env.local does not exist.
 
 **Next session:** UI-006 (Payout toggle blockchain integration) or GAS-001 (Paymaster integration) — both have all dependencies met. DEMO-002 (Consumer payment simulation) now also unblocked.
+
+### Session 26 — 2026-03-16
+**Task:** UI-006 — Payout toggle - blockchain integration
+**What was done:**
+- Updated components/payout/PayoutToggle.tsx:
+  - Disabled the action button in Traditional mode (`!isSageMode` added to disabled condition)
+  - Added a hover tooltip: "Demo only — switch to SageBridge mode" that appears on hover in Traditional mode
+  - Wrapped button in a `group` container for hover tooltip positioning
+- Created components/payout/ConnectedPayoutToggle.tsx — connected wrapper component:
+  - Integrates PayoutToggle with `useTransfer` hook from lib/hooks/useTransfer.ts
+  - Wires `onAuthorize` callback to call `Sagecoin.transfer()` on-chain in Sage mode
+  - Uses `useTransactionToast` to show success toast with BaseScan link on transfer confirmation
+  - Tracks toasted hashes via ref to prevent duplicate toasts
+  - Resets write state after confirmed transfer so button is reusable
+  - Shows error message below the toggle if transaction fails
+  - Accepts optional `receiverAddress` prop (defaults to Global Logistics demo address)
+  - Accepts `onTransferComplete` callback for parent coordination
+- Updated app/page.tsx to render ConnectedPayoutToggle below TreasuryDashboard
+  - Added `space-y-8` gap between dashboard and payout toggle
+  - Centered the payout toggle with `flex justify-center`
+- Sender's ticking balance auto-refreshes via existing 10-second polling in useBalanceOf
+
+**Commands run:**
+- `npx tsc --noEmit` — no type errors
+- `npm run build` — passes cleanly
+- `npm run lint` — no warnings or errors
+
+**Issues:**
+- None. SC-003b (Deploy Sagecoin) still blocked — .env.local does not exist.
+
+**Next session:** DEMO-002 (Consumer payment simulation) or GAS-001 (Paymaster integration) — both have all dependencies met. DEMO-003 now unblocked (depends on UI-006 done + DEMO-001 done + UI-007 done).

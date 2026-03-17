@@ -180,24 +180,34 @@ export default function PayoutToggle({
       </div>
 
       {/* Action Button */}
-      <button
-        onClick={handleAuthorize}
-        disabled={disabled || isLoading || invoiceAmount <= 0}
-        className={`relative z-10 w-full py-4 rounded-xl font-medium flex items-center justify-center gap-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
-          isSageMode
-            ? 'btn-sage'
-            : 'btn-traditional'
-        }`}
-      >
-        {isLoading ? (
-          <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-        ) : (
-          <>
-            {isSageMode && <ShieldCheck size={18} />}
-            {isSageMode ? 'Authorize Instant Transfer' : 'Initiate Wire Transfer'}
-          </>
+      <div className="relative z-10 group">
+        <button
+          onClick={handleAuthorize}
+          disabled={disabled || isLoading || invoiceAmount <= 0 || !isSageMode}
+          className={`w-full py-4 rounded-xl font-medium flex items-center justify-center gap-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
+            isSageMode
+              ? 'btn-sage'
+              : 'btn-traditional'
+          }`}
+        >
+          {isLoading ? (
+            <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+          ) : (
+            <>
+              {isSageMode && <ShieldCheck size={18} />}
+              {isSageMode ? 'Authorize Instant Transfer' : 'Initiate Wire Transfer'}
+            </>
+          )}
+        </button>
+        {/* Traditional mode tooltip */}
+        {!isSageMode && (
+          <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+            <span className="text-xs text-slate-500 whitespace-nowrap bg-black/60 px-2 py-1 rounded">
+              Demo only — switch to SageBridge mode
+            </span>
+          </div>
         )}
-      </button>
+      </div>
 
       {/* Traditional mode disclaimer */}
       <AnimatePresence>
