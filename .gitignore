@@ -24,3 +24,6 @@ screenshots/
 
 # Build artifacts
 tsconfig.tsbuildinfo
+contracts/broadcast
+.playwright-mcp
+contracts/broadcast
