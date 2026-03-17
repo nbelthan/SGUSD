@@ -36,14 +36,18 @@ export async function POST(request: NextRequest) {
 
     const parsedAmount = parseUnits(amount, 18);
 
+    // Mint to the deployer (treasury) — the deployer is "Acme Inc." in the demo.
+    // This ensures the deployer has SGUSD to transfer later.
+    const treasuryAddress = account.address;
+
     const hash = await client.writeContract({
       address: SAGECOIN_ADDRESS,
       abi: SAGECOIN_ABI,
       functionName: 'mint',
-      args: [to as `0x${string}`, parsedAmount],
+      args: [treasuryAddress, parsedAmount],
     });
 
-    return NextResponse.json({ hash, to, amount });
+    return NextResponse.json({ hash, to: treasuryAddress, amount, treasury: treasuryAddress });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : 'Mint failed';
     console.error('Mint API error:', message);

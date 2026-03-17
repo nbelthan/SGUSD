@@ -6,6 +6,7 @@ import { Wallet, TrendingUp, PiggyBank, RotateCcw } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/lib/hooks/useAuth';
 import { useTickingBalance } from '@/lib/hooks/useTickingBalance';
+import { useTreasuryAddress } from '@/lib/hooks/useTreasuryAddress';
 import TickingDigit from './TickingDigit';
 
 // Traditional banking fee baseline
@@ -14,7 +15,10 @@ const FX_MARKUP = 0.03; // 3% foreign exchange markup
 
 export default function TreasuryDashboard() {
   const { walletAddress } = useAuth();
-  const { displayBalance, numericBalance, isLoading, isError, refetch } = useTickingBalance(walletAddress);
+  const treasuryAddress = useTreasuryAddress();
+  // Show the treasury (deployer) balance — the deployer is "Acme Inc." in the demo
+  const balanceAddress = treasuryAddress || walletAddress;
+  const { displayBalance, numericBalance, isLoading, isError, refetch } = useTickingBalance(balanceAddress);
 
   const hasBalance = displayBalance !== undefined && parseFloat(displayBalance) > 0;
 
@@ -62,9 +66,9 @@ export default function TreasuryDashboard() {
           </div>
           <div className="flex items-center gap-2">
             <Wallet size={14} className="text-slate-500" />
-            {walletAddress && (
+            {balanceAddress && (
               <span className="text-xs text-slate-500 font-mono">
-                {walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}
+                {balanceAddress.slice(0, 6)}...{balanceAddress.slice(-4)}
               </span>
             )}
           </div>
