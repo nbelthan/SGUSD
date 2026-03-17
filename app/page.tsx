@@ -4,12 +4,9 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowRight, Play } from 'lucide-react';
 import { useAuth } from '@/lib/hooks/useAuth';
-import { useTickingBalance } from '@/lib/hooks/useTickingBalance';
-import { useTreasuryAddress } from '@/lib/hooks/useTreasuryAddress';
 import LoginScreen from '@/components/auth/LoginScreen';
 import Header from '@/components/layout/Header';
 import TreasuryDashboard from '@/components/dashboard/TreasuryDashboard';
-import YieldComparison from '@/components/dashboard/YieldComparison';
 import FundButton from '@/components/dashboard/FundButton';
 import ConnectedPayoutToggle from '@/components/payout/ConnectedPayoutToggle';
 import ErrorBoundary from '@/components/ErrorBoundary';
@@ -17,8 +14,6 @@ import NetworkGuard from '@/components/NetworkGuard';
 
 export default function Home() {
   const { ready, isAuthenticated } = useAuth();
-  const treasuryAddress = useTreasuryAddress();
-  const { numericBalance } = useTickingBalance(treasuryAddress);
 
   if (!ready) {
     return (
@@ -40,29 +35,22 @@ export default function Home() {
       <Header />
       <main className="flex-1 w-full max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
         <NetworkGuard>
-          {/* Row 1: Treasury Dashboard (full width hero) */}
+          {/* Row 1: Merged hero card — Treasury Dashboard + Yield Comparison */}
           <ErrorBoundary>
             <TreasuryDashboard />
           </ErrorBoundary>
 
-          {/* Row 2: Yield Comparison + Fund Treasury (side by side on desktop) */}
+          {/* Row 2: Fund Treasury + Supplier Payout (side by side on desktop) */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mt-4 sm:mt-6">
-            <ErrorBoundary>
-              <YieldComparison balance={numericBalance ?? 0} />
-            </ErrorBoundary>
             <ErrorBoundary>
               <FundButton />
             </ErrorBoundary>
-          </div>
-
-          {/* Row 3: Supplier Payout (centered, constrained width) */}
-          <div className="flex justify-center mt-4 sm:mt-6">
             <ErrorBoundary>
               <ConnectedPayoutToggle />
             </ErrorBoundary>
           </div>
 
-          {/* Row 4: Demo CTA */}
+          {/* Row 3: Demo CTA */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -80,11 +68,15 @@ export default function Home() {
                       Run the Full Demo
                     </p>
                     <p className="text-xs text-slate-500">
-                      Guided walkthrough: Consumer Payment → Watch Yield → Supplier Payout → Confirmation
+                      Guided walkthrough: Consumer Payment → Watch Yield →
+                      Supplier Payout → Confirmation
                     </p>
                   </div>
                 </div>
-                <ArrowRight size={16} className="text-slate-500 group-hover:text-indigo-400 group-hover:translate-x-1 transition-all" />
+                <ArrowRight
+                  size={16}
+                  className="text-slate-500 group-hover:text-indigo-400 group-hover:translate-x-1 transition-all"
+                />
               </div>
             </Link>
           </motion.div>
