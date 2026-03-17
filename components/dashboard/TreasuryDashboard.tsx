@@ -1,37 +1,29 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Wallet, TrendingUp, PiggyBank, RotateCcw } from 'lucide-react';
+import { Wallet, TrendingUp, RotateCcw, Copy, Check } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/lib/hooks/useAuth';
 import { useTickingBalance } from '@/lib/hooks/useTickingBalance';
 import { useTreasuryAddress } from '@/lib/hooks/useTreasuryAddress';
 import TickingDigit from './TickingDigit';
 
-// Traditional banking fee baseline
-const WIRE_FEE = 45; // $45 per wire transfer
-const FX_MARKUP = 0.03; // 3% foreign exchange markup
-
 export default function TreasuryDashboard() {
   const { walletAddress } = useAuth();
   const treasuryAddress = useTreasuryAddress();
-  // Show the treasury (deployer) balance — the deployer is "Acme Inc." in the demo
   const balanceAddress = treasuryAddress || walletAddress;
   const { displayBalance, numericBalance, isLoading, isError, refetch } = useTickingBalance(balanceAddress);
+  const [copied, setCopied] = useState(false);
+
+  const handleCopyAddress = () => {
+    if (!balanceAddress) return;
+    navigator.clipboard.writeText(balanceAddress);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   const hasBalance = displayBalance !== undefined && parseFloat(displayBalance) > 0;
-
-  // Calculate fees saved vs traditional banking
-  // Assumes the current balance represents a transaction that would have incurred wire + FX fees
-  const feesSaved = useMemo(() => {
-    if (!numericBalance || numericBalance <= 0) return '0.00';
-    const traditionalFees = WIRE_FEE + numericBalance * FX_MARKUP;
-    return traditionalFees.toLocaleString(undefined, {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    });
-  }, [numericBalance]);
 
   // Split balance into integer and decimal parts for styling
   const formatBalance = (balance: string | undefined) => {
@@ -64,14 +56,23 @@ export default function TreasuryDashboard() {
             </h2>
             <p className="text-sm text-slate-400 mt-1">SMB Treasury</p>
           </div>
-          <div className="flex items-center gap-2">
-            <Wallet size={14} className="text-slate-500" />
-            {balanceAddress && (
-              <span className="text-xs text-slate-500 font-mono">
+          {balanceAddress && (
+            <button
+              onClick={handleCopyAddress}
+              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-white/[0.03] border border-white/5 hover:bg-white/[0.06] hover:border-white/10 transition-all group cursor-pointer"
+              title={balanceAddress}
+            >
+              <Wallet size={12} className="text-slate-500" />
+              <span className="text-xs text-slate-500 font-mono group-hover:text-slate-300 transition-colors">
                 {balanceAddress.slice(0, 6)}...{balanceAddress.slice(-4)}
               </span>
-            )}
-          </div>
+              {copied ? (
+                <Check size={10} className="text-emerald-400" />
+              ) : (
+                <Copy size={10} className="text-slate-600 group-hover:text-slate-400 transition-colors" />
+              )}
+            </button>
+          )}
         </div>
 
         {/* Balance display */}
@@ -143,46 +144,6 @@ export default function TreasuryDashboard() {
           </motion.div>
         ) : null}
 
-        {/* Fees saved counter */}
-        {isLoading ? (
-          <div className="mt-6 p-4 rounded-2xl bg-emerald-500/5 border border-emerald-500/10">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-emerald-500/10 animate-pulse" />
-              <div className="flex-1 space-y-2">
-                <div className="h-3 w-48 bg-white/5 rounded animate-pulse" />
-                <div className="h-5 w-20 bg-emerald-500/10 rounded animate-pulse" />
-              </div>
-            </div>
-          </div>
-        ) : hasBalance ? (
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.5 }}
-            className="mt-6 p-4 rounded-2xl bg-emerald-500/5 border border-emerald-500/10"
-          >
-            <div className="flex items-center gap-3">
-              <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-emerald-500/10 flex-shrink-0">
-                <PiggyBank size={16} className="text-emerald-400" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-xs text-slate-400 uppercase tracking-wider">
-                  Fees Saved vs. Traditional Banking
-                </p>
-                <p className="text-lg font-semibold text-emerald-400 mt-0.5">
-                  ${feesSaved}
-                </p>
-              </div>
-              <div className="text-right hidden sm:block">
-                <p className="text-[10px] text-slate-500 leading-tight">
-                  $45 wire fee + 3% FX
-                  <br />
-                  markup eliminated
-                </p>
-              </div>
-            </div>
-          </motion.div>
-        ) : null}
       </div>
     </motion.div>
   );
