@@ -1,6 +1,7 @@
 'use client';
 
 import { AnimatePresence, motion } from 'framer-motion';
+import { memo } from 'react';
 
 interface TickingDigitProps {
   digit: string;
@@ -8,24 +9,22 @@ interface TickingDigitProps {
 }
 
 /**
- * Animates a single character with a vertical slide transition when it changes.
- * Each digit independently slides upward (old exits up, new enters from below).
+ * Animates a single character with a smooth vertical slide when it changes.
+ * Uses lightweight tween (no spring physics or blur) for 60fps performance.
  */
-export default function TickingDigit({ digit, className = '' }: TickingDigitProps) {
+const TickingDigit = memo(function TickingDigit({ digit, className = '' }: TickingDigitProps) {
   return (
-    <span className={`relative inline-block overflow-hidden ${className}`} style={{ width: digit === ',' ? '0.35em' : '0.65em' }}>
+    <span
+      className={`relative inline-block overflow-hidden ${className}`}
+      style={{ width: digit === ',' ? '0.35em' : '0.6em' }}
+    >
       <AnimatePresence mode="popLayout" initial={false}>
         <motion.span
           key={digit}
-          initial={{ y: '80%', opacity: 0, filter: 'blur(2px)' }}
-          animate={{ y: '0%', opacity: 1, filter: 'blur(0px)' }}
-          exit={{ y: '-80%', opacity: 0, filter: 'blur(2px)' }}
-          transition={{
-            type: 'spring',
-            stiffness: 200,
-            damping: 25,
-            mass: 0.5,
-          }}
+          initial={{ y: '50%', opacity: 0 }}
+          animate={{ y: '0%', opacity: 1 }}
+          exit={{ y: '-50%', opacity: 0 }}
+          transition={{ duration: 0.15, ease: 'easeOut' }}
           className="inline-block"
         >
           {digit}
@@ -33,4 +32,6 @@ export default function TickingDigit({ digit, className = '' }: TickingDigitProp
       </AnimatePresence>
     </span>
   );
-}
+});
+
+export default TickingDigit;
