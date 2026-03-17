@@ -2,8 +2,8 @@
 
 ## Current Status
 **Last Updated:** 2026-03-16
-**Tasks Completed:** 28 / 36
-**Current Task:** DEMO-003 (completed)
+**Tasks Completed:** 29 / 36
+**Current Task:** DEMO-004 (completed)
 
 ---
 
@@ -670,3 +670,29 @@
 - None. SC-003b (Deploy Sagecoin) still blocked — .env.local does not exist.
 
 **Next session:** DEMO-004 (Demo page orchestration) — depends on DEMO-002 (done) + DEMO-003 (now done). Or GAS-001 (Paymaster integration) — all dependencies met.
+
+### Session 29 — 2026-03-16
+**Task:** DEMO-004 — Demo page orchestration
+**What was done:**
+- Created app/demo/page.tsx — guided demo page with 4-step walkthrough:
+  - Step 1 (mint): Consumer payment via MintStep component, auto-advances to step 2 on success
+  - Step 2 (watch-yield): TreasuryDashboard with ticking balance + "Continue to Supplier Payout" button
+  - Step 3 (payout): TreasuryDashboard + PayoutStep with toggle and network visualization, auto-advances on transfer success
+  - Step 4 (confirmation): TreasuryDashboard + "Demo Complete" summary card with Reset Demo button
+- StepIndicator component: horizontal progress bar showing all 4 steps with icons, active/complete/pending states, responsive (numbers on mobile, labels on desktop)
+- Framer Motion AnimatePresence with mode="wait" for smooth horizontal slide transitions between steps
+- DemoProvider wraps the entire demo page for state management via useDemoState context
+- Reset Demo button dispatches resetDemo() which returns to step 1 (mint)
+- Auth gating: shows loading spinner while Privy initializes, LoginScreen when not authenticated
+- Header component rendered at top with wallet indicator and logout
+- Content constrained to max-w-4xl for focused reading experience
+
+**Commands run:**
+- `npx tsc --noEmit` — no type errors
+- `npm run build` — passes cleanly (new /demo route at 5.21 kB)
+- `npm run lint` — no warnings or errors
+
+**Issues:**
+- None. SC-003b (Deploy Sagecoin) still blocked — .env.local does not exist.
+
+**Next session:** GAS-001 (Paymaster integration for gasless transactions) — all dependencies met (AUTH-003 done, CHAIN-002 done). Or POLISH-001 (Loading states and skeleton screens) if GAS-001 is blocked.

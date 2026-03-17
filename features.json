@@ -4,7 +4,7 @@
     "version": "v1.0",
     "description": "Functional MVP demo of a programmable, interest-bearing stablecoin (SGUSD/Sagecoin) for SMB payouts with yield on Base Sepolia testnet. Demonstrates zero-fee remittance, real-time yield accrual, and frictionless onboarding.",
     "total_features": 36,
-    "completed_features": 28,
+    "completed_features": 29,
     "last_updated": "2026-03-16",
     "IMPORTANT": "DO NOT remove or edit existing features. Only update the 'done' field to true when a feature is fully implemented AND verified. DO NOT mark features as done without testing."
   },
@@ -275,7 +275,7 @@
       "category": "Demo Flow",
       "name": "Demo page orchestration",
       "description": "Create app/demo/page.tsx — a guided demo page that walks through the full narrative: (1) Consumer payment → mint, (2) Watch yield tick, (3) Supplier payout → transfer, (4) Network confirmation. Use step indicators and narrative text. Each step transitions smoothly with Framer Motion. Add a 'Reset Demo' button that returns to step 1.",
-      "done": false,
+      "done": true,
       "priority": 3,
       "depends_on": ["DEMO-002", "DEMO-003"]
     },
