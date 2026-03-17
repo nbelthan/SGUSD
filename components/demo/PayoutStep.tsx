@@ -43,7 +43,7 @@ export default function PayoutStep({ onPayoutComplete }: PayoutStepProps) {
       className="space-y-6"
     >
       {/* Step header */}
-      <div className="glass-card p-8 md:p-10 relative overflow-hidden max-w-lg mx-auto">
+      <div className="glass-card p-5 sm:p-8 md:p-10 relative overflow-hidden max-w-lg mx-auto">
         <div className="absolute -top-16 -left-16 w-48 h-48 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative z-10">

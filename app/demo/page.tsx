@@ -156,7 +156,7 @@ function DemoContent() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.5 }}
-              className="glass-card p-8 md:p-10 text-center relative overflow-hidden"
+              className="glass-card p-5 sm:p-8 md:p-10 text-center relative overflow-hidden"
             >
               <div className="absolute inset-0 bg-emerald-500/[0.03] pointer-events-none" />
               <div className="relative z-10">
@@ -213,7 +213,7 @@ export default function DemoPage() {
     <DemoProvider>
       <div className="min-h-screen flex flex-col">
         <Header />
-        <main className="flex-1 w-full max-w-4xl mx-auto px-6 py-8">
+        <main className="flex-1 w-full max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
           <NetworkGuard>
             <ErrorBoundary>
               <DemoContent />

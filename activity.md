@@ -2,8 +2,8 @@
 
 ## Current Status
 **Last Updated:** 2026-03-16
-**Tasks Completed:** 29 / 36
-**Current Task:** DEMO-004 (completed)
+**Tasks Completed:** 33 / 36
+**Current Task:** POLISH-003 (completed)
 
 ---
 
@@ -793,3 +793,27 @@
 - None.
 
 **Next session:** POLISH-003 (Responsive layout and mobile optimization) — depends on POLISH-001 (done).
+
+### Session 33 — 2026-03-16
+**Task:** POLISH-003 — Responsive layout and mobile optimization
+**What was done:**
+- Audited all UI components for mobile responsiveness at 375px, 768px, and 1024px breakpoints
+- **TreasuryDashboard**: Reduced padding (p-5 on mobile), scaled balance text from text-3xl/text-sm on mobile up to text-6xl/text-2xl on desktop, added flex-wrap to prevent overflow, hid fees explainer text on mobile
+- **PayoutToggle**: Reduced padding (p-5 on mobile), scaled input text (text-2xl → text-3xl), scaled total cost text (text-2xl → text-3xl), reduced header text size
+- **NetworkVisualization**: Reduced node sizes (w-11 h-11 on mobile → w-14 h-14 on sm+), reduced gap (gap-2 → gap-4), smaller label text and max-width on mobile, reduced card padding
+- **TransactionToast**: Mobile-friendly positioning (bottom-4 right-4 on mobile), width uses calc(100%-2rem) on mobile for proper edge spacing
+- **Header**: Reduced padding (px-4 py-3 on mobile), hid wallet address chip on mobile (visible sm+), reduced gap between buttons
+- **app/page.tsx**: Reduced padding (px-4 py-6 on mobile), reduced spacing (space-y-6 on mobile)
+- **app/demo/page.tsx**: Reduced padding (px-4 py-6 on mobile), demo complete card padding reduced on mobile
+- **MintStep & PayoutStep**: Reduced card padding (p-5 on mobile)
+- All components use mobile-first responsive classes (base → sm: → md: → lg:)
+
+**Commands run:**
+- `npx tsc --noEmit` — no type errors
+- `npm run build` — passes cleanly
+- `npm run lint` — no warnings or errors
+
+**Issues:**
+- None.
+
+**Next session:** POLISH-004 (Final visual polish and animations) — depends on POLISH-002 (done) and POLISH-003 (now done).

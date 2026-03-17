@@ -44,7 +44,7 @@ export default function MintStep({ onMintComplete }: MintStepProps) {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="glass-card p-8 md:p-10 relative overflow-hidden max-w-lg mx-auto"
+        className="glass-card p-5 sm:p-8 md:p-10 relative overflow-hidden max-w-lg mx-auto"
       >
         {/* Background glow */}
         <div className="absolute -top-16 -right-16 w-48 h-48 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />

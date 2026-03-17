@@ -39,7 +39,7 @@ export default function PayoutToggle({
   }, [disabled, isLoading, onAuthorize, invoiceAmount, isSageMode]);
 
   return (
-    <div className="w-full max-w-md glass-card p-8 relative overflow-hidden">
+    <div className="w-full max-w-md glass-card p-5 sm:p-8 relative overflow-hidden">
       {/* Subtle background glow for Sage Mode */}
       <AnimatePresence>
         {isSageMode && (
@@ -54,7 +54,7 @@ export default function PayoutToggle({
 
       {/* Header */}
       <div className="relative z-10 mb-8">
-        <h2 className="text-2xl font-semibold tracking-tight text-white mb-2">
+        <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-white mb-2">
           Supplier Payout
         </h2>
         <div className="flex items-center gap-3 text-sm text-slate-400">
@@ -72,13 +72,13 @@ export default function PayoutToggle({
           Invoice Amount (USD)
         </label>
         <div className="mt-2 relative flex items-center">
-          <span className="absolute left-4 text-2xl text-slate-400">$</span>
+          <span className="absolute left-4 text-xl sm:text-2xl text-slate-400">$</span>
           <input
             type="number"
             value={invoiceAmount}
             onChange={(e) => setInvoiceAmount(Number(e.target.value))}
             min={0}
-            className="w-full glass-input py-4 pl-10 pr-4 text-3xl font-light"
+            className="w-full glass-input py-3 sm:py-4 pl-9 sm:pl-10 pr-4 text-2xl sm:text-3xl font-light"
           />
         </div>
       </div>
@@ -152,7 +152,7 @@ export default function PayoutToggle({
               scale: 1,
               color: isSageMode ? '#a5b4fc' : '#ffffff',
             }}
-            className="text-3xl font-medium"
+            className="text-2xl sm:text-3xl font-medium"
           >
             ${totalCost.toLocaleString(undefined, { minimumFractionDigits: 2 })}
           </motion.span>

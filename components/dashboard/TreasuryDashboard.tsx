@@ -45,7 +45,7 @@ export default function TreasuryDashboard() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
-      className="glass-card p-8 md:p-12 relative overflow-hidden"
+      className="glass-card p-5 sm:p-8 md:p-12 relative overflow-hidden"
     >
       {/* Background glow */}
       <div className="absolute -top-24 -right-24 w-72 h-72 bg-indigo-500/15 rounded-full blur-3xl pointer-events-none" />
@@ -77,14 +77,14 @@ export default function TreasuryDashboard() {
           </p>
 
           {isLoading ? (
-            <div className="h-16 flex items-baseline gap-1">
-              <div className="h-8 w-6 bg-white/5 rounded animate-pulse" />
-              <div className="h-12 w-48 bg-white/5 rounded-lg animate-pulse" />
-              <div className="h-6 w-32 bg-white/5 rounded animate-pulse ml-1" />
-              <div className="h-5 w-14 bg-indigo-500/10 rounded-full animate-pulse ml-3" />
+            <div className="h-12 sm:h-16 flex items-baseline gap-1 flex-wrap">
+              <div className="h-6 sm:h-8 w-5 sm:w-6 bg-white/5 rounded animate-pulse" />
+              <div className="h-8 sm:h-12 w-32 sm:w-48 bg-white/5 rounded-lg animate-pulse" />
+              <div className="h-5 sm:h-6 w-20 sm:w-32 bg-white/5 rounded animate-pulse ml-1" />
+              <div className="h-5 w-14 bg-indigo-500/10 rounded-full animate-pulse ml-2 sm:ml-3" />
             </div>
           ) : isError ? (
-            <div className="h-16 flex items-center gap-3">
+            <div className="h-12 sm:h-16 flex items-center gap-3">
               <p className="text-sm text-red-400">Unable to load balance</p>
               <button
                 onClick={() => refetch()}
@@ -95,24 +95,24 @@ export default function TreasuryDashboard() {
               </button>
             </div>
           ) : (
-            <div className="flex items-baseline gap-1">
-              <span className="text-slate-400 text-3xl md:text-4xl font-light">$</span>
-              <span className="text-balance-ticker text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight">
+            <div className="flex items-baseline gap-0.5 sm:gap-1 flex-wrap">
+              <span className="text-slate-400 text-2xl sm:text-3xl md:text-4xl font-light">$</span>
+              <span className="text-balance-ticker text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight">
                 {integer}
               </span>
-              <span className="text-balance-ticker text-lg md:text-xl lg:text-2xl font-medium text-slate-400">
+              <span className="text-balance-ticker text-sm sm:text-lg md:text-xl lg:text-2xl font-medium text-slate-400">
                 .
               </span>
-              <span className="text-balance-ticker text-lg md:text-xl lg:text-2xl font-medium text-slate-400 inline-flex">
+              <span className="text-balance-ticker text-sm sm:text-lg md:text-xl lg:text-2xl font-medium text-slate-400 inline-flex">
                 {decimal.split('').map((d, i) => (
                   <TickingDigit
                     key={i}
                     digit={d}
-                    className="text-lg md:text-xl lg:text-2xl font-medium text-slate-400"
+                    className="text-sm sm:text-lg md:text-xl lg:text-2xl font-medium text-slate-400"
                   />
                 ))}
               </span>
-              <Badge className="ml-3 bg-indigo-500/15 text-indigo-300 border-indigo-500/30 hover:bg-indigo-500/20">
+              <Badge className="ml-2 sm:ml-3 bg-indigo-500/15 text-indigo-300 border-indigo-500/30 hover:bg-indigo-500/20">
                 SGUSD
               </Badge>
             </div>
@@ -158,10 +158,10 @@ export default function TreasuryDashboard() {
             className="mt-6 p-4 rounded-2xl bg-emerald-500/5 border border-emerald-500/10"
           >
             <div className="flex items-center gap-3">
-              <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-emerald-500/10">
+              <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-emerald-500/10 flex-shrink-0">
                 <PiggyBank size={16} className="text-emerald-400" />
               </div>
-              <div className="flex-1">
+              <div className="flex-1 min-w-0">
                 <p className="text-xs text-slate-400 uppercase tracking-wider">
                   Fees Saved vs. Traditional Banking
                 </p>
@@ -169,7 +169,7 @@ export default function TreasuryDashboard() {
                   ${feesSaved}
                 </p>
               </div>
-              <div className="text-right">
+              <div className="text-right hidden sm:block">
                 <p className="text-[10px] text-slate-500 leading-tight">
                   $45 wire fee + 3% FX
                   <br />

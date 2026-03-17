@@ -38,7 +38,7 @@ export default function NetworkVisualization({
   }, [txHash]);
 
   return (
-    <div className="glass-card p-6 relative overflow-hidden">
+    <div className="glass-card p-4 sm:p-6 relative overflow-hidden">
       {/* Subtle background glow when confirmed */}
       <AnimatePresence>
         {phase === 'confirmed' && (
@@ -56,7 +56,7 @@ export default function NetworkVisualization({
       </h3>
 
       {/* Network nodes and path */}
-      <div className="flex items-center justify-between gap-4">
+      <div className="flex items-center justify-between gap-2 sm:gap-4">
         {/* Sender node */}
         <motion.div
           className="flex flex-col items-center gap-2 flex-shrink-0"
@@ -66,20 +66,20 @@ export default function NetworkVisualization({
           transition={{ duration: 0.6 }}
         >
           <div
-            className={`w-14 h-14 rounded-2xl flex items-center justify-center border transition-colors duration-500 ${
+            className={`w-11 h-11 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl flex items-center justify-center border transition-colors duration-500 ${
               phase === 'confirmed'
                 ? 'bg-emerald-500/20 border-emerald-500/30'
                 : 'bg-indigo-500/20 border-indigo-500/30'
             }`}
           >
             <Building2
-              size={24}
+              size={20}
               className={
                 phase === 'confirmed' ? 'text-emerald-400' : 'text-indigo-400'
               }
             />
           </div>
-          <span className="text-xs text-slate-300 font-medium text-center max-w-[80px] truncate">
+          <span className="text-[10px] sm:text-xs text-slate-300 font-medium text-center max-w-[64px] sm:max-w-[80px] truncate">
             {senderName}
           </span>
           <span className="text-[10px] text-slate-500">Sender</span>
@@ -153,20 +153,20 @@ export default function NetworkVisualization({
           transition={{ duration: 0.4, delay: 0.2 }}
         >
           <div
-            className={`w-14 h-14 rounded-2xl flex items-center justify-center border transition-colors duration-500 ${
+            className={`w-11 h-11 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl flex items-center justify-center border transition-colors duration-500 ${
               phase === 'confirmed'
                 ? 'bg-emerald-500/20 border-emerald-500/30'
                 : 'bg-white/5 border-white/10'
             }`}
           >
             <Globe
-              size={24}
+              size={20}
               className={
                 phase === 'confirmed' ? 'text-emerald-400' : 'text-slate-400'
               }
             />
           </div>
-          <span className="text-xs text-slate-300 font-medium text-center max-w-[80px] truncate">
+          <span className="text-[10px] sm:text-xs text-slate-300 font-medium text-center max-w-[64px] sm:max-w-[80px] truncate">
             {receiverName}
           </span>
           <span className="text-[10px] text-slate-500">Receiver</span>
