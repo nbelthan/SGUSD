@@ -3,8 +3,8 @@ import PrivyProvider from "@/components/providers/PrivyProvider";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "SageBridge",
-  description: "SGUSD Programmable Stablecoin Demo",
+  title: "SageBridge — Sage Dollar (SGUSD)",
+  description: "Keep payments on-network. Earn yield on idle capital. Pay anyone, instantly.",
 };
 
 export default function RootLayout({

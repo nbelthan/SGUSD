@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { ShieldCheck } from 'lucide-react';
+import SageBridgeLogo from '@/components/ui/SageBridgeLogo';
 import { useAuth } from '@/lib/hooks/useAuth';
 
 export default function LoginScreen() {
@@ -24,7 +24,7 @@ export default function LoginScreen() {
               transition={{ type: 'spring', stiffness: 300, damping: 20 }}
               className="w-16 h-16 rounded-2xl bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center"
             >
-              <ShieldCheck size={32} className="text-indigo-400" />
+              <SageBridgeLogo size={36} />
             </motion.div>
           </div>
 
@@ -32,7 +32,7 @@ export default function LoginScreen() {
             SageBridge
           </h1>
           <p className="text-slate-400 mb-8">
-            Programmable stablecoin treasury for instant, zero-fee global payouts
+            Keep payments on-network. Earn yield on idle capital. Pay anyone, instantly.
           </p>
 
           <motion.button

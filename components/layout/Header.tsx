@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
 import {
-  ShieldCheck,
   LogOut,
   Wallet,
   Copy,
@@ -16,6 +15,7 @@ import {
   Play,
   ExternalLink,
 } from 'lucide-react';
+import SageBridgeLogo from '@/components/ui/SageBridgeLogo';
 import { useAuth } from '@/lib/hooks/useAuth';
 import { getAddressUrl } from '@/lib/basescan';
 
@@ -52,7 +52,7 @@ export default function Header() {
         <div className="flex items-center gap-4 sm:gap-6">
           <Link href="/" className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-xl bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center transition-shadow duration-300 hover:shadow-[0_0_12px_rgba(99,102,241,0.3)]">
-              <ShieldCheck size={20} className="text-indigo-400" />
+              <SageBridgeLogo size={22} />
             </div>
             <span className="text-lg font-semibold tracking-tight text-white">
               SageBridge

@@ -54,8 +54,8 @@ const YIELD_BARS = [
     per10k: '$425',
   },
   {
-    name: 'SGUSD',
-    sub: 'SageBridge',
+    name: 'Sage Dollar',
+    sub: 'SGUSD — 5% APY',
     rate: 5.00,
     icon: Zap,
     color: 'text-emerald-400',
