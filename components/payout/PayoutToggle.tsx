@@ -69,16 +69,16 @@ export default function PayoutToggle({
       {/* Amount Input */}
       <div className="relative z-10 mb-8">
         <label className="text-xs font-medium text-slate-400 uppercase tracking-wider">
-          Invoice Amount (USD)
+          Invoice Amount (SGUSD)
         </label>
         <div className="mt-2 relative flex items-center">
-          <span className="absolute left-4 text-xl sm:text-2xl text-slate-400">$</span>
+          <span className="absolute left-4 text-xs sm:text-sm text-slate-400 font-medium">SGUSD</span>
           <input
             type="number"
             value={invoiceAmount}
             onChange={(e) => setInvoiceAmount(Number(e.target.value))}
             min={0}
-            className="w-full glass-input py-3 sm:py-4 pl-9 sm:pl-10 pr-4 text-2xl sm:text-3xl font-light"
+            className="w-full glass-input py-3 sm:py-4 pl-16 sm:pl-20 pr-4 text-2xl sm:text-3xl font-light"
           />
         </div>
       </div>
@@ -112,7 +112,7 @@ export default function PayoutToggle({
         <div className="flex justify-between text-sm">
           <span className="text-slate-400">Principal</span>
           <span>
-            ${invoiceAmount.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+            {invoiceAmount.toLocaleString(undefined, { minimumFractionDigits: 2 })} SGUSD
           </span>
         </div>
 
@@ -126,11 +126,11 @@ export default function PayoutToggle({
             >
               <div className="flex justify-between text-sm text-red-400">
                 <span>Wire Fee</span>
-                <span>+ ${wireFee.toFixed(2)}</span>
+                <span>+ {wireFee.toFixed(2)} USD</span>
               </div>
               <div className="flex justify-between text-sm text-red-400">
                 <span>FX Markup (3%)</span>
-                <span>+ ${fxFee.toFixed(2)}</span>
+                <span>+ {fxFee.toFixed(2)} USD</span>
               </div>
             </motion.div>
           )}
@@ -139,7 +139,7 @@ export default function PayoutToggle({
         {isSageMode && (
           <div className="flex justify-between text-sm text-emerald-400">
             <span>Fees</span>
-            <span>$0.00</span>
+            <span>0.00 SGUSD</span>
           </div>
         )}
 
@@ -154,7 +154,7 @@ export default function PayoutToggle({
             }}
             className="text-2xl sm:text-3xl font-medium"
           >
-            ${totalCost.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+            {totalCost.toLocaleString(undefined, { minimumFractionDigits: 2 })} <span className="text-base text-slate-400">SGUSD</span>
           </motion.span>
         </div>
       </div>

@@ -1,31 +1,52 @@
 'use client';
 
-import { parseUnits } from 'viem';
-import { useSponsoredWrite } from '@/lib/hooks/useSponsoredWrite';
-import { SAGECOIN_ABI, SAGECOIN_ADDRESS } from '@/lib/contracts';
+import { useState, useCallback } from 'react';
+import { useWaitForTransactionReceipt } from 'wagmi';
 
+/**
+ * Transfer hook that calls the server-side /api/transfer endpoint.
+ * The server uses the deployer wallet to execute transfers — no gas
+ * needed from the user. In the demo, the deployer acts as the treasury.
+ */
 export function useTransfer() {
-  const {
-    data: hash,
-    writeContract,
-    isPending,
-    isConfirming,
-    isConfirmed,
-    isError,
-    error,
-    reset,
-    isGasSponsored,
-  } = useSponsoredWrite();
+  const [hash, setHash] = useState<`0x${string}` | undefined>();
+  const [isPending, setIsPending] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
 
-  const transfer = (to: `0x${string}`, amount: string) => {
-    const parsedAmount = parseUnits(amount, 18);
-    writeContract({
-      address: SAGECOIN_ADDRESS,
-      abi: SAGECOIN_ABI,
-      functionName: 'transfer',
-      args: [to, parsedAmount],
-    });
-  };
+  const {
+    isLoading: isConfirming,
+    isSuccess: isConfirmed,
+  } = useWaitForTransactionReceipt({ hash });
+
+  const transfer = useCallback((to: `0x${string}`, amount: string) => {
+    setIsPending(true);
+    setError(null);
+    setHash(undefined);
+
+    fetch('/api/transfer', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ to, amount }),
+    })
+      .then(async (res) => {
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data.error || 'Transfer failed');
+        }
+        setHash(data.hash as `0x${string}`);
+        setIsPending(false);
+      })
+      .catch((err: unknown) => {
+        setError(err instanceof Error ? err : new Error('Transfer failed'));
+        setIsPending(false);
+      });
+  }, []);
+
+  const reset = useCallback(() => {
+    setHash(undefined);
+    setIsPending(false);
+    setError(null);
+  }, []);
 
   return {
     transfer,
@@ -33,9 +54,9 @@ export function useTransfer() {
     isLoading: isPending || isConfirming,
     isConfirming,
     isConfirmed,
-    isError,
+    isError: !!error,
     error,
     reset,
-    isGasSponsored,
+    isGasSponsored: true,
   };
 }

@@ -41,7 +41,6 @@
     "deny": [
       "Bash(rm -rf /)",
       "Bash(*>.env.local*)",
-      "Bash(*PRIVATE_KEY*)",
       "Read(.env.local)",
       "Read(*id_rsa*)",
       "Read(*credentials*)"

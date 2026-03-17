@@ -18,7 +18,7 @@ export const ACME_ACCOUNT: DemoAccount = {
 export const GLOBAL_LOGISTICS_ACCOUNT: DemoAccount = {
   name: 'Global Logistics',
   role: 'International Contractor',
-  address: '0x0000000000000000000000000000000000000001',
+  address: '0x1234567890abcdef1234567890abcdef12345678',
   balance: 0,
 };
 
