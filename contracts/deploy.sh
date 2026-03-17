@@ -23,7 +23,9 @@ if [ ! -f "$ENV_FILE" ]; then
     exit 1
 fi
 
+set -a
 source "$ENV_FILE"
+set +a
 
 if [ -z "${DEPLOYER_PRIVATE_KEY:-}" ] || [ "$DEPLOYER_PRIVATE_KEY" = "your_deployer_private_key_here" ]; then
     echo "Error: DEPLOYER_PRIVATE_KEY is not set or still has the placeholder value."

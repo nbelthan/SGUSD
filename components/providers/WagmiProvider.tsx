@@ -20,11 +20,11 @@ export { wagmiConfig };
 /** Full provider with Privy wagmi integration — used inside PrivyProvider */
 export default function WagmiProvider({ children }: { children: React.ReactNode }) {
   return (
-    <PrivyWagmiProvider config={wagmiConfig}>
-      <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClient}>
+      <PrivyWagmiProvider config={wagmiConfig}>
         {children}
-      </QueryClientProvider>
-    </PrivyWagmiProvider>
+      </PrivyWagmiProvider>
+    </QueryClientProvider>
   );
 }
 
