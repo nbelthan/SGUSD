@@ -109,16 +109,18 @@ export default function PayoutStep({ onPayoutComplete }: PayoutStepProps) {
                 Step 2
               </p>
               <h3 className="text-lg font-semibold text-white">
-                Supplier Payout
+                Contractor Payout
               </h3>
             </div>
           </div>
 
           <p className="text-sm text-slate-400 leading-relaxed mb-2">
-            Pay <span className="text-white font-medium">Global Logistics</span> $
-            {payoutAmount.toLocaleString()} for international services.
-            Compare traditional wire costs against{' '}
-            <span className="text-indigo-400 font-medium">SageBridge&apos;s zero-fee</span> instant settlement.
+            Acme Inc. pays <span className="text-white font-medium">Rivera Design Co.</span> $
+            {payoutAmount.toLocaleString()} for freelance design work.
+            Today, this cross-border payout goes off-platform with a $45 wire fee +
+            3% FX markup. With SGUSD, it settles{' '}
+            <span className="text-indigo-400 font-medium">instantly, zero fees</span> &mdash;
+            and Rivera&apos;s funds start earning yield immediately.
           </p>
         </div>
       </div>
@@ -143,7 +145,7 @@ export default function PayoutStep({ onPayoutComplete }: PayoutStepProps) {
             <NetworkVisualization
               txHash={transferTxHash}
               senderName="Acme Inc."
-              receiverName="Global Logistics"
+              receiverName="Rivera Design Co."
               amount={payoutAmount}
             />
           </motion.div>
@@ -180,7 +182,7 @@ export default function PayoutStep({ onPayoutComplete }: PayoutStepProps) {
                   on this transfer!
                 </h3>
                 <p className="text-sm text-slate-400">
-                  You avoided losing ${totalSaved.toLocaleString()} in traditional banking fees
+                  This payout stayed on Sage&apos;s network &mdash; no ACH, no wire, no FX markup
                 </p>
               </div>
 
@@ -325,7 +327,7 @@ export default function PayoutStep({ onPayoutComplete }: PayoutStepProps) {
                 <span className="text-emerald-400 font-medium">5.00% APY</span>
                 <span className="text-slate-500">&middot;</span>
                 <span className="text-slate-400 text-xs">
-                  Their funds are also earning 5% APY &mdash; the moment they arrive
+                  Rivera&apos;s funds earn yield the moment they arrive &mdash; no bank needed
                 </span>
               </div>
             </div>

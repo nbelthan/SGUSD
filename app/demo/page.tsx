@@ -30,9 +30,9 @@ import {
 } from '@/lib/demo/accounts';
 
 const STEPS: { key: DemoStep; label: string; icon: typeof CircleDot }[] = [
-  { key: 'mint', label: 'Consumer Payment', icon: CircleDot },
-  { key: 'watch-yield', label: 'Watch Yield', icon: Eye },
-  { key: 'payout', label: 'Supplier Payout', icon: Send },
+  { key: 'mint', label: 'Invoice Payment', icon: CircleDot },
+  { key: 'watch-yield', label: 'Yield Accrual', icon: Eye },
+  { key: 'payout', label: 'Contractor Payout', icon: Send },
   { key: 'confirmation', label: 'Confirmed', icon: CheckCircle2 },
 ];
 
@@ -115,7 +115,7 @@ function ConfirmationStep({ onReset }: { onReset: () => void }) {
       {/* Acme Inc. balance (sender — reduced after payout) */}
       <TreasuryDashboard />
 
-      {/* Global Logistics balance (receiver — ticking) */}
+      {/* Rivera Design Co. balance (receiver — ticking) */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -169,7 +169,7 @@ function ConfirmationStep({ onReset }: { onReset: () => void }) {
             <span className="text-emerald-400 font-medium">5.00% APY</span>
             <span className="text-slate-500">&middot;</span>
             <span className="text-slate-400 text-xs">
-              Both sender and receiver earn yield from the moment funds arrive
+              Rivera earns yield the moment funds arrive &mdash; no bank account needed
             </span>
           </div>
         </div>
@@ -192,9 +192,9 @@ function ConfirmationStep({ onReset }: { onReset: () => void }) {
             Demo Complete
           </h3>
           <p className="text-sm text-slate-400 leading-relaxed max-w-md mx-auto mb-4">
-            You&apos;ve experienced the full SageBridge flow: instant SGUSD receipt,
-            real-time yield accrual, and zero-fee international payout &mdash;
-            all settled on-chain in seconds.
+            You&apos;ve experienced how SGUSD keeps money on Sage&apos;s network:
+            instant invoice settlement, yield on idle capital, and zero-fee
+            cross-border contractor payouts &mdash; all in seconds.
           </p>
 
           {/* Savings summary */}
@@ -282,15 +282,15 @@ function DemoContent() {
             <TreasuryDashboard />
             <div className="text-center space-y-3">
               <p className="text-sm text-slate-400">
-                Watch your balance grow in real-time.{' '}
+                Unlike a bank checking account, SGUSD earns{' '}
                 <span className="text-emerald-400 font-medium">5% APY</span>{' '}
-                accrues every second.
+                the moment funds arrive. No lockup. No action required.
               </p>
               <button
                 onClick={handleContinueToPayout}
                 className="btn-sage px-6 py-2.5 text-sm"
               >
-                Continue to Supplier Payout
+                Continue to Contractor Payout
               </button>
             </div>
           </motion.div>

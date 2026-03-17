@@ -55,14 +55,14 @@ export default function PayoutToggle({
       {/* Header */}
       <div className="relative z-10 mb-8">
         <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-white mb-2">
-          Supplier Payout
+          Contractor Payout
         </h2>
         <div className="flex items-center gap-3 text-sm text-slate-400">
           <Building2 size={16} />
           <span>Acme Inc.</span>
           <ArrowRight size={14} />
           <Globe size={16} />
-          <span className="text-white font-medium">Global Logistics Ltd.</span>
+          <span className="text-white font-medium">Rivera Design Co.</span>
         </div>
       </div>
 

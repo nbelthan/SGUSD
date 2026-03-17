@@ -63,16 +63,18 @@ export default function MintStep({ onMintComplete }: MintStepProps) {
                 Step 1
               </p>
               <h3 className="text-lg font-semibold text-white">
-                Consumer Payment
+                Invoice Payment
               </h3>
             </div>
           </div>
 
           {/* Narrative */}
           <p className="text-sm text-slate-400 leading-relaxed mb-8">
-            A consumer pays a <span className="text-white font-medium">${formattedAmount}</span> invoice.
-            Acme Inc. receives SGUSD instantly — funds begin earning{' '}
-            <span className="text-emerald-400 font-medium">5% APY</span> the moment they arrive.
+            A consumer pays a <span className="text-white font-medium">${formattedAmount}</span> invoice
+            on Sage&apos;s invoicing rails. Today, this payment would route off-network
+            via ACH (2-3 days) or card (2.9% fee). With SGUSD, funds settle{' '}
+            <span className="text-emerald-400 font-medium">instantly on-network</span> and
+            begin earning <span className="text-emerald-400 font-medium">5% APY</span>.
           </p>
 
           {/* Payment visualization */}
@@ -137,7 +139,7 @@ export default function MintStep({ onMintComplete }: MintStepProps) {
                       <span>{txHash ? 'Confirming...' : 'Processing...'}</span>
                     </>
                   ) : (
-                    <span>Simulate Consumer Payment</span>
+                    <span>Settle Invoice in SGUSD</span>
                   )}
                 </button>
 
