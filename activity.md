@@ -539,3 +539,27 @@
 - None. SC-003b (Deploy Sagecoin) still blocked — .env.local does not exist.
 
 **Next session:** UI-004 (Fees saved counter) or UI-006 (Payout toggle blockchain integration) or DEMO-001 (Demo accounts and state management) — all have dependencies met.
+
+### Session 24 — 2026-03-16
+**Task:** UI-004 — Treasury dashboard - fees saved counter
+**What was done:**
+- Added "Fees Saved vs. Traditional Banking" counter to TreasuryDashboard component
+  - Calculates savings against traditional banking baseline: $45 wire fee + 3% FX markup on the current balance
+  - Uses `useMemo` keyed on `numericBalance` from `useTickingBalance` for efficient recalculation
+  - Displayed as a secondary metric below the yield indicator, inside an emerald-tinted card
+  - PiggyBank icon (Lucide) in an emerald container on the left
+  - Large green savings amount ($X.XX format) with label "Fees Saved vs. Traditional Banking"
+  - Right side shows "$45 wire fee + 3% FX markup eliminated" explainer text
+  - Framer Motion entrance animation (fade + slide up, delayed 0.5s)
+  - Only renders when balance > 0 (same condition as yield indicator)
+  - Emerald green accent: bg-emerald-500/5 background, border-emerald-500/10, text-emerald-400
+
+**Commands run:**
+- `npx tsc --noEmit` — no type errors
+- `npm run build` — passes cleanly
+- `npm run lint` — no warnings or errors
+
+**Issues:**
+- None. SC-003b (Deploy Sagecoin) still blocked — .env.local does not exist.
+
+**Next session:** UI-006 (Payout toggle blockchain integration) or DEMO-001 (Demo accounts and state management) or GAS-001 (Paymaster integration) — all have dependencies met.

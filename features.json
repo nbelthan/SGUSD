@@ -4,7 +4,7 @@
     "version": "v1.0",
     "description": "Functional MVP demo of a programmable, interest-bearing stablecoin (SGUSD/Sagecoin) for SMB payouts with yield on Base Sepolia testnet. Demonstrates zero-fee remittance, real-time yield accrual, and frictionless onboarding.",
     "total_features": 36,
-    "completed_features": 23,
+    "completed_features": 24,
     "last_updated": "2026-03-16",
     "IMPORTANT": "DO NOT remove or edit existing features. Only update the 'done' field to true when a feature is fully implemented AND verified. DO NOT mark features as done without testing."
   },
@@ -203,7 +203,7 @@
       "category": "Frontend",
       "name": "Treasury dashboard - fees saved counter",
       "description": "Add a 'Fees Saved vs. Traditional Banking' counter to the TreasuryDashboard. Calculate against baseline: 3% FX markup + $45 wire fee per transaction. Show a running total of savings. Display as a secondary metric below the main balance. Use green accent color for the savings amount.",
-      "done": false,
+      "done": true,
       "priority": 3,
       "depends_on": ["UI-002"]
     },

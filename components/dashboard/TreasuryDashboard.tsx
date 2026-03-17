@@ -1,17 +1,33 @@
 'use client';
 
+import { useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { Wallet, TrendingUp } from 'lucide-react';
+import { Wallet, TrendingUp, PiggyBank } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/lib/hooks/useAuth';
 import { useTickingBalance } from '@/lib/hooks/useTickingBalance';
 import TickingDigit from './TickingDigit';
 
+// Traditional banking fee baseline
+const WIRE_FEE = 45; // $45 per wire transfer
+const FX_MARKUP = 0.03; // 3% foreign exchange markup
+
 export default function TreasuryDashboard() {
   const { walletAddress } = useAuth();
-  const { displayBalance, isLoading, isError } = useTickingBalance(walletAddress);
+  const { displayBalance, numericBalance, isLoading, isError } = useTickingBalance(walletAddress);
 
   const hasBalance = displayBalance !== undefined && parseFloat(displayBalance) > 0;
+
+  // Calculate fees saved vs traditional banking
+  // Assumes the current balance represents a transaction that would have incurred wire + FX fees
+  const feesSaved = useMemo(() => {
+    if (!numericBalance || numericBalance <= 0) return '0.00';
+    const traditionalFees = WIRE_FEE + numericBalance * FX_MARKUP;
+    return traditionalFees.toLocaleString(undefined, {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+  }, [numericBalance]);
 
   // Split balance into integer and decimal parts for styling
   const formatBalance = (balance: string | undefined) => {
@@ -104,6 +120,37 @@ export default function TreasuryDashboard() {
             <TrendingUp size={14} className="text-emerald-400" />
             <span className="text-emerald-400 font-medium">5.00% APY</span>
             <span className="text-slate-500">· Earning yield in real-time</span>
+          </motion.div>
+        )}
+
+        {/* Fees saved counter */}
+        {hasBalance && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.5 }}
+            className="mt-6 p-4 rounded-2xl bg-emerald-500/5 border border-emerald-500/10"
+          >
+            <div className="flex items-center gap-3">
+              <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-emerald-500/10">
+                <PiggyBank size={16} className="text-emerald-400" />
+              </div>
+              <div className="flex-1">
+                <p className="text-xs text-slate-400 uppercase tracking-wider">
+                  Fees Saved vs. Traditional Banking
+                </p>
+                <p className="text-lg font-semibold text-emerald-400 mt-0.5">
+                  ${feesSaved}
+                </p>
+              </div>
+              <div className="text-right">
+                <p className="text-[10px] text-slate-500 leading-tight">
+                  $45 wire fee + 3% FX
+                  <br />
+                  markup eliminated
+                </p>
+              </div>
+            </div>
           </motion.div>
         )}
       </div>
