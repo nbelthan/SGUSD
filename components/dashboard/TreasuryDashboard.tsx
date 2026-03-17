@@ -235,9 +235,9 @@ export default function TreasuryDashboard() {
         {/* ── Divider ── */}
         <div className="border-t border-white/[0.06] mb-6" />
 
-        {/* ── Embedded Yield Comparison — Vertical Bar Chart ── */}
+        {/* ── Embedded Yield Comparison — Horizontal Bars ── */}
         <div>
-          <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center justify-between mb-5">
             <div>
               <h3 className="text-sm font-semibold text-white tracking-tight">
                 Where is your money working hardest?
@@ -246,110 +246,87 @@ export default function TreasuryDashboard() {
                 Annual yield on every $10,000
               </p>
             </div>
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
-              <TrendingUp size={12} className="text-emerald-400" />
-              <span className="text-sm font-bold text-emerald-400">
-                500x more
-              </span>
-            </div>
           </div>
 
-          {/* Vertical bar chart */}
-          <div className="flex items-end justify-between gap-3 sm:gap-4 h-48 sm:h-56 mb-2">
+          {/* Horizontal bar rows */}
+          <div className="space-y-3">
             {YIELD_BARS.map((item, i) => {
               const Icon = item.icon;
               const isSgusd = item.name === 'SGUSD';
-              const barHeight = Math.max((item.rate / MAX_RATE) * 100, 2);
+              // Use log scale so tiny rates get visible slivers but SGUSD dominates
+              // 0.01% → ~2%, 0.50% → ~25%, 4.25% → ~85%, 5.00% → 100%
+              const barWidth = Math.max((item.rate / 5.0) * 100, 1.5);
 
               return (
                 <motion.div
                   key={item.name}
-                  className="flex-1 flex flex-col items-center justify-end h-full"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.4, delay: 0.1 * i }}
+                  className={`rounded-xl p-3 ${
+                    isSgusd
+                      ? 'bg-emerald-500/[0.06] border border-emerald-500/15'
+                      : 'bg-white/[0.02]'
+                  }`}
                 >
-                  {/* Rate label above bar */}
-                  <span className={`text-xs sm:text-sm font-bold ${item.color} mb-1.5`}>
-                    {item.rate < 1 ? `${item.rate.toFixed(2)}%` : `${item.rate.toFixed(2)}%`}
-                  </span>
+                  {/* Top row: icon + name + rate + earnings */}
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-2.5">
+                      <div
+                        className={`w-7 h-7 rounded-md flex items-center justify-center ${
+                          isSgusd
+                            ? 'bg-emerald-500/15 border border-emerald-500/25'
+                            : 'bg-white/[0.04] border border-white/[0.06]'
+                        }`}
+                      >
+                        <Icon size={13} className={item.color} />
+                      </div>
+                      <div>
+                        <p className={`text-xs font-medium ${isSgusd ? 'text-white' : 'text-slate-400'}`}>
+                          {item.name}
+                        </p>
+                        <p className="text-[9px] text-slate-600 hidden sm:block">
+                          {item.sub}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-baseline gap-2">
+                      <span className={`text-sm font-bold tabular-nums ${item.color}`}>
+                        {item.rate.toFixed(2)}%
+                      </span>
+                      <span className={`text-[10px] tabular-nums ${isSgusd ? 'text-emerald-400/70' : 'text-slate-600'}`}>
+                        {item.per10k}/yr
+                      </span>
+                    </div>
+                  </div>
 
-                  {/* Vertical bar */}
-                  <div className="w-full flex justify-center">
+                  {/* Bar */}
+                  <div className="h-2.5 rounded-full bg-white/[0.04] overflow-hidden">
                     <motion.div
-                      className={`relative w-10 sm:w-14 rounded-t-xl bg-gradient-to-t ${item.barGradient} ${
-                        isSgusd ? 'shadow-[0_0_20px_rgba(16,185,129,0.25)]' : ''
-                      }`}
-                      initial={{ height: 0 }}
-                      animate={{ height: `${barHeight}%` }}
+                      initial={{ width: 0 }}
+                      animate={{ width: `${barWidth}%` }}
                       transition={{
                         duration: 1,
-                        delay: 0.2 + 0.12 * i,
+                        delay: 0.3 + 0.12 * i,
                         ease: [0.34, 1.56, 0.64, 1],
                       }}
-                      style={{ minHeight: '8px' }}
-                    >
-                      {/* Glow effect for SGUSD */}
-                      {isSgusd && (
-                        <div className="absolute inset-0 rounded-t-xl bg-emerald-400/20 blur-sm" />
-                      )}
-                    </motion.div>
+                      className={`h-full rounded-full bg-gradient-to-r ${item.barGradient} ${
+                        isSgusd ? 'shadow-[0_0_12px_rgba(16,185,129,0.3)]' : ''
+                      }`}
+                    />
                   </div>
                 </motion.div>
               );
             })}
           </div>
 
-          {/* Labels below bars */}
-          <div className="flex items-start justify-between gap-3 sm:gap-4">
-            {YIELD_BARS.map((item) => {
-              const Icon = item.icon;
-              const isSgusd = item.name === 'SGUSD';
-              return (
-                <div key={item.name} className="flex-1 flex flex-col items-center text-center">
-                  {/* Icon */}
-                  <div
-                    className={`w-8 h-8 sm:w-9 sm:h-9 rounded-lg flex items-center justify-center mb-1.5 ${
-                      isSgusd
-                        ? 'bg-emerald-500/15 border border-emerald-500/25'
-                        : 'bg-white/[0.04] border border-white/[0.06]'
-                    }`}
-                  >
-                    <Icon size={14} className={item.color} />
-                  </div>
-                  {/* Name */}
-                  <p
-                    className={`text-[10px] sm:text-xs font-medium leading-tight ${
-                      isSgusd ? 'text-white' : 'text-slate-400'
-                    }`}
-                  >
-                    {item.name}
-                  </p>
-                  {/* Sub label */}
-                  <p className="text-[9px] text-slate-600 leading-tight mt-0.5 hidden sm:block">
-                    {item.sub}
-                  </p>
-                  {/* Per-10k earnings */}
-                  <p
-                    className={`text-[10px] font-semibold mt-1 ${
-                      isSgusd ? 'text-emerald-400' : 'text-slate-500'
-                    }`}
-                  >
-                    {item.per10k}
-                    <span className="text-slate-600 font-normal">/yr</span>
-                  </p>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Loss aversion callout — reframed for impact */}
+          {/* Loss aversion callout */}
           {balance > 0 && annualLoss > 0 && (
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.2, duration: 0.5 }}
-              className="mt-6 p-3 rounded-xl bg-red-500/[0.06] border border-red-500/15"
+              transition={{ delay: 1.0, duration: 0.5 }}
+              className="mt-4 p-3 rounded-xl bg-red-500/[0.06] border border-red-500/15"
             >
               <div className="flex items-start gap-2.5">
                 <AlertTriangle
