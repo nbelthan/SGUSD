@@ -2,39 +2,58 @@
 
 import { useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { TrendingUp, TrendingDown, AlertTriangle, Building, Landmark, Zap } from 'lucide-react';
+import { TrendingUp, AlertTriangle, Building, Landmark, Zap } from 'lucide-react';
 
-// Bank rates as of March 2026 (Bankrate, NerdWallet)
-const RATES = [
-  { name: 'Chase / BofA / Wells Fargo', rate: 0.01, icon: Building, color: 'text-red-400', barColor: 'bg-red-500/60', tier: 'big-bank' },
-  { name: 'National Avg Savings', rate: 0.50, icon: Landmark, color: 'text-amber-400', barColor: 'bg-amber-500/60', tier: 'avg' },
-  { name: 'SGUSD (SageBridge)', rate: 5.00, icon: Zap, color: 'text-emerald-400', barColor: 'bg-emerald-500', tier: 'sgusd' },
+const YIELD_BARS = [
+  {
+    name: 'Big Bank Checking',
+    sub: 'Chase, BofA, Wells Fargo',
+    rate: 0.01,
+    icon: Building,
+    color: 'text-red-400',
+    barGradient: 'from-red-500/80 to-red-400/60',
+    per10k: '$1',
+  },
+  {
+    name: 'Avg Savings',
+    sub: 'National average',
+    rate: 0.50,
+    icon: Landmark,
+    color: 'text-amber-400',
+    barGradient: 'from-amber-500/80 to-amber-400/60',
+    per10k: '$50',
+  },
+  {
+    name: 'High-Yield Savings',
+    sub: 'Marcus, Ally, Discover',
+    rate: 4.25,
+    icon: Building,
+    color: 'text-sky-400',
+    barGradient: 'from-sky-500/80 to-sky-400/60',
+    per10k: '$425',
+  },
+  {
+    name: 'SGUSD',
+    sub: 'SageBridge',
+    rate: 5.00,
+    icon: Zap,
+    color: 'text-emerald-400',
+    barGradient: 'from-emerald-500 to-emerald-400',
+    per10k: '$500',
+  },
 ];
 
-const MAX_RATE = 5.5; // for bar width scaling
+const MAX_RATE = 5.5;
 
 interface YieldComparisonProps {
   balance?: number;
 }
 
 export default function YieldComparison({ balance = 0 }: YieldComparisonProps) {
-  const annualEarnings = useMemo(() => {
-    return RATES.map((r) => ({
-      ...r,
-      annual: balance * (r.rate / 100),
-      barWidth: Math.max((r.rate / MAX_RATE) * 100, 1.5), // min 1.5% so tiny rates are visible
-    }));
-  }, [balance]);
-
-  // Loss calculation: what you lose per year at Chase vs SGUSD
   const annualLoss = useMemo(() => {
     if (balance <= 0) return 0;
-    const chaseEarnings = balance * (0.01 / 100);
-    const sgusdEarnings = balance * (5.0 / 100);
-    return sgusdEarnings - chaseEarnings;
+    return balance * (5.0 / 100) - balance * (0.01 / 100);
   }, [balance]);
-
-  const multiplier = Math.round(5.0 / 0.01);
 
   return (
     <motion.div
@@ -43,71 +62,101 @@ export default function YieldComparison({ balance = 0 }: YieldComparisonProps) {
       transition={{ duration: 0.5, delay: 0.1 }}
       className="glass-card p-5 sm:p-6 md:p-8 relative overflow-hidden"
     >
-      {/* Background accent */}
       <div className="absolute -bottom-16 -left-16 w-48 h-48 bg-emerald-500 rounded-full blur-3xl pointer-events-none opacity-[0.07]" />
 
       <div className="relative z-10">
-        {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div>
             <h3 className="text-sm font-semibold text-white tracking-tight">
-              Your Money vs. The Bank
+              Where is your money working hardest?
             </h3>
             <p className="text-xs text-slate-500 mt-0.5">
-              Annual Percentage Yield comparison
+              Annual yield on every $10,000
             </p>
           </div>
-          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20">
+          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
             <TrendingUp size={12} className="text-emerald-400" />
-            <span className="text-xs font-bold text-emerald-400">{multiplier}x more</span>
+            <span className="text-sm font-bold text-emerald-400">500x more</span>
           </div>
         </div>
 
-        {/* Rate bars */}
-        <div className="space-y-4">
-          {annualEarnings.map((item, i) => {
-            const Icon = item.icon;
-            const isSgusd = item.tier === 'sgusd';
+        {/* Vertical bar chart */}
+        <div className="flex items-end justify-between gap-3 sm:gap-4 h-48 sm:h-56 mb-2">
+          {YIELD_BARS.map((item, i) => {
+            const isSgusd = item.name === 'SGUSD';
+            const barHeight = Math.max((item.rate / MAX_RATE) * 100, 2);
 
             return (
               <motion.div
                 key={item.name}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.4, delay: 0.15 * i }}
-                className={`${isSgusd ? 'p-3 rounded-xl bg-emerald-500/[0.06] border border-emerald-500/15' : ''}`}
+                className="flex-1 flex flex-col items-center justify-end h-full"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.1 * i }}
               >
-                <div className="flex items-center justify-between mb-1.5">
-                  <div className="flex items-center gap-2">
-                    <Icon size={14} className={item.color} />
-                    <span className={`text-xs font-medium ${isSgusd ? 'text-white' : 'text-slate-400'}`}>
-                      {item.name}
-                    </span>
-                  </div>
-                  <div className="flex items-baseline gap-2">
-                    <span className={`text-sm font-bold ${item.color}`}>
-                      {item.rate.toFixed(2)}%
-                    </span>
-                    {balance > 0 && (
-                      <span className="text-[10px] text-slate-500">
-                        {item.annual < 1
-                          ? `$${item.annual.toFixed(2)}/yr`
-                          : `$${item.annual.toLocaleString(undefined, { maximumFractionDigits: 0 })}/yr`}
-                      </span>
-                    )}
-                  </div>
-                </div>
+                <span className={`text-xs sm:text-sm font-bold ${item.color} mb-1.5`}>
+                  {item.rate.toFixed(2)}%
+                </span>
 
-                {/* Bar */}
-                <div className="h-2 rounded-full bg-white/[0.04] overflow-hidden">
+                <div className="w-full flex justify-center">
                   <motion.div
-                    initial={{ width: 0 }}
-                    animate={{ width: `${item.barWidth}%` }}
-                    transition={{ duration: 0.8, delay: 0.2 + 0.15 * i, ease: 'easeOut' }}
-                    className={`h-full rounded-full ${item.barColor} ${isSgusd ? 'shadow-[0_0_12px_rgba(16,185,129,0.3)]' : ''}`}
-                  />
+                    className={`relative w-10 sm:w-14 rounded-t-xl bg-gradient-to-t ${item.barGradient} ${
+                      isSgusd ? 'shadow-[0_0_20px_rgba(16,185,129,0.25)]' : ''
+                    }`}
+                    initial={{ height: 0 }}
+                    animate={{ height: `${barHeight}%` }}
+                    transition={{
+                      duration: 1,
+                      delay: 0.2 + 0.12 * i,
+                      ease: [0.34, 1.56, 0.64, 1],
+                    }}
+                    style={{ minHeight: '8px' }}
+                  >
+                    {isSgusd && (
+                      <div className="absolute inset-0 rounded-t-xl bg-emerald-400/20 blur-sm" />
+                    )}
+                  </motion.div>
                 </div>
               </motion.div>
+            );
+          })}
+        </div>
+
+        {/* Labels below bars */}
+        <div className="flex items-start justify-between gap-3 sm:gap-4">
+          {YIELD_BARS.map((item) => {
+            const Icon = item.icon;
+            const isSgusd = item.name === 'SGUSD';
+            return (
+              <div key={item.name} className="flex-1 flex flex-col items-center text-center">
+                <div
+                  className={`w-8 h-8 sm:w-9 sm:h-9 rounded-lg flex items-center justify-center mb-1.5 ${
+                    isSgusd
+                      ? 'bg-emerald-500/15 border border-emerald-500/25'
+                      : 'bg-white/[0.04] border border-white/[0.06]'
+                  }`}
+                >
+                  <Icon size={14} className={item.color} />
+                </div>
+                <p
+                  className={`text-[10px] sm:text-xs font-medium leading-tight ${
+                    isSgusd ? 'text-white' : 'text-slate-400'
+                  }`}
+                >
+                  {item.name}
+                </p>
+                <p className="text-[9px] text-slate-600 leading-tight mt-0.5 hidden sm:block">
+                  {item.sub}
+                </p>
+                <p
+                  className={`text-[10px] font-semibold mt-1 ${
+                    isSgusd ? 'text-emerald-400' : 'text-slate-500'
+                  }`}
+                >
+                  {item.per10k}
+                  <span className="text-slate-600 font-normal">/yr</span>
+                </p>
+              </div>
             );
           })}
         </div>
@@ -117,30 +166,29 @@ export default function YieldComparison({ balance = 0 }: YieldComparisonProps) {
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8, duration: 0.5 }}
-            className="mt-5 p-3 rounded-xl bg-red-500/[0.06] border border-red-500/15"
+            transition={{ delay: 1.2, duration: 0.5 }}
+            className="mt-6 p-3 rounded-xl bg-red-500/[0.06] border border-red-500/15"
           >
             <div className="flex items-start gap-2.5">
               <AlertTriangle size={14} className="text-red-400 mt-0.5 flex-shrink-0" />
               <div>
                 <p className="text-xs text-red-300 font-medium">
-                  Your idle capital is costing you{' '}
+                  You&apos;re leaving{' '}
                   <span className="text-red-400 font-bold">
                     ${annualLoss.toLocaleString(undefined, { maximumFractionDigits: 0 })}
                   </span>
-                  /year at a traditional bank.
+                  /year on the table in a checking account.
                 </p>
                 <p className="text-[10px] text-slate-500 mt-1">
-                  Based on Chase savings rate (0.01% APY) vs SGUSD (5.00% APY) on your current balance.
+                  Big bank checking (0.01% APY) vs SGUSD (5.00% APY) on your current balance.
                 </p>
               </div>
             </div>
           </motion.div>
         )}
 
-        {/* Source footnote */}
         <p className="text-[9px] text-slate-600 mt-4">
-          Rates as of March 2026 · Sources: Bankrate, NerdWallet
+          Rates as of March 2026 &middot; Sources: Bankrate, NerdWallet
         </p>
       </div>
     </motion.div>
