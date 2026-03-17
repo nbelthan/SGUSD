@@ -2,8 +2,8 @@
 
 ## Current Status
 **Last Updated:** 2026-03-16
-**Tasks Completed:** 27 / 36
-**Current Task:** DEMO-002 (completed)
+**Tasks Completed:** 28 / 36
+**Current Task:** DEMO-003 (completed)
 
 ---
 
@@ -645,3 +645,28 @@
 - None. SC-003b (Deploy Sagecoin) still blocked — .env.local does not exist.
 
 **Next session:** DEMO-003 (Supplier payout flow) or GAS-001 (Paymaster integration) — both have all dependencies met. DEMO-004 depends on DEMO-002 (now done) + DEMO-003.
+
+### Session 28 — 2026-03-16
+**Task:** DEMO-003 — Supplier payout flow (transfer)
+**What was done:**
+- Created components/demo/PayoutStep.tsx — the second demo step component:
+  - Step header with "Step 2 — Supplier Payout" title, Send icon in indigo container
+  - Narrative text: "Pay Global Logistics $5,000 for international services" with comparison callout
+  - Integrates ConnectedPayoutToggle wired to Global Logistics receiver address with $5,000 default amount
+  - On successful transfer, shows NetworkVisualization with animated payment path (idle → sending → confirmed)
+  - NetworkVisualization appears with AnimatePresence slide-up animation after transfer settles
+  - `onPayoutComplete` callback prop for parent coordination (passes txHash)
+  - Uses completedRef to prevent duplicate callback invocations
+  - Sender's ticking balance auto-refreshes via existing 10-second polling in useBalanceOf
+  - Glassmorphism card styling matching existing design system
+  - Framer Motion entrance animation (fade + slide up)
+
+**Commands run:**
+- `npx tsc --noEmit` — no type errors
+- `npm run build` — passes cleanly
+- `npm run lint` — no warnings or errors
+
+**Issues:**
+- None. SC-003b (Deploy Sagecoin) still blocked — .env.local does not exist.
+
+**Next session:** DEMO-004 (Demo page orchestration) — depends on DEMO-002 (done) + DEMO-003 (now done). Or GAS-001 (Paymaster integration) — all dependencies met.

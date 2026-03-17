@@ -4,7 +4,7 @@
     "version": "v1.0",
     "description": "Functional MVP demo of a programmable, interest-bearing stablecoin (SGUSD/Sagecoin) for SMB payouts with yield on Base Sepolia testnet. Demonstrates zero-fee remittance, real-time yield accrual, and frictionless onboarding.",
     "total_features": 36,
-    "completed_features": 27,
+    "completed_features": 28,
     "last_updated": "2026-03-16",
     "IMPORTANT": "DO NOT remove or edit existing features. Only update the 'done' field to true when a feature is fully implemented AND verified. DO NOT mark features as done without testing."
   },
@@ -266,7 +266,7 @@
       "category": "Demo Flow",
       "name": "Supplier payout flow (transfer)",
       "description": "Create components/demo/PayoutStep.tsx — the second demo step. Shows 'Pay Global Logistics $5,000' narrative. Integrates the PayoutToggle in Sage mode. On transfer, shows the NetworkVisualization animation. After transfer settles, both the sender's reduced balance and the network visualization confirm the payment.",
-      "done": false,
+      "done": true,
       "priority": 3,
       "depends_on": ["DEMO-001", "UI-006", "UI-007"]
     },
