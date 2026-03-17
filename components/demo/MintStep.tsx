@@ -6,6 +6,7 @@ import { Banknote, ArrowDown, Loader2, ExternalLink, CheckCircle2 } from 'lucide
 import { useAuth } from '@/lib/hooks/useAuth';
 import { useMint } from '@/lib/hooks/useMint';
 import { useTransactionToast } from '@/components/ui/TransactionToast';
+import { useConfetti } from '@/components/ui/Confetti';
 import { getTxUrl } from '@/lib/basescan';
 import { DEFAULT_MINT_AMOUNT } from '@/lib/demo/accounts';
 
@@ -17,6 +18,7 @@ export default function MintStep({ onMintComplete }: MintStepProps) {
   const { walletAddress } = useAuth();
   const { mint, txHash, isLoading, isConfirmed, isError, error, reset } = useMint();
   const { showToast, ToastContainer } = useTransactionToast();
+  const { fireConfetti } = useConfetti();
   const toastedRef = useRef<Set<string>>(new Set());
 
   const handleMint = () => {
@@ -32,6 +34,7 @@ export default function MintStep({ onMintComplete }: MintStepProps) {
         amount: Number(DEFAULT_MINT_AMOUNT).toLocaleString(),
         txHash,
       });
+      fireConfetti();
       onMintComplete?.(txHash as `0x${string}`);
     }
   }, [isConfirmed, txHash, showToast, onMintComplete]);

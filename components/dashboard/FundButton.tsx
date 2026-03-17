@@ -6,6 +6,7 @@ import { Coins, Loader2, CheckCircle2, ExternalLink } from 'lucide-react';
 import { useMint } from '@/lib/hooks/useMint';
 import { useTreasuryAddress } from '@/lib/hooks/useTreasuryAddress';
 import { useTransactionToast } from '@/components/ui/TransactionToast';
+import { useConfetti } from '@/components/ui/Confetti';
 import { getTxUrl } from '@/lib/basescan';
 
 const PRESET_AMOUNTS = ['1000', '5000', '10000', '50000'];
@@ -16,6 +17,7 @@ export default function FundButton() {
   const treasuryAddress = useTreasuryAddress();
   const { mint, txHash, isLoading, isConfirmed, isError, error, reset } = useMint();
   const { showToast, ToastContainer } = useTransactionToast();
+  const { fireConfetti } = useConfetti();
   const toastedRef = useRef<Set<string>>(new Set());
 
   const handleMint = () => {
@@ -31,6 +33,7 @@ export default function FundButton() {
         amount: Number(amount).toLocaleString(),
         txHash,
       });
+      fireConfetti();
       // Reset after a short delay so user can mint again
       setTimeout(() => {
         reset();
