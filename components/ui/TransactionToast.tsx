@@ -68,7 +68,7 @@ export function TransactionToast({
           exit={{ x: 400, opacity: 0 }}
           transition={{ type: "spring", damping: 25, stiffness: 300 }}
           onAnimationComplete={handleAnimationComplete}
-          className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 w-[calc(100%-2rem)] sm:w-full max-w-sm"
+          className="w-full max-w-sm"
         >
           <div className="glass-card p-4 relative overflow-hidden">
             {/* Glow */}
@@ -161,7 +161,7 @@ export function useTransactionToast() {
   };
 
   const ToastContainer = () => (
-    <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 flex flex-col gap-3 pointer-events-none w-[calc(100%-2rem)] sm:w-auto">
+    <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 flex flex-col gap-3 pointer-events-none w-[calc(100%-2rem)] sm:w-96">
       {toasts.map((toast, index) => (
         <div
           key={toast.id}
