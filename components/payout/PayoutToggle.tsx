@@ -54,15 +54,20 @@ export default function PayoutToggle({
 
       {/* Header */}
       <div className="relative z-10 mb-8">
-        <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-white mb-2">
-          Contractor Payout
-        </h2>
+        <div className="flex items-center gap-2 mb-2">
+          <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-white">
+            International Contractor Payout
+          </h2>
+          <span className="px-2 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-[10px] font-medium text-amber-400 uppercase tracking-wider">
+            Cross-Border
+          </span>
+        </div>
         <div className="flex items-center gap-3 text-sm text-slate-400">
           <Building2 size={16} />
-          <span>Acme Inc.</span>
+          <span>Acme Inc. (US)</span>
           <ArrowRight size={14} />
           <Globe size={16} />
-          <span className="text-white font-medium">Rivera Design Co.</span>
+          <span className="text-white font-medium">Rivera Design Co. (MX)</span>
         </div>
       </div>
 

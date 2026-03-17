@@ -13,6 +13,18 @@ export const ACME_ACCOUNT: DemoAccount = {
 };
 
 /**
+ * Demo account: Sarah Chen — a Sage consumer who files taxes on Sage.
+ * Represents the 1-in-10 US consumers who use Sage annually.
+ * She pays Acme Inc.'s invoice using her Sage wallet.
+ */
+export const CONSUMER_ACCOUNT: DemoAccount = {
+  name: 'Sarah Chen',
+  role: 'Sage Consumer (Tax Filer)',
+  address: '0x0000000000000000000000000000000000000000',
+  balance: 0,
+};
+
+/**
  * Demo account: Rivera Design Co. — cross-border freelance contractor.
  * Represents the 10% of Sage payouts that are FX / cross-border.
  * Also a Sage consumer (files US taxes on Sage) — connecting both ecosystems.
@@ -30,8 +42,16 @@ export const DEFAULT_MINT_AMOUNT = '10000';
 /** Default payout amount for the contractor payout step (in USD/SGUSD). */
 export const DEFAULT_PAYOUT_AMOUNT = '5000';
 
-/** Traditional banking baseline for fee savings calculation. */
+/** Traditional banking baseline for international payout fee savings. */
 export const TRADITIONAL_FEES = {
   wireFee: 45,
   fxMarkupPercent: 3,
+} as const;
+
+/** Traditional domestic payment fees — what the SMB loses receiving card payments. */
+export const DOMESTIC_FEES = {
+  cardProcessingPercent: 2.9,
+  cardFixedFee: 0.30,
+  achDays: '2-3 business days',
+  cardSettlementDays: '2-3 business days',
 } as const;

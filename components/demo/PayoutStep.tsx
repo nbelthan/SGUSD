@@ -109,7 +109,7 @@ export default function PayoutStep({ onPayoutComplete }: PayoutStepProps) {
                 Step 2
               </p>
               <h3 className="text-lg font-semibold text-white">
-                Contractor Payout
+                International Contractor Payout
               </h3>
             </div>
           </div>
