@@ -77,8 +77,11 @@ export default function TreasuryDashboard() {
           </p>
 
           {isLoading ? (
-            <div className="h-16 flex items-center">
-              <div className="h-10 w-64 bg-white/5 rounded-lg animate-pulse" />
+            <div className="h-16 flex items-baseline gap-1">
+              <div className="h-8 w-6 bg-white/5 rounded animate-pulse" />
+              <div className="h-12 w-48 bg-white/5 rounded-lg animate-pulse" />
+              <div className="h-6 w-32 bg-white/5 rounded animate-pulse ml-1" />
+              <div className="h-5 w-14 bg-indigo-500/10 rounded-full animate-pulse ml-3" />
             </div>
           ) : isError ? (
             <div className="h-16 flex items-center">
@@ -110,7 +113,13 @@ export default function TreasuryDashboard() {
         </div>
 
         {/* Yield indicator */}
-        {hasBalance && (
+        {isLoading ? (
+          <div className="flex items-center gap-2 h-5">
+            <div className="w-3.5 h-3.5 bg-emerald-500/10 rounded animate-pulse" />
+            <div className="h-4 w-24 bg-white/5 rounded animate-pulse" />
+            <div className="h-4 w-40 bg-white/5 rounded animate-pulse" />
+          </div>
+        ) : hasBalance ? (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -121,10 +130,20 @@ export default function TreasuryDashboard() {
             <span className="text-emerald-400 font-medium">5.00% APY</span>
             <span className="text-slate-500">· Earning yield in real-time</span>
           </motion.div>
-        )}
+        ) : null}
 
         {/* Fees saved counter */}
-        {hasBalance && (
+        {isLoading ? (
+          <div className="mt-6 p-4 rounded-2xl bg-emerald-500/5 border border-emerald-500/10">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-lg bg-emerald-500/10 animate-pulse" />
+              <div className="flex-1 space-y-2">
+                <div className="h-3 w-48 bg-white/5 rounded animate-pulse" />
+                <div className="h-5 w-20 bg-emerald-500/10 rounded animate-pulse" />
+              </div>
+            </div>
+          </div>
+        ) : hasBalance ? (
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -152,7 +171,7 @@ export default function TreasuryDashboard() {
               </div>
             </div>
           </motion.div>
-        )}
+        ) : null}
       </div>
     </motion.div>
   );

@@ -743,3 +743,28 @@
 - None. The implementation gracefully degrades when smart wallets are not configured in the Privy dashboard.
 
 **Next session:** POLISH-001 (Loading states and skeleton screens) — all dependencies met (UI-003, UI-006, UI-007 all done).
+
+### Session 31 — 2026-03-16
+**Task:** POLISH-001 — Loading states and skeleton screens
+**What was done:**
+- Enhanced TreasuryDashboard skeleton screen to be full-fidelity:
+  - Balance row skeleton: dollar sign placeholder, large balance block, decimal block, SGUSD badge placeholder — matches exact layout of loaded balance to prevent layout shift
+  - Yield indicator skeleton: small icon placeholder + two text blocks matching "5.00% APY · Earning yield in real-time" layout
+  - Fees saved counter skeleton: full card skeleton with piggy bank icon placeholder, label, and amount — matches the emerald-tinted fees saved card
+  - Changed conditional rendering for yield indicator and fees saved from `{hasBalance && ...}` to ternary `isLoading ? skeleton : hasBalance ? content : null` so skeletons appear during loading
+- Added pulsing placeholder dot to NetworkVisualization idle state:
+  - Small animate-pulse dot centered on the connection line between sender and receiver nodes
+  - Appears only in idle phase (before any transfer), disappears when sending/confirmed phases begin
+- Transaction buttons already had spinners (PayoutToggle line 193, MintStep Loader2 spinner) — no changes needed
+- All skeletons use Tailwind's animate-pulse class for consistent pulsing effect
+- No layout shift: skeleton dimensions match loaded content dimensions
+
+**Commands run:**
+- `npx tsc --noEmit` — no type errors
+- `npm run build` — passes cleanly
+- `npm run lint` — no warnings or errors
+
+**Issues:**
+- None.
+
+**Next session:** POLISH-002 (Error handling and fallback UI) — depends on POLISH-001 (now done).

@@ -90,6 +90,13 @@ export default function NetworkVisualization({
           {/* Static line */}
           <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[2px] bg-white/10 rounded-full" />
 
+          {/* Idle pulsing placeholder */}
+          {phase === 'idle' && (
+            <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 flex justify-center">
+              <div className="w-2 h-2 rounded-full bg-white/20 animate-pulse" />
+            </div>
+          )}
+
           {/* Animated payment pulse */}
           <AnimatePresence>
             {phase === 'sending' && (

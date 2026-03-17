@@ -4,7 +4,7 @@
     "version": "v1.0",
     "description": "Functional MVP demo of a programmable, interest-bearing stablecoin (SGUSD/Sagecoin) for SMB payouts with yield on Base Sepolia testnet. Demonstrates zero-fee remittance, real-time yield accrual, and frictionless onboarding.",
     "total_features": 36,
-    "completed_features": 30,
+    "completed_features": 31,
     "last_updated": "2026-03-16",
     "IMPORTANT": "DO NOT remove or edit existing features. Only update the 'done' field to true when a feature is fully implemented AND verified. DO NOT mark features as done without testing."
   },
@@ -293,7 +293,7 @@
       "category": "Polish",
       "name": "Loading states and skeleton screens",
       "description": "Add loading states throughout the app: skeleton screens for the dashboard while balance loads, spinner on transaction buttons during confirmation, pulsing placeholder for the network visualization before first transfer. Use Tailwind's animate-pulse for skeletons. Ensure no layout shift when data loads.",
-      "done": false,
+      "done": true,
       "priority": 4,
       "depends_on": ["UI-003", "UI-006", "UI-007"]
     },
