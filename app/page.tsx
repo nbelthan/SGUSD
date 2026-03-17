@@ -5,6 +5,8 @@ import LoginScreen from '@/components/auth/LoginScreen';
 import Header from '@/components/layout/Header';
 import TreasuryDashboard from '@/components/dashboard/TreasuryDashboard';
 import ConnectedPayoutToggle from '@/components/payout/ConnectedPayoutToggle';
+import ErrorBoundary from '@/components/ErrorBoundary';
+import NetworkGuard from '@/components/NetworkGuard';
 
 export default function Home() {
   const { ready, isAuthenticated } = useAuth();
@@ -28,10 +30,16 @@ export default function Home() {
     <div className="min-h-screen flex flex-col">
       <Header />
       <main className="flex-1 w-full max-w-6xl mx-auto px-6 py-8 space-y-8">
-        <TreasuryDashboard />
-        <div className="flex justify-center">
-          <ConnectedPayoutToggle />
-        </div>
+        <NetworkGuard>
+          <ErrorBoundary>
+            <TreasuryDashboard />
+          </ErrorBoundary>
+          <div className="flex justify-center">
+            <ErrorBoundary>
+              <ConnectedPayoutToggle />
+            </ErrorBoundary>
+          </div>
+        </NetworkGuard>
       </main>
     </div>
   );

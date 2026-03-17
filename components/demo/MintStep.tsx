@@ -134,15 +134,17 @@ export default function MintStep({ onMintComplete }: MintStepProps) {
                 </button>
 
                 {isError && (
-                  <div className="text-center">
-                    <p className="text-xs text-red-400 mb-1">
-                      {error?.message?.includes('User rejected')
-                        ? 'Transaction was rejected'
-                        : 'Transaction failed'}
+                  <div className="text-center p-3 rounded-xl bg-red-500/5 border border-red-500/10">
+                    <p className="text-xs text-red-400 mb-2">
+                      {error?.message?.includes('User rejected') || error?.message?.includes('denied')
+                        ? 'Transaction was rejected by user'
+                        : error?.message?.includes('insufficient')
+                        ? 'Insufficient funds for this transaction'
+                        : 'Transaction failed — please try again'}
                     </p>
                     <button
                       onClick={reset}
-                      className="text-xs text-indigo-400 hover:text-indigo-300 transition-colors"
+                      className="text-xs text-indigo-400 hover:text-indigo-300 transition-colors font-medium"
                     >
                       Try again
                     </button>

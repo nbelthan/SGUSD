@@ -768,3 +768,28 @@
 - None.
 
 **Next session:** POLISH-002 (Error handling and fallback UI) — depends on POLISH-001 (now done).
+
+### Session 32 — 2026-03-16
+**Task:** POLISH-002 — Error handling and fallback UI
+**What was done:**
+- Created components/ErrorBoundary.tsx — React class component error boundary with glassmorphism fallback UI, AlertTriangle icon, "Try Again" button that resets error state, accepts optional custom fallback prop
+- Created app/error.tsx — Next.js App Router error boundary for the root route, logs error to console, shows retry button
+- Created app/demo/error.tsx — Next.js App Router error boundary for the demo route, shows retry button + "Dashboard" link to return home
+- Created components/NetworkGuard.tsx — detects wrong network via wagmi's useAccount/useSwitchChain, shows "Switch to Base Sepolia" button when connected to wrong chain, passes through when on correct chain or not connected
+- Added error toast variant to components/ui/TransactionToast.tsx — new `variant` prop ("success" | "error"), error variant shows AlertCircle icon, red glow, and user-friendly error message instead of tx details
+- Updated components/dashboard/TreasuryDashboard.tsx — added retry button (RotateCcw icon) next to "Unable to load balance" error state, wired to refetch() from useTickingBalance
+- Updated components/demo/MintStep.tsx — improved error messages: detects "User rejected"/"denied" (user rejection), "insufficient" (insufficient funds), generic fallback; styled error container with bg-red-500/5 border
+- Updated components/payout/ConnectedPayoutToggle.tsx — same user-friendly error message pattern with retry button, styled error container
+- Wrapped main page content (app/page.tsx) with NetworkGuard and ErrorBoundary around TreasuryDashboard and ConnectedPayoutToggle
+- Wrapped demo page content (app/demo/page.tsx) with NetworkGuard and ErrorBoundary around DemoContent
+- No raw error messages or stack traces are ever shown to users
+
+**Commands run:**
+- `npx tsc --noEmit` — no type errors
+- `npm run build` — passes cleanly
+- `npm run lint` — no warnings or errors
+
+**Issues:**
+- None.
+
+**Next session:** POLISH-003 (Responsive layout and mobile optimization) — depends on POLISH-001 (done).

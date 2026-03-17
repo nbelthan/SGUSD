@@ -4,7 +4,7 @@
     "version": "v1.0",
     "description": "Functional MVP demo of a programmable, interest-bearing stablecoin (SGUSD/Sagecoin) for SMB payouts with yield on Base Sepolia testnet. Demonstrates zero-fee remittance, real-time yield accrual, and frictionless onboarding.",
     "total_features": 36,
-    "completed_features": 31,
+    "completed_features": 32,
     "last_updated": "2026-03-16",
     "IMPORTANT": "DO NOT remove or edit existing features. Only update the 'done' field to true when a feature is fully implemented AND verified. DO NOT mark features as done without testing."
   },
@@ -302,7 +302,7 @@
       "category": "Polish",
       "name": "Error handling and fallback UI",
       "description": "Add error boundaries and user-friendly error states: contract call failures (show retry button), network disconnection (show reconnect prompt), wrong network (show 'Switch to Base Sepolia' button), wallet not connected (redirect to login). Use toast notifications for transient errors. Never show raw error messages or stack traces.",
-      "done": false,
+      "done": true,
       "priority": 4,
       "depends_on": ["POLISH-001"]
     },

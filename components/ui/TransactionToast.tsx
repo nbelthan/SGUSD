@@ -2,16 +2,19 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { CheckCircle2, ExternalLink, X } from "lucide-react";
+import { CheckCircle2, ExternalLink, X, AlertCircle } from "lucide-react";
 import { getTxUrl } from "@/lib/basescan";
 
 export type TransactionType = "mint" | "transfer" | "burn";
+export type ToastVariant = "success" | "error";
 
 interface TransactionToastProps {
   type: TransactionType;
   amount: string;
   recipient?: string;
   txHash: string;
+  variant?: ToastVariant;
+  message?: string;
   onDismiss: () => void;
 }
 
@@ -36,8 +39,11 @@ export function TransactionToast({
   amount,
   recipient,
   txHash,
+  variant = "success",
+  message,
   onDismiss,
 }: TransactionToastProps) {
+  const isError = variant === "error";
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
@@ -65,38 +71,55 @@ export function TransactionToast({
           className="fixed bottom-6 right-6 z-50 w-full max-w-sm"
         >
           <div className="glass-card p-4 relative overflow-hidden">
-            {/* Success glow */}
-            <div className="absolute -top-10 -right-10 w-32 h-32 bg-emerald-500/15 rounded-full blur-2xl pointer-events-none" />
+            {/* Glow */}
+            <div className={`absolute -top-10 -right-10 w-32 h-32 ${isError ? 'bg-red-500/15' : 'bg-emerald-500/15'} rounded-full blur-2xl pointer-events-none`} />
 
             <div className="flex items-start gap-3">
               <div className="flex-shrink-0 mt-0.5">
-                <CheckCircle2 size={20} className="text-emerald-400" />
+                {isError ? (
+                  <AlertCircle size={20} className="text-red-400" />
+                ) : (
+                  <CheckCircle2 size={20} className="text-emerald-400" />
+                )}
               </div>
 
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-white">
-                  {typeLabels[type]} {amount} SGUSD
-                </p>
+                {isError ? (
+                  <>
+                    <p className="text-sm font-medium text-white">
+                      {message || "Transaction failed"}
+                    </p>
+                    <p className="text-xs text-red-400 mt-1">
+                      Please try again
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <p className="text-sm font-medium text-white">
+                      {typeLabels[type]} {amount} SGUSD
+                    </p>
 
-                {recipient && (
-                  <p className="text-xs text-slate-400 mt-0.5">
-                    To: {truncateAddress(recipient)}
-                  </p>
+                    {recipient && (
+                      <p className="text-xs text-slate-400 mt-0.5">
+                        To: {truncateAddress(recipient)}
+                      </p>
+                    )}
+
+                    <p className="text-xs text-emerald-400 mt-1">
+                      Settled in &lt;2 seconds
+                    </p>
+
+                    <a
+                      href={getTxUrl(txHash)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-xs text-indigo-400 hover:text-indigo-300 mt-2 transition-colors"
+                    >
+                      <span>{truncateHash(txHash)}</span>
+                      <ExternalLink size={10} />
+                    </a>
+                  </>
                 )}
-
-                <p className="text-xs text-emerald-400 mt-1">
-                  Settled in &lt;2 seconds
-                </p>
-
-                <a
-                  href={getTxUrl(txHash)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-xs text-indigo-400 hover:text-indigo-300 mt-2 transition-colors"
-                >
-                  <span>{truncateHash(txHash)}</span>
-                  <ExternalLink size={10} />
-                </a>
               </div>
 
               <button
@@ -119,6 +142,8 @@ interface ToastItem {
   amount: string;
   recipient?: string;
   txHash: string;
+  variant?: ToastVariant;
+  message?: string;
 }
 
 export function useTransactionToast() {
@@ -148,6 +173,8 @@ export function useTransactionToast() {
             amount={toast.amount}
             recipient={toast.recipient}
             txHash={toast.txHash}
+            variant={toast.variant}
+            message={toast.message}
             onDismiss={() => dismissToast(toast.id)}
           />
         </div>

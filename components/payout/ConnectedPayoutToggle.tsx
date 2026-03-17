@@ -72,9 +72,21 @@ export default function ConnectedPayoutToggle({
         defaultAmount={defaultAmount}
       />
       {isError && error && (
-        <p className="text-xs text-red-400 text-center mt-2">
-          Transaction failed. Please try again.
-        </p>
+        <div className="text-center mt-3 p-3 rounded-xl bg-red-500/5 border border-red-500/10">
+          <p className="text-xs text-red-400 mb-2">
+            {error.message?.includes('User rejected') || error.message?.includes('denied')
+              ? 'Transaction was rejected by user'
+              : error.message?.includes('insufficient')
+              ? 'Insufficient balance for this transfer'
+              : 'Transfer failed — please try again'}
+          </p>
+          <button
+            onClick={reset}
+            className="text-xs text-indigo-400 hover:text-indigo-300 transition-colors font-medium"
+          >
+            Try again
+          </button>
+        </div>
       )}
       <ToastContainer />
     </>

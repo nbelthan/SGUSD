@@ -2,7 +2,7 @@
 
 import { useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { Wallet, TrendingUp, PiggyBank } from 'lucide-react';
+import { Wallet, TrendingUp, PiggyBank, RotateCcw } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/lib/hooks/useAuth';
 import { useTickingBalance } from '@/lib/hooks/useTickingBalance';
@@ -14,7 +14,7 @@ const FX_MARKUP = 0.03; // 3% foreign exchange markup
 
 export default function TreasuryDashboard() {
   const { walletAddress } = useAuth();
-  const { displayBalance, numericBalance, isLoading, isError } = useTickingBalance(walletAddress);
+  const { displayBalance, numericBalance, isLoading, isError, refetch } = useTickingBalance(walletAddress);
 
   const hasBalance = displayBalance !== undefined && parseFloat(displayBalance) > 0;
 
@@ -84,8 +84,15 @@ export default function TreasuryDashboard() {
               <div className="h-5 w-14 bg-indigo-500/10 rounded-full animate-pulse ml-3" />
             </div>
           ) : isError ? (
-            <div className="h-16 flex items-center">
+            <div className="h-16 flex items-center gap-3">
               <p className="text-sm text-red-400">Unable to load balance</p>
+              <button
+                onClick={() => refetch()}
+                className="inline-flex items-center gap-1.5 text-xs text-indigo-400 hover:text-indigo-300 transition-colors"
+              >
+                <RotateCcw size={12} />
+                Retry
+              </button>
             </div>
           ) : (
             <div className="flex items-baseline gap-1">

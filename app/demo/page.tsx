@@ -9,6 +9,8 @@ import Header from '@/components/layout/Header';
 import TreasuryDashboard from '@/components/dashboard/TreasuryDashboard';
 import MintStep from '@/components/demo/MintStep';
 import PayoutStep from '@/components/demo/PayoutStep';
+import ErrorBoundary from '@/components/ErrorBoundary';
+import NetworkGuard from '@/components/NetworkGuard';
 import { DemoProvider, useDemoState, type DemoStep } from '@/lib/demo/useDemoState';
 
 const STEPS: { key: DemoStep; label: string; icon: typeof CircleDot }[] = [
@@ -212,7 +214,11 @@ export default function DemoPage() {
       <div className="min-h-screen flex flex-col">
         <Header />
         <main className="flex-1 w-full max-w-4xl mx-auto px-6 py-8">
-          <DemoContent />
+          <NetworkGuard>
+            <ErrorBoundary>
+              <DemoContent />
+            </ErrorBoundary>
+          </NetworkGuard>
         </main>
       </div>
     </DemoProvider>
