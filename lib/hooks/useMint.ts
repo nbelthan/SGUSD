@@ -1,25 +1,21 @@
 'use client';
 
-import { useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
 import { parseUnits } from 'viem';
+import { useSponsoredWrite } from '@/lib/hooks/useSponsoredWrite';
 import { SAGECOIN_ABI, SAGECOIN_ADDRESS } from '@/lib/contracts';
 
 export function useMint() {
   const {
     data: hash,
     writeContract,
-    isPending: isWritePending,
-    isError: isWriteError,
-    error: writeError,
+    isPending,
+    isConfirming,
+    isConfirmed,
+    isError,
+    error,
     reset,
-  } = useWriteContract();
-
-  const {
-    isLoading: isConfirming,
-    isSuccess: isConfirmed,
-    isError: isReceiptError,
-    error: receiptError,
-  } = useWaitForTransactionReceipt({ hash });
+    isGasSponsored,
+  } = useSponsoredWrite();
 
   const mint = (to: `0x${string}`, amount: string) => {
     const parsedAmount = parseUnits(amount, 18);
@@ -34,11 +30,12 @@ export function useMint() {
   return {
     mint,
     txHash: hash,
-    isLoading: isWritePending || isConfirming,
+    isLoading: isPending || isConfirming,
     isConfirming,
     isConfirmed,
-    isError: isWriteError || isReceiptError,
-    error: writeError || receiptError,
+    isError,
+    error,
     reset,
+    isGasSponsored,
   };
 }

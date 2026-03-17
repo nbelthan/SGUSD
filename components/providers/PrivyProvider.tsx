@@ -1,6 +1,7 @@
 'use client';
 
 import { PrivyProvider as PrivyProviderBase } from '@privy-io/react-auth';
+import { SmartWalletsProvider } from '@privy-io/react-auth/smart-wallets';
 import WagmiProvider from '@/components/providers/WagmiProvider';
 import { baseSepolia } from '@/lib/chains';
 
@@ -32,7 +33,9 @@ export default function PrivyProvider({ children }: { children: React.ReactNode 
         },
       }}
     >
-      <WagmiProvider>{children}</WagmiProvider>
+      <SmartWalletsProvider>
+        <WagmiProvider>{children}</WagmiProvider>
+      </SmartWalletsProvider>
     </PrivyProviderBase>
   );
 }

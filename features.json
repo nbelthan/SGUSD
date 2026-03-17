@@ -4,7 +4,7 @@
     "version": "v1.0",
     "description": "Functional MVP demo of a programmable, interest-bearing stablecoin (SGUSD/Sagecoin) for SMB payouts with yield on Base Sepolia testnet. Demonstrates zero-fee remittance, real-time yield accrual, and frictionless onboarding.",
     "total_features": 36,
-    "completed_features": 29,
+    "completed_features": 30,
     "last_updated": "2026-03-16",
     "IMPORTANT": "DO NOT remove or edit existing features. Only update the 'done' field to true when a feature is fully implemented AND verified. DO NOT mark features as done without testing."
   },
@@ -284,7 +284,7 @@
       "category": "Gas Sponsorship",
       "name": "Paymaster integration for gasless transactions",
       "description": "Integrate gas sponsorship so users never see gas fees. Options: (1) Use Privy's built-in gas sponsorship if available, (2) Configure a Paymaster via Alchemy/Pimlico for ERC-4337, (3) Use a simple relayer pattern where the deployer wallet pays gas on behalf of users. Choose the simplest option that works on Base Sepolia. The key requirement: users must NEVER be prompted to pay gas. Document the chosen approach in activity.md.",
-      "done": false,
+      "done": true,
       "priority": 3,
       "depends_on": ["AUTH-003", "CHAIN-002"]
     },

@@ -696,3 +696,50 @@
 - None. SC-003b (Deploy Sagecoin) still blocked — .env.local does not exist.
 
 **Next session:** GAS-001 (Paymaster integration for gasless transactions) — all dependencies met (AUTH-003 done, CHAIN-002 done). Or POLISH-001 (Loading states and skeleton screens) if GAS-001 is blocked.
+
+### Session 30 — 2026-03-16
+**Task:** GAS-001 — Paymaster integration for gasless transactions
+**What was done:**
+- **Chosen approach: Option 1 — Privy Smart Wallets (ERC-4337)**
+  - Privy v3 has built-in smart wallet support via `@privy-io/react-auth/smart-wallets`
+  - Smart wallets wrap the embedded EOA in an ERC-4337 smart contract account
+  - Gas is sponsored via a Paymaster configured in the Privy dashboard
+  - When smart wallet is not available (paymaster not configured), falls back to standard wagmi writes
+- Installed `permissionless` package (peer dependency for Privy smart wallets, by Pimlico)
+- Updated `components/providers/PrivyProvider.tsx`:
+  - Added `SmartWalletsProvider` from `@privy-io/react-auth/smart-wallets` to the provider chain
+  - Provider order: PrivyProvider → SmartWalletsProvider → WagmiProvider → QueryClientProvider
+- Created `lib/hooks/useSponsoredWrite.ts` — gas-sponsored contract write hook:
+  - Uses `useSmartWallets()` from Privy to get the smart wallet client
+  - When smart wallet client is available: encodes function call data and sends via `client.sendTransaction()` (ERC-4337 UserOperation, gas-sponsored)
+  - When smart wallet client is not available: falls back to wagmi's `useWriteContract()` (user pays gas)
+  - Returns same state interface as wagmi hooks (isPending, isConfirming, isConfirmed, isError, error, reset)
+  - Exposes `isGasSponsored` boolean so UI can indicate gas-free status
+- Updated `lib/hooks/useMint.ts` — switched from `useWriteContract` to `useSponsoredWrite`
+- Updated `lib/hooks/useTransfer.ts` — switched from `useWriteContract` to `useSponsoredWrite`
+- Updated `lib/hooks/useBurn.ts` — switched from `useWriteContract` to `useSponsoredWrite`
+- All three hooks now expose `isGasSponsored` for UI consumption
+
+**How gas sponsorship works:**
+1. User logs in with email → Privy creates an embedded EOA wallet
+2. `SmartWalletsProvider` wraps the EOA in an ERC-4337 smart contract wallet
+3. When user initiates a transaction (mint/transfer/burn), `useSponsoredWrite` checks for smart wallet client
+4. If available: transaction is sent as a UserOperation through Privy's bundler + paymaster → gas is paid by the paymaster
+5. If not available (paymaster not configured in Privy dashboard): falls back to standard transaction (user pays gas)
+
+**Privy Dashboard setup required for full gasless experience:**
+1. Go to https://dashboard.privy.io → select app → "Smart Wallets" section
+2. Enable smart wallets for Base Sepolia (chain ID 84532)
+3. Configure a Paymaster (Privy provides built-in paymaster or you can use Pimlico/Alchemy)
+4. Set gas sponsorship policy (e.g., sponsor all transactions, or only specific contract calls)
+
+**Commands run:**
+- `npm install permissionless --legacy-peer-deps` — installed permissionless (Privy smart wallet peer dep)
+- `npx tsc --noEmit` — no type errors
+- `npm run build` — passes cleanly (bundle size increased ~45 kB due to permissionless + smart wallet code)
+- `npm run lint` — no warnings or errors
+
+**Issues:**
+- None. The implementation gracefully degrades when smart wallets are not configured in the Privy dashboard.
+
+**Next session:** POLISH-001 (Loading states and skeleton screens) — all dependencies met (UI-003, UI-006, UI-007 all done).
