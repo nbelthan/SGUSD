@@ -5,6 +5,7 @@ import { Wallet, TrendingUp } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/lib/hooks/useAuth';
 import { useTickingBalance } from '@/lib/hooks/useTickingBalance';
+import TickingDigit from './TickingDigit';
 
 export default function TreasuryDashboard() {
   const { walletAddress } = useAuth();
@@ -74,7 +75,16 @@ export default function TreasuryDashboard() {
                 {integer}
               </span>
               <span className="text-balance-ticker text-lg md:text-xl lg:text-2xl font-medium text-slate-400">
-                .{decimal}
+                .
+              </span>
+              <span className="text-balance-ticker text-lg md:text-xl lg:text-2xl font-medium text-slate-400 inline-flex">
+                {decimal.split('').map((d, i) => (
+                  <TickingDigit
+                    key={i}
+                    digit={d}
+                    className="text-lg md:text-xl lg:text-2xl font-medium text-slate-400"
+                  />
+                ))}
               </span>
               <Badge className="ml-3 bg-indigo-500/15 text-indigo-300 border-indigo-500/30 hover:bg-indigo-500/20">
                 SGUSD

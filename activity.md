@@ -2,8 +2,8 @@
 
 ## Current Status
 **Last Updated:** 2026-03-16
-**Tasks Completed:** 22 / 36
-**Current Task:** UI-002 (completed)
+**Tasks Completed:** 23 / 36
+**Current Task:** UI-003 (completed)
 
 ---
 
@@ -515,3 +515,27 @@
 - None. SC-003b (Deploy Sagecoin) still blocked — .env.local does not exist.
 
 **Next session:** UI-003 (Treasury dashboard - live ticking animation) — depends on UI-002 (now done). Or UI-006 (Payout toggle blockchain integration) or DEMO-001 (Demo accounts and state management) — both have all dependencies met.
+
+### Session 23 — 2026-03-16
+**Task:** UI-003 — Treasury dashboard - live ticking animation
+**What was done:**
+- Created components/dashboard/TickingDigit.tsx — a Framer Motion animated digit component
+  - Each digit is wrapped in an overflow-hidden container with fixed width (0.65em for digits, 0.35em for commas)
+  - Uses AnimatePresence with `mode="popLayout"` and `initial={false}` for smooth transitions
+  - Old digit slides upward and fades out, new digit slides in from below
+  - Spring physics: stiffness 300, damping 30, mass 0.8 for snappy but natural motion
+- Updated components/dashboard/TreasuryDashboard.tsx to use TickingDigit for decimal portion
+  - Split the decimal display from a single span into individual TickingDigit components per character
+  - Each of the 8 decimal digits animates independently when its value changes
+  - Integer part remains static (changes infrequently), decimal dot is static
+  - The result: smooth "fluttering" effect as least-significant digits tick upward every 50ms
+
+**Commands run:**
+- `npx tsc --noEmit` — no type errors
+- `npm run build` — passes cleanly
+- `npm run lint` — no warnings or errors
+
+**Issues:**
+- None. SC-003b (Deploy Sagecoin) still blocked — .env.local does not exist.
+
+**Next session:** UI-004 (Fees saved counter) or UI-006 (Payout toggle blockchain integration) or DEMO-001 (Demo accounts and state management) — all have dependencies met.
