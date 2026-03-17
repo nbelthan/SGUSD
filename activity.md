@@ -2,8 +2,8 @@
 
 ## Current Status
 **Last Updated:** 2026-03-16
-**Tasks Completed:** 23 / 36
-**Current Task:** UI-003 (completed)
+**Tasks Completed:** 25 / 36
+**Current Task:** DEMO-001 (completed)
 
 ---
 
@@ -563,3 +563,28 @@
 - None. SC-003b (Deploy Sagecoin) still blocked — .env.local does not exist.
 
 **Next session:** UI-006 (Payout toggle blockchain integration) or DEMO-001 (Demo accounts and state management) or GAS-001 (Paymaster integration) — all have dependencies met.
+
+### Session 25 — 2026-03-16
+**Task:** DEMO-001 — Demo accounts and state management
+**What was done:**
+- Created lib/demo/accounts.ts — defines two demo accounts:
+  - Acme Inc. (US SMB, payer) with placeholder address (replaced by connected wallet at runtime)
+  - Global Logistics (International Contractor, receiver) with fixed demo address
+  - Exported constants: DEFAULT_MINT_AMOUNT (10000), DEFAULT_PAYOUT_AMOUNT (5000), TRADITIONAL_FEES (wireFee: $45, fxMarkupPercent: 3%)
+- Created lib/demo/useDemoState.ts — React context/hook for demo state management:
+  - DemoStep type: 'mint' | 'watch-yield' | 'payout' | 'confirmation'
+  - useReducer-based state with actions: SET_STEP, ADD_TRANSACTION, UPDATE_TRANSACTION, SET_ACME_ADDRESS, SET_RECEIVER_ADDRESS, RESET
+  - DemoProvider component wrapping children with DemoContext.Provider (uses createElement since .ts file)
+  - useDemoState() hook exposing: currentStep, transactions, acmeAccount, receiverAccount, setStep, addTransaction, updateTransaction, setAcmeAddress, setReceiverAddress, resetDemo
+  - Tracks real on-chain transaction history with Transaction type from types/index.ts
+  - Reset preserves wallet addresses while clearing step and transaction history
+
+**Commands run:**
+- `npx tsc --noEmit` — no type errors
+- `npm run build` — passes cleanly
+- `npm run lint` — no warnings or errors
+
+**Issues:**
+- None. SC-003b (Deploy Sagecoin) still blocked — .env.local does not exist.
+
+**Next session:** UI-006 (Payout toggle blockchain integration) or GAS-001 (Paymaster integration) — both have all dependencies met. DEMO-002 (Consumer payment simulation) now also unblocked.

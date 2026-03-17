@@ -4,7 +4,7 @@
     "version": "v1.0",
     "description": "Functional MVP demo of a programmable, interest-bearing stablecoin (SGUSD/Sagecoin) for SMB payouts with yield on Base Sepolia testnet. Demonstrates zero-fee remittance, real-time yield accrual, and frictionless onboarding.",
     "total_features": 36,
-    "completed_features": 24,
+    "completed_features": 25,
     "last_updated": "2026-03-16",
     "IMPORTANT": "DO NOT remove or edit existing features. Only update the 'done' field to true when a feature is fully implemented AND verified. DO NOT mark features as done without testing."
   },
@@ -248,7 +248,7 @@
       "category": "Demo Flow",
       "name": "Demo accounts and state management",
       "description": "Create lib/demo/accounts.ts — define demo accounts: Acme Inc. (US SMB, payer) and Global Logistics (international contractor, receiver). Create lib/demo/useDemoState.ts — a React context/hook that tracks demo state: current step, transaction history, accounts with balances. The demo should work with real on-chain data but provide a guided walkthrough experience.",
-      "done": false,
+      "done": true,
       "priority": 3,
       "depends_on": ["CHAIN-001", "INFRA-004"]
     },
