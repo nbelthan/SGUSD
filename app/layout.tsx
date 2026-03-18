@@ -3,7 +3,7 @@ import PrivyProvider from "@/components/providers/PrivyProvider";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "SageBridge — Sage Dollar (SGUSD)",
+  title: "Sage Intacct — Sage Dollar (SGUSD)",
   description: "Keep payments on-network. Earn yield on idle capital. Pay anyone, instantly.",
 };
 

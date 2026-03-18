@@ -163,7 +163,7 @@ export default function MintStep({ onMintComplete }: MintStepProps) {
                     : 'text-slate-500 hover:text-slate-300'
                 }`}
               >
-                SageBridge (SGUSD)
+                Sage Intacct (SGUSD)
               </button>
             </div>
 
@@ -293,7 +293,7 @@ export default function MintStep({ onMintComplete }: MintStepProps) {
                   {!isSageMode && (
                     <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
                       <span className="text-xs text-slate-500 whitespace-nowrap bg-black/60 px-2 py-1 rounded">
-                        Demo only — switch to SageBridge mode
+                        Demo only — switch to Sage Intacct mode
                       </span>
                     </div>
                   )}

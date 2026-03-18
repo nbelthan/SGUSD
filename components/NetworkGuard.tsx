@@ -25,7 +25,7 @@ export default function NetworkGuard({ children }: { children: React.ReactNode }
             Wrong Network
           </h3>
           <p className="text-sm text-slate-400 mb-1">
-            SageBridge runs on <span className="text-indigo-400 font-medium">Base Sepolia</span> testnet.
+            Sage Intacct runs on <span className="text-indigo-400 font-medium">Base Sepolia</span> testnet.
           </p>
           <p className="text-xs text-slate-500 mb-6">
             You&apos;re currently connected to {chain.name || `Chain ${chain.id}`}.

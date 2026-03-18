@@ -2,7 +2,7 @@
 
 import { useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { TrendingUp, AlertTriangle, Building, Landmark, Zap } from 'lucide-react';
+import { TrendingUp, AlertTriangle, Building, Landmark, DollarSign } from 'lucide-react';
 
 const YIELD_BARS = [
   {
@@ -27,7 +27,7 @@ const YIELD_BARS = [
     name: 'Sage Dollar',
     sub: 'SGUSD — 3.20% APY',
     rate: 3.20,
-    icon: Zap,
+    icon: DollarSign,
     color: 'text-emerald-400',
     barGradient: 'from-emerald-500 to-emerald-400',
     per10k: '$320',

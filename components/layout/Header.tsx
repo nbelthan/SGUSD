@@ -55,7 +55,7 @@ export default function Header() {
               <SageBridgeLogo size={22} />
             </div>
             <span className="text-lg font-semibold tracking-tight text-white">
-              SageBridge
+              Sage Intacct
             </span>
           </Link>
 

@@ -15,7 +15,7 @@ export default function PrivyStack({ children }: { children: React.ReactNode }) 
         appearance: {
           theme: '#0a0a0a',
           accentColor: '#6366f1',
-          landingHeader: 'Welcome to SageBridge',
+          landingHeader: 'Welcome to Sage Intacct',
           loginMessage: 'Sign in to access your Sage Dollar treasury',
           walletList: [],
         },

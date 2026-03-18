@@ -29,7 +29,7 @@ export default function LoginScreen() {
           </div>
 
           <h1 className="text-4xl font-bold tracking-tight text-white mb-2">
-            SageBridge
+            Sage Intacct
           </h1>
           <p className="text-slate-400 mb-8">
             Keep payments on-network. Earn yield on idle capital. Pay anyone, instantly.
@@ -41,7 +41,7 @@ export default function LoginScreen() {
             whileTap={{ scale: 0.98 }}
             className="btn-sage w-full py-4 rounded-xl flex items-center justify-center gap-2 text-lg"
           >
-            Enter SageBridge
+            Enter Sage Intacct
           </motion.button>
 
           <p className="text-xs text-slate-500 mt-4">

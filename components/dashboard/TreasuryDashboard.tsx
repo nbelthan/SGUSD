@@ -12,7 +12,7 @@ import {
   AlertTriangle,
   Building,
   Landmark,
-  Zap,
+  DollarSign,
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/lib/hooks/useAuth';
@@ -48,7 +48,7 @@ const YIELD_BARS = [
     name: 'Sage Dollar',
     sub: 'SGUSD — Treasury minus 100bp',
     rate: 3.20,  // US 10yr Treasury (4.20%) - 100bp spread
-    icon: Zap,
+    icon: DollarSign,
     color: 'text-emerald-400',
     barGradient: 'from-emerald-500 to-emerald-400',
     bgGlow: 'bg-emerald-500',
