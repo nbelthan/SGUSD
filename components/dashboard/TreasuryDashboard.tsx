@@ -22,11 +22,12 @@ import { getAddressUrl } from '@/lib/basescan';
 import TickingDigit from './TickingDigit';
 
 /* ── Yield-comparison data ── */
+// Rates grounded in fact (March 2026 sources: FDIC, Bankrate, US Treasury)
 const YIELD_BARS = [
   {
     name: 'Big Bank Checking',
     sub: 'Chase, BofA, Wells Fargo',
-    rate: 0.01,
+    rate: 0.01,  // Chase checking APY (chase.com)
     icon: Building,
     color: 'text-red-400',
     barGradient: 'from-red-500/80 to-red-400/60',
@@ -35,36 +36,36 @@ const YIELD_BARS = [
   },
   {
     name: 'Avg Savings',
-    sub: 'National average',
-    rate: 0.50,
+    sub: 'FDIC national average',
+    rate: 0.39,  // FDIC national avg savings, Feb 2026
     icon: Landmark,
     color: 'text-amber-400',
     barGradient: 'from-amber-500/80 to-amber-400/60',
     bgGlow: 'bg-amber-500',
-    per10k: '$50',
+    per10k: '$39',
   },
   {
     name: 'High-Yield Savings',
     sub: 'Marcus, Ally, Discover',
-    rate: 4.25,
+    rate: 4.10,  // Bankrate best HYSA avg, March 2026
     icon: Building,
     color: 'text-sky-400',
     barGradient: 'from-sky-500/80 to-sky-400/60',
     bgGlow: 'bg-sky-500',
-    per10k: '$425',
+    per10k: '$410',
   },
   {
     name: 'Sage Dollar',
-    sub: 'SGUSD — 5% APY',
-    rate: 5.00,
+    sub: 'SGUSD — Treasury minus 100bp',
+    rate: 3.20,  // US 10yr Treasury (4.20%) - 100bp spread
     icon: Zap,
     color: 'text-emerald-400',
     barGradient: 'from-emerald-500 to-emerald-400',
     bgGlow: 'bg-emerald-500',
-    per10k: '$500',
+    per10k: '$320',
   },
 ];
-const MAX_RATE = 5.5;
+const MAX_RATE = 4.5;
 
 export default function TreasuryDashboard() {
   const { walletAddress } = useAuth();
@@ -98,7 +99,7 @@ export default function TreasuryDashboard() {
   /* ── yield comparison memos ── */
   const annualLoss = useMemo(() => {
     if (balance <= 0) return 0;
-    return balance * (5.0 / 100) - balance * (0.01 / 100);
+    return balance * (3.20 / 100) - balance * (0.01 / 100);
   }, [balance]);
 
   const basescanUrl = balanceAddress ? getAddressUrl(balanceAddress) : '#';
@@ -226,7 +227,7 @@ export default function TreasuryDashboard() {
               className="flex items-center gap-2 text-sm mt-3"
             >
               <TrendingUp size={14} className="text-emerald-400" />
-              <span className="text-emerald-400 font-medium">5.00% APY</span>
+              <span className="text-emerald-400 font-medium">3.20% APY</span>
               <span className="text-slate-500">&middot; Earning yield in real-time</span>
             </motion.div>
           )}
@@ -254,8 +255,7 @@ export default function TreasuryDashboard() {
               const Icon = item.icon;
               const isSgusd = item.name === 'SGUSD';
               // Use log scale so tiny rates get visible slivers but SGUSD dominates
-              // 0.01% → ~2%, 0.50% → ~25%, 4.25% → ~85%, 5.00% → 100%
-              const barWidth = Math.max((item.rate / 5.0) * 100, 1.5);
+              const barWidth = Math.max((item.rate / MAX_RATE) * 100, 1.5);
 
               return (
                 <motion.div
@@ -345,7 +345,7 @@ export default function TreasuryDashboard() {
                     /year on the table in a checking account.
                   </p>
                   <p className="text-[10px] text-slate-500 mt-1">
-                    Big bank checking (0.01% APY) vs SGUSD (5.00% APY) on your current balance.
+                    Big bank checking (0.01% APY) vs SGUSD (3.20% APY) on your current balance.
                   </p>
                 </div>
               </div>

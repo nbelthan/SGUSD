@@ -324,7 +324,7 @@ export default function PayoutStep({ onPayoutComplete }: PayoutStepProps) {
               {/* Yield message */}
               <div className="flex items-center gap-2 text-sm">
                 <TrendingUp size={14} className="text-emerald-400" />
-                <span className="text-emerald-400 font-medium">5.00% APY</span>
+                <span className="text-emerald-400 font-medium">3.20% APY</span>
                 <span className="text-slate-500">&middot;</span>
                 <span className="text-slate-400 text-xs">
                   Rivera&apos;s funds earn yield the moment they arrive &mdash; no bank needed

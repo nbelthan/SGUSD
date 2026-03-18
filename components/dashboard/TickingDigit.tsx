@@ -21,10 +21,10 @@ const TickingDigit = memo(function TickingDigit({ digit, className = '' }: Ticki
       <AnimatePresence mode="popLayout" initial={false}>
         <motion.span
           key={digit}
-          initial={{ y: '50%', opacity: 0 }}
+          initial={{ y: '40%', opacity: 0 }}
           animate={{ y: '0%', opacity: 1 }}
-          exit={{ y: '-50%', opacity: 0 }}
-          transition={{ duration: 0.15, ease: 'easeOut' }}
+          exit={{ y: '-40%', opacity: 0 }}
+          transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
           className="inline-block"
         >
           {digit}

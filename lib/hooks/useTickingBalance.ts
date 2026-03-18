@@ -4,11 +4,11 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { formatUnits } from 'viem';
 import { useBalanceOf } from './useBalanceOf';
 
-const ANNUAL_INTEREST_RATE = 500;
+const ANNUAL_INTEREST_RATE = 320; // 3.20% APY = US Treasury (4.20%) minus 100bp spread
 const BASIS_POINTS = 10000;
 const SECONDS_IN_YEAR = 31536000;
 const DECIMAL_PLACES = 8;
-const THROTTLE_MS = 80; // Update display at ~12fps — enough for smooth ticking, avoids layout thrash
+const THROTTLE_MS = 200; // ~5fps — slow enough for each digit change to be readable
 
 /**
  * Returns a smoothly ticking balance that interpolates between on-chain reads.

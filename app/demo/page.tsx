@@ -166,7 +166,7 @@ function ConfirmationStep({ onReset }: { onReset: () => void }) {
 
           <div className="flex items-center gap-2 text-sm">
             <TrendingUp size={14} className="text-emerald-400" />
-            <span className="text-emerald-400 font-medium">5.00% APY</span>
+            <span className="text-emerald-400 font-medium">3.20% APY</span>
             <span className="text-slate-500">&middot;</span>
             <span className="text-slate-400 text-xs">
               Rivera earns yield the moment funds arrive &mdash; no bank account needed
@@ -283,7 +283,7 @@ function DemoContent() {
             <div className="text-center space-y-3">
               <p className="text-sm text-slate-400">
                 Unlike a bank checking account, SGUSD earns{' '}
-                <span className="text-emerald-400 font-medium">5% APY</span>{' '}
+                <span className="text-emerald-400 font-medium">3.20% APY</span>{' '}
                 the moment funds arrive. No lockup. No action required.
               </p>
               <button

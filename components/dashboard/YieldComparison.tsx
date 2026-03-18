@@ -17,29 +17,29 @@ const YIELD_BARS = [
   {
     name: 'Avg Savings',
     sub: 'National average',
-    rate: 0.50,
+    rate: 0.39,
     icon: Landmark,
     color: 'text-amber-400',
     barGradient: 'from-amber-500/80 to-amber-400/60',
-    per10k: '$50',
+    per10k: '$39',
   },
   {
     name: 'High-Yield Savings',
     sub: 'Marcus, Ally, Discover',
-    rate: 4.25,
+    rate: 4.10,
     icon: Building,
     color: 'text-sky-400',
     barGradient: 'from-sky-500/80 to-sky-400/60',
-    per10k: '$425',
+    per10k: '$410',
   },
   {
     name: 'Sage Dollar',
-    sub: 'SGUSD — 5% APY',
-    rate: 5.00,
+    sub: 'SGUSD — 3.20% APY',
+    rate: 3.20,
     icon: Zap,
     color: 'text-emerald-400',
     barGradient: 'from-emerald-500 to-emerald-400',
-    per10k: '$500',
+    per10k: '$320',
   },
 ];
 
@@ -50,7 +50,7 @@ interface YieldComparisonProps {
 export default function YieldComparison({ balance = 0 }: YieldComparisonProps) {
   const annualLoss = useMemo(() => {
     if (balance <= 0) return 0;
-    return balance * (5.0 / 100) - balance * (0.01 / 100);
+    return balance * (3.20 / 100) - balance * (0.01 / 100);
   }, [balance]);
 
   return (
@@ -159,7 +159,7 @@ export default function YieldComparison({ balance = 0 }: YieldComparisonProps) {
                   /year on the table in a checking account.
                 </p>
                 <p className="text-[10px] text-slate-500 mt-1">
-                  Big bank checking (0.01% APY) vs SGUSD (5.00% APY) on your current balance.
+                  Big bank checking (0.01% APY) vs SGUSD (3.20% APY) on your current balance.
                 </p>
               </div>
             </div>
