@@ -24,15 +24,6 @@ const YIELD_BARS = [
     per10k: '$39',
   },
   {
-    name: 'High-Yield Savings',
-    sub: 'Marcus, Ally, Discover',
-    rate: 4.10,
-    icon: Building,
-    color: 'text-sky-400',
-    barGradient: 'from-sky-500/80 to-sky-400/60',
-    per10k: '$410',
-  },
-  {
     name: 'Sage Dollar',
     sub: 'SGUSD — 3.20% APY',
     rate: 3.20,

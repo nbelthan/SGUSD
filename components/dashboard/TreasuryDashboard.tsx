@@ -44,17 +44,7 @@ const YIELD_BARS = [
     bgGlow: 'bg-amber-500',
     per10k: '$39',
   },
-  {
-    name: 'High-Yield Savings',
-    sub: 'Marcus, Ally, Discover',
-    rate: 4.10,  // Bankrate best HYSA avg, March 2026
-    icon: Building,
-    color: 'text-sky-400',
-    barGradient: 'from-sky-500/80 to-sky-400/60',
-    bgGlow: 'bg-sky-500',
-    per10k: '$410',
-  },
-  {
+{
     name: 'Sage Dollar',
     sub: 'SGUSD — Treasury minus 100bp',
     rate: 3.20,  // US 10yr Treasury (4.20%) - 100bp spread
