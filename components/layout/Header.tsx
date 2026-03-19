@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
@@ -41,17 +41,12 @@ export default function Header() {
   };
 
   return (
-    <motion.header
-      initial={{ opacity: 0, y: -10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4 }}
-      className="w-full border-b border-white/10 backdrop-blur-xl bg-white/[0.02] sticky top-0 z-40"
-    >
+    <header className="w-full border-b border-white/10 backdrop-blur-xl bg-white/[0.02] sticky top-0 z-40">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
         {/* Logo + Nav */}
         <div className="flex items-center gap-4 sm:gap-6">
           <Link href="/" className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center transition-shadow duration-300 hover:shadow-[0_0_12px_rgba(99,102,241,0.3)]">
+            <div className="w-9 h-9 rounded-xl bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center">
               <SageBridgeLogo size={22} />
             </div>
             <span className="text-lg font-semibold tracking-tight text-white">
@@ -193,6 +188,6 @@ export default function Header() {
           </div>
         </motion.div>
       )}
-    </motion.header>
+    </header>
   );
 }

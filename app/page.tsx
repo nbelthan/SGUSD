@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import { motion } from 'framer-motion';
 import { ArrowRight, Play } from 'lucide-react';
 import { useAuth } from '@/lib/hooks/useAuth';
 import LoginScreen from '@/components/auth/LoginScreen';
@@ -51,12 +50,7 @@ export default function Home() {
           </div>
 
           {/* Row 3: Demo CTA */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 0.5 }}
-            className="mt-4 sm:mt-6"
-          >
+          <div className="mt-4 sm:mt-6">
             <Link href="/demo" className="block">
               <div className="glass-card p-4 sm:p-5 flex items-center justify-between group hover:border-indigo-500/20 transition-all duration-300 cursor-pointer">
                 <div className="flex items-center gap-3">
@@ -79,7 +73,7 @@ export default function Home() {
                 />
               </div>
             </Link>
-          </motion.div>
+          </div>
         </NetworkGuard>
       </main>
     </div>

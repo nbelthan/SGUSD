@@ -4,7 +4,6 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Banknote,
-  Loader2,
   ExternalLink,
   CheckCircle2,
   ArrowRight,
@@ -18,7 +17,6 @@ import {
 import { useAuth } from '@/lib/hooks/useAuth';
 import { useMint } from '@/lib/hooks/useMint';
 import { useTransactionToast } from '@/components/ui/TransactionToast';
-import { useConfetti } from '@/components/ui/Confetti';
 import { getTxUrl } from '@/lib/basescan';
 import {
   DEFAULT_MINT_AMOUNT,
@@ -34,7 +32,6 @@ export default function MintStep({ onMintComplete }: MintStepProps) {
   const { walletAddress } = useAuth();
   const { mint, txHash, isLoading, isConfirmed, isError, error, reset } = useMint();
   const { showToast, ToastContainer } = useTransactionToast();
-  const { fireConfetti } = useConfetti();
   const toastedRef = useRef<Set<string>>(new Set());
   const [isSageMode, setIsSageMode] = useState(true);
 
@@ -55,67 +52,43 @@ export default function MintStep({ onMintComplete }: MintStepProps) {
         amount: Number(DEFAULT_MINT_AMOUNT).toLocaleString(),
         txHash,
       });
-      fireConfetti();
       onMintComplete?.(txHash as `0x${string}`);
     }
-  }, [isConfirmed, txHash, showToast, onMintComplete, fireConfetti]);
+  }, [isConfirmed, txHash, showToast, onMintComplete]);
 
   const formattedAmount = Number(DEFAULT_MINT_AMOUNT).toLocaleString();
 
   return (
     <>
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="space-y-6"
-      >
+      <div className="space-y-6">
         {/* Step header card */}
-        <div className="glass-card p-5 sm:p-8 md:p-10 relative overflow-hidden max-w-lg mx-auto">
-          <div className="absolute -top-16 -right-16 w-48 h-48 bg-indigo-500 rounded-full blur-3xl pointer-events-none glow-pulse-indigo" />
-
-          <div className="relative z-10">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20">
-                <Banknote size={20} className="text-indigo-400" />
-              </div>
-              <div>
-                <p className="text-xs font-medium text-indigo-400 uppercase tracking-wider">
-                  Step 1
-                </p>
-                <h3 className="text-lg font-semibold text-white">
-                  Invoice Payment
-                </h3>
-              </div>
+        <div className="glass-card p-5 sm:p-8 md:p-10 max-w-lg mx-auto">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20">
+              <Banknote size={20} className="text-indigo-400" />
             </div>
-
-            <p className="text-sm text-slate-400 leading-relaxed">
-              <span className="text-white font-medium">{CONSUMER_ACCOUNT.name}</span>, a Sage
-              consumer, pays a <span className="text-white font-medium">${formattedAmount}</span> invoice
-              to Acme Inc. Today this domestic payment costs the SMB{' '}
-              <span className="text-red-400 font-medium">2.9% in card fees</span> or takes{' '}
-              <span className="text-amber-400 font-medium">2-3 days via ACH</span>.
-              With SGUSD &mdash; instant, zero fees, on-network.
-            </p>
+            <div>
+              <h3 className="text-lg font-semibold text-white">
+                Invoice Payment
+              </h3>
+            </div>
           </div>
+
+          <p className="text-sm text-slate-400 leading-relaxed">
+            <span className="text-white font-medium">{CONSUMER_ACCOUNT.name}</span>, a Sage
+            consumer, pays a <span className="text-white font-medium">${formattedAmount}</span> invoice
+            to Acme Inc. Today this domestic payment costs the SMB{' '}
+            <span className="text-red-400 font-medium">2.9% in card fees</span> or takes{' '}
+            <span className="text-amber-400 font-medium">2-3 days via ACH</span>.
+            With SGUSD &mdash; instant, zero fees, on-network.
+          </p>
         </div>
 
-        {/* Payment toggle card — mirrors PayoutToggle design */}
+        {/* Payment toggle card */}
         <div className="flex justify-center">
-          <div className="w-full max-w-md glass-card p-5 sm:p-8 relative overflow-hidden">
-            <AnimatePresence>
-              {isSageMode && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="absolute -top-20 -right-20 w-64 h-64 bg-indigo-500 rounded-full blur-3xl pointer-events-none glow-pulse-indigo"
-                />
-              )}
-            </AnimatePresence>
-
+          <div className="w-full max-w-md glass-card p-5 sm:p-8">
             {/* Header */}
-            <div className="relative z-10 mb-8">
+            <div className="mb-8">
               <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-white mb-2">
                 Domestic Invoice Payment
               </h2>
@@ -129,8 +102,8 @@ export default function MintStep({ onMintComplete }: MintStepProps) {
             </div>
 
             {/* Amount display */}
-            <div className="relative z-10 mb-8">
-              <label className="text-xs font-medium text-slate-400 uppercase tracking-wider">
+            <div className="mb-8">
+              <label className="text-xs font-medium text-slate-400">
                 Invoice Amount
               </label>
               <div className="mt-2 p-3 sm:p-4 rounded-xl bg-white/[0.03] border border-white/5">
@@ -144,7 +117,7 @@ export default function MintStep({ onMintComplete }: MintStepProps) {
             </div>
 
             {/* The Toggle */}
-            <div className="relative z-10 flex items-center justify-between p-1 bg-black/40 rounded-full mb-8 border border-white/5">
+            <div className="flex items-center justify-between p-1 bg-black/40 rounded-full mb-8 border border-white/5">
               <button
                 onClick={() => setIsSageMode(false)}
                 className={`flex-1 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
@@ -168,7 +141,7 @@ export default function MintStep({ onMintComplete }: MintStepProps) {
             </div>
 
             {/* Breakdown */}
-            <div className="relative z-10 space-y-4 mb-8">
+            <div className="space-y-4 mb-8">
               <div className="flex justify-between text-sm">
                 <span className="text-slate-400">Invoice Principal</span>
                 <span>{formattedAmount}.00 SGUSD</span>
@@ -204,10 +177,7 @@ export default function MintStep({ onMintComplete }: MintStepProps) {
                 <span className="text-sm text-slate-400">
                   {isSageMode ? 'Acme Inc. Receives' : 'Cost to Acme Inc.'}
                 </span>
-                <motion.span
-                  key={String(totalCost)}
-                  initial={{ scale: 0.95 }}
-                  animate={{ scale: 1 }}
+                <span
                   className={`text-2xl sm:text-3xl font-medium ${
                     isSageMode ? 'text-emerald-400' : 'text-red-400'
                   }`}
@@ -223,12 +193,12 @@ export default function MintStep({ onMintComplete }: MintStepProps) {
                       <span className="text-base text-slate-400">in fees</span>
                     </>
                   )}
-                </motion.span>
+                </span>
               </div>
             </div>
 
             {/* ETA */}
-            <div className="relative z-10 flex items-center justify-between mb-6 px-4 py-3 bg-white/5 rounded-xl border border-white/5">
+            <div className="flex items-center justify-between mb-6 px-4 py-3 bg-white/5 rounded-xl border border-white/5">
               <div className="flex items-center gap-2">
                 <Clock
                   size={16}
@@ -254,7 +224,7 @@ export default function MintStep({ onMintComplete }: MintStepProps) {
                   key="confirmed"
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="relative z-10 space-y-3"
+                  className="space-y-3"
                 >
                   <div className="flex items-center gap-2 justify-center p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
                     <CheckCircle2 size={16} className="text-emerald-400" />
@@ -273,7 +243,7 @@ export default function MintStep({ onMintComplete }: MintStepProps) {
                   </a>
                 </motion.div>
               ) : (
-                <motion.div key="action" className="relative z-10 group">
+                <div key="action" className="group">
                   <button
                     onClick={handleMint}
                     disabled={isLoading || !walletAddress || !isSageMode}
@@ -297,18 +267,18 @@ export default function MintStep({ onMintComplete }: MintStepProps) {
                       </span>
                     </div>
                   )}
-                </motion.div>
+                </div>
               )}
             </AnimatePresence>
 
             {!isSageMode && (
-              <p className="relative z-10 text-xs text-slate-500 text-center mt-3">
+              <p className="text-xs text-slate-500 text-center mt-3">
                 Traditional payments are shown for comparison only.
               </p>
             )}
 
             {isError && (
-              <div className="relative z-10 text-center mt-3 p-3 rounded-xl bg-red-500/5 border border-red-500/10">
+              <div className="text-center mt-3 p-3 rounded-xl bg-red-500/5 border border-red-500/10">
                 <p className="text-xs text-red-400 mb-2">
                   {error?.message?.includes('User rejected') || error?.message?.includes('denied')
                     ? 'Transaction was rejected'
@@ -329,88 +299,63 @@ export default function MintStep({ onMintComplete }: MintStepProps) {
         <AnimatePresence>
           {isConfirmed && txHash && (
             <motion.div
-              initial={{ opacity: 0, y: 30, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4, ease: 'easeOut' }}
-              className="glass-card p-5 sm:p-8 relative overflow-hidden max-w-lg mx-auto"
+              className="glass-card p-5 sm:p-8 max-w-lg mx-auto"
             >
-              <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-60 h-60 bg-emerald-500 rounded-full blur-3xl pointer-events-none glow-pulse-emerald" />
-              <div className="absolute inset-0 bg-emerald-500/[0.03] pointer-events-none" />
-
-              <div className="relative z-10">
-                <div className="text-center mb-5">
-                  <motion.div
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ delay: 0.6, type: 'spring', stiffness: 200 }}
-                    className="flex items-center justify-center w-14 h-14 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 mx-auto mb-4"
-                  >
-                    <DollarSign size={28} className="text-emerald-400" />
-                  </motion.div>
-                  <h3 className="text-xl sm:text-2xl font-bold text-white mb-1">
-                    Acme Inc. saved{' '}
-                    <span className="text-emerald-400">${cardFee.toFixed(2)}</span>{' '}
-                    on this invoice!
-                  </h3>
-                  <p className="text-sm text-slate-400">
-                    Payment stayed on Sage&apos;s network &mdash; no card processor needed
-                  </p>
+              <div className="text-center mb-5">
+                <div className="flex items-center justify-center w-14 h-14 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 mx-auto mb-4">
+                  <DollarSign size={28} className="text-emerald-400" />
                 </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
-                  <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.8, duration: 0.4 }}
-                    className="p-4 rounded-xl bg-white/[0.03] border border-white/5"
-                  >
-                    <div className="flex items-center gap-2 mb-2">
-                      <XCircle size={14} className="text-red-400" />
-                      <span className="text-xs font-medium text-red-400 uppercase tracking-wider">
-                        Eliminated
-                      </span>
-                    </div>
-                    <p className="text-lg font-bold text-white">
-                      <span className="line-through text-red-400/60">${cardFee.toFixed(2)}</span>{' '}
-                      <span className="text-emerald-400">$0</span>
-                    </p>
-                    <p className="text-xs text-slate-500 mt-1">Card processing fee (2.9%)</p>
-                  </motion.div>
-
-                  <motion.div
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 1.0, duration: 0.4 }}
-                    className="p-4 rounded-xl bg-white/[0.03] border border-white/5"
-                  >
-                    <div className="flex items-center gap-2 mb-2">
-                      <Clock size={14} className="text-indigo-400" />
-                      <span className="text-xs font-medium text-indigo-400 uppercase tracking-wider">
-                        Instant
-                      </span>
-                    </div>
-                    <p className="text-lg font-bold text-white">
-                      <span className="line-through text-red-400/60">2-3 days</span>{' '}
-                      <span className="text-emerald-400">&lt;2 sec</span>
-                    </p>
-                    <p className="text-xs text-slate-500 mt-1">Settlement time</p>
-                  </motion.div>
-                </div>
-
-                <motion.p
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 1.2 }}
-                  className="text-xs text-center text-slate-500"
-                >
-                  At $1T in annual invoices, eliminating card fees saves Sage SMBs{' '}
-                  <span className="text-emerald-400 font-medium">$29B/year</span>
-                </motion.p>
+                <h3 className="text-xl sm:text-2xl font-bold text-white mb-1">
+                  Acme Inc. saved{' '}
+                  <span className="text-emerald-400">${cardFee.toFixed(2)}</span>{' '}
+                  on this invoice!
+                </h3>
+                <p className="text-sm text-slate-400">
+                  Payment stayed on Sage&apos;s network &mdash; no card processor needed
+                </p>
               </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+                <div className="p-4 rounded-xl bg-white/[0.03] border border-white/5">
+                  <div className="flex items-center gap-2 mb-2">
+                    <XCircle size={14} className="text-red-400" />
+                    <span className="text-xs font-medium text-red-400">
+                      Eliminated
+                    </span>
+                  </div>
+                  <p className="text-lg font-bold text-white">
+                    <span className="line-through text-red-400/60">${cardFee.toFixed(2)}</span>{' '}
+                    <span className="text-emerald-400">$0</span>
+                  </p>
+                  <p className="text-xs text-slate-500 mt-1">Card processing fee (2.9%)</p>
+                </div>
+
+                <div className="p-4 rounded-xl bg-white/[0.03] border border-white/5">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Clock size={14} className="text-indigo-400" />
+                    <span className="text-xs font-medium text-indigo-400">
+                      Instant
+                    </span>
+                  </div>
+                  <p className="text-lg font-bold text-white">
+                    <span className="line-through text-red-400/60">2-3 days</span>{' '}
+                    <span className="text-emerald-400">&lt;2 sec</span>
+                  </p>
+                  <p className="text-xs text-slate-500 mt-1">Settlement time</p>
+                </div>
+              </div>
+
+              <p className="text-xs text-center text-slate-500">
+                At $1T in annual invoices, eliminating card fees saves Sage SMBs{' '}
+                <span className="text-emerald-400 font-medium">$29B/year</span>
+              </p>
             </motion.div>
           )}
         </AnimatePresence>
-      </motion.div>
+      </div>
 
       <ToastContainer />
     </>

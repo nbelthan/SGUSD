@@ -70,10 +70,7 @@ export function TransactionToast({
           onAnimationComplete={handleAnimationComplete}
           className="w-full max-w-sm"
         >
-          <div className="glass-card p-4 relative overflow-hidden">
-            {/* Glow */}
-            <div className={`absolute -top-10 -right-10 w-32 h-32 ${isError ? 'bg-red-500/15' : 'bg-emerald-500/15'} rounded-full blur-2xl pointer-events-none`} />
-
+          <div className="glass-card p-4">
             <div className="flex items-start gap-3">
               <div className="flex-shrink-0 mt-0.5">
                 {isError ? (

@@ -6,13 +6,9 @@ import { Building2, Globe, CheckCircle2, ExternalLink } from 'lucide-react';
 import { getTxUrl } from '@/lib/basescan';
 
 interface NetworkVisualizationProps {
-  /** When set, triggers the payment animation and shows confirmation */
   txHash?: string;
-  /** Sender display name */
   senderName?: string;
-  /** Receiver display name */
   receiverName?: string;
-  /** Transfer amount for confirmation display */
   amount?: number;
 }
 
@@ -38,20 +34,8 @@ export default function NetworkVisualization({
   }, [txHash]);
 
   return (
-    <div className="glass-card p-4 sm:p-6 relative overflow-hidden">
-      {/* Subtle background glow when confirmed */}
-      <AnimatePresence>
-        {phase === 'confirmed' && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="absolute -top-20 left-1/2 -translate-x-1/2 w-80 h-80 bg-emerald-500 rounded-full blur-3xl pointer-events-none glow-pulse-emerald"
-          />
-        )}
-      </AnimatePresence>
-
-      <h3 className="text-sm font-medium text-slate-400 uppercase tracking-wider mb-6">
+    <div className="glass-card p-4 sm:p-6">
+      <h3 className="text-sm font-medium text-slate-400 mb-6">
         Sage Trust Network
       </h3>
 
@@ -108,7 +92,7 @@ export default function NetworkVisualization({
                 className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2"
               >
                 <div className="relative">
-                  <div className="w-3 h-3 rounded-full bg-indigo-500 shadow-[0_0_12px_rgba(99,102,241,0.6)]" />
+                  <div className="w-3 h-3 rounded-full bg-indigo-500" />
                   <div className="absolute inset-0 w-3 h-3 rounded-full bg-indigo-400/40 blur-sm animate-ping" />
                 </div>
               </motion.div>
@@ -121,7 +105,7 @@ export default function NetworkVisualization({
               <motion.div
                 initial={{ scaleX: 0 }}
                 animate={{ scaleX: 1 }}
-                className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[2px] bg-emerald-500/60 rounded-full origin-left shadow-[0_0_8px_rgba(16,185,129,0.4)]"
+                className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[2px] bg-emerald-500/60 rounded-full origin-left"
                 transition={{ duration: 0.4, ease: 'easeOut' }}
               />
             )}

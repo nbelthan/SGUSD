@@ -39,26 +39,14 @@ export default function PayoutToggle({
   }, [disabled, isLoading, onAuthorize, invoiceAmount, isSageMode]);
 
   return (
-    <div className="w-full max-w-md glass-card p-5 sm:p-8 relative overflow-hidden">
-      {/* Subtle background glow for Sage Mode */}
-      <AnimatePresence>
-        {isSageMode && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="absolute -top-20 -right-20 w-64 h-64 bg-indigo-500 rounded-full blur-3xl pointer-events-none glow-pulse-indigo"
-          />
-        )}
-      </AnimatePresence>
-
+    <div className="w-full max-w-md glass-card p-5 sm:p-8">
       {/* Header */}
-      <div className="relative z-10 mb-8">
+      <div className="mb-8">
         <div className="flex items-center gap-2 mb-2">
           <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-white">
             International Contractor Payout
           </h2>
-          <span className="px-2 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-[10px] font-medium text-amber-400 uppercase tracking-wider">
+          <span className="px-2 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-[10px] font-medium text-amber-400">
             Cross-Border
           </span>
         </div>
@@ -72,8 +60,8 @@ export default function PayoutToggle({
       </div>
 
       {/* Amount Input */}
-      <div className="relative z-10 mb-8">
-        <label className="text-xs font-medium text-slate-400 uppercase tracking-wider">
+      <div className="mb-8">
+        <label className="text-xs font-medium text-slate-400">
           Invoice Amount (SGUSD)
         </label>
         <div className="mt-2 relative flex items-center">
@@ -89,7 +77,7 @@ export default function PayoutToggle({
       </div>
 
       {/* The Toggle */}
-      <div className="relative z-10 flex items-center justify-between p-1 bg-black/40 rounded-full mb-8 border border-white/5">
+      <div className="flex items-center justify-between p-1 bg-black/40 rounded-full mb-8 border border-white/5">
         <button
           onClick={() => setIsSageMode(false)}
           className={`flex-1 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
@@ -113,7 +101,7 @@ export default function PayoutToggle({
       </div>
 
       {/* Breakdown Section */}
-      <div className="relative z-10 space-y-4 mb-8">
+      <div className="space-y-4 mb-8">
         <div className="flex justify-between text-sm">
           <span className="text-slate-400">Principal</span>
           <span>
@@ -150,22 +138,14 @@ export default function PayoutToggle({
 
         <div className="pt-4 border-t border-white/10 flex justify-between items-end">
           <span className="text-sm text-slate-400">Total Deducted</span>
-          <motion.span
-            key={totalCost}
-            initial={{ scale: 0.95, color: '#94a3b8' }}
-            animate={{
-              scale: 1,
-              color: isSageMode ? '#a5b4fc' : '#ffffff',
-            }}
-            className="text-2xl sm:text-3xl font-medium"
-          >
+          <span className="text-2xl sm:text-3xl font-medium">
             {totalCost.toLocaleString(undefined, { minimumFractionDigits: 2 })} <span className="text-base text-slate-400">SGUSD</span>
-          </motion.span>
+          </span>
         </div>
       </div>
 
       {/* ETA */}
-      <div className="relative z-10 flex items-center justify-between mb-6 px-4 py-3 bg-white/5 rounded-xl border border-white/5 hover:bg-white/[0.07] transition-colors duration-200">
+      <div className="flex items-center justify-between mb-6 px-4 py-3 bg-white/5 rounded-xl border border-white/5 hover:bg-white/[0.07] transition-colors duration-200">
         <div className="flex items-center gap-2">
           <Clock
             size={16}
@@ -185,7 +165,7 @@ export default function PayoutToggle({
       </div>
 
       {/* Action Button */}
-      <div className="relative z-10 group">
+      <div className="group">
         <button
           onClick={handleAuthorize}
           disabled={disabled || isLoading || invoiceAmount <= 0 || !isSageMode}
@@ -221,7 +201,7 @@ export default function PayoutToggle({
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="relative z-10 text-xs text-slate-500 text-center mt-3"
+            className="text-xs text-slate-500 text-center mt-3"
           >
             Traditional wire transfers are shown for comparison only.
           </motion.p>
