@@ -7,6 +7,9 @@ import { SAGECOIN_ABI } from '@/lib/contracts/sagecoin-abi';
 const SAGECOIN_ADDRESS = process.env.NEXT_PUBLIC_SAGECOIN_ADDRESS as `0x${string}`;
 const DEPLOYER_KEY = process.env.DEPLOYER_PRIVATE_KEY ?? '';
 
+const MAX_NONCE_RETRIES = 5;
+const RETRY_DELAY_MS = 2000;
+
 /**
  * Server-side transfer: The deployer wallet executes the transfer on behalf
  * of the sender. In the demo, "Acme Inc." funds were minted to the deployer,
@@ -60,23 +63,33 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Explicitly fetch the pending nonce to avoid stale nonce errors when
-    // a prior tx (e.g. mint) was just confirmed but the RPC node's "latest"
-    // count hasn't caught up yet.
-    const nonce = await publicClient.getTransactionCount({
-      address: account.address,
-      blockTag: 'pending',
-    });
+    // Retry with back-off when the RPC node returns a stale nonce.
+    // This happens on Base Sepolia when a prior tx (e.g. mint) was just
+    // confirmed but the node's pending count hasn't caught up yet.
+    let lastError: unknown;
+    for (let attempt = 0; attempt < MAX_NONCE_RETRIES; attempt++) {
+      try {
+        const hash = await walletClient.writeContract({
+          address: SAGECOIN_ADDRESS,
+          abi: SAGECOIN_ABI,
+          functionName: 'transfer',
+          args: [to as `0x${string}`, parsedAmount],
+        });
+        return NextResponse.json({ hash, from, to, amount });
+      } catch (err: unknown) {
+        const msg = err instanceof Error ? err.message : '';
+        if (msg.includes('nonce too low') && attempt < MAX_NONCE_RETRIES - 1) {
+          await new Promise((r) => setTimeout(r, RETRY_DELAY_MS));
+          continue;
+        }
+        lastError = err;
+        break;
+      }
+    }
 
-    const hash = await walletClient.writeContract({
-      address: SAGECOIN_ADDRESS,
-      abi: SAGECOIN_ABI,
-      functionName: 'transfer',
-      args: [to as `0x${string}`, parsedAmount],
-      nonce,
-    });
-
-    return NextResponse.json({ hash, from, to, amount });
+    const message = lastError instanceof Error ? lastError.message : 'Transfer failed';
+    console.error('Transfer API error:', message);
+    return NextResponse.json({ error: message }, { status: 500 });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : 'Transfer failed';
     console.error('Transfer API error:', message);
