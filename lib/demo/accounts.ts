@@ -60,6 +60,56 @@ export const OFFRAMP_FEES = {
 /** Simulated MXN/USD exchange rate for off-ramp display. */
 export const MXN_RATE = 17.4;
 
+// ── Payroll Streaming ──────────────────────────────────────────────
+
+export const EMPLOYEE_ACCOUNT: DemoAccount = {
+  name: 'Maria Garcia',
+  role: 'Warehouse Manager (Sage Workforce)',
+  address: '0x2345678901abcdef2345678901abcdef23456789' as `0x${string}`,
+  balance: 0,
+};
+
+export const PAYROLL_ANNUAL_SALARY = 60000;
+export const PAYROLL_DAILY_AMOUNT = '164';
+export const EWA_FEE = 2;
+
+export const TRADITIONAL_PAYROLL_FEES = {
+  perEmployeePerMonth: 12,
+  perPayrollRun: 39,
+  ewaFeeFlat: 3.49,
+  achSettlementDays: '2-3 business days',
+} as const;
+
+// ── Lending Auto-Repayment ─────────────────────────────────────────
+
+export const SAGE_CAPITAL_ACCOUNT: DemoAccount = {
+  name: 'Sage Capital',
+  role: 'Line of Credit (LOC-2024-7891)',
+  address: '0x3456789012abcdef3456789012abcdef34567890' as `0x${string}`,
+  balance: 0,
+};
+
+export const NEW_CUSTOMER_ACCOUNT: DemoAccount = {
+  name: 'Brightside Coffee',
+  role: 'New Customer Payment',
+  address: '0x4567890123abcdef4567890123abcdef45678901' as `0x${string}`,
+  balance: 0,
+};
+
+export const LOC_TOTAL = 25000;
+export const LOC_OUTSTANDING = 18000;
+export const NEW_PAYMENT_AMOUNT = '8000';
+export const AUTO_REPAY_PERCENT = 10;
+export const AUTO_REPAY_AMOUNT = '800';
+
+export const TRADITIONAL_LENDING_FEES = {
+  aprBank: 12.5,
+  aprSage: 8.0,
+  lateFee: 39,
+  annualFee: 150,
+  manualPaymentTime: '5-10 business days',
+} as const;
+
 /** Traditional domestic payment fees — what the SMB loses receiving card payments. */
 export const DOMESTIC_FEES = {
   cardProcessingPercent: 2.9,

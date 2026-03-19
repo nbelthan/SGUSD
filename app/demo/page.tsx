@@ -12,6 +12,8 @@ import {
   TrendingUp,
   DollarSign,
   Clock,
+  Users,
+  Landmark,
 } from 'lucide-react';
 import { useAuth } from '@/lib/hooks/useAuth';
 import LoginScreen from '@/components/auth/LoginScreen';
@@ -19,6 +21,8 @@ import Header from '@/components/layout/Header';
 import TreasuryDashboard from '@/components/dashboard/TreasuryDashboard';
 import MintStep from '@/components/demo/MintStep';
 import PayoutStep from '@/components/demo/PayoutStep';
+import PayrollStep from '@/components/demo/PayrollStep';
+import LendingStep from '@/components/demo/LendingStep';
 import BurnStep from '@/components/demo/BurnStep';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import NetworkGuard from '@/components/NetworkGuard';
@@ -29,6 +33,14 @@ import {
   GLOBAL_LOGISTICS_ACCOUNT,
   DEFAULT_PAYOUT_AMOUNT,
   TRADITIONAL_FEES,
+  TRADITIONAL_PAYROLL_FEES,
+  EWA_FEE,
+  TRADITIONAL_LENDING_FEES,
+  LOC_OUTSTANDING,
+  DEFAULT_MINT_AMOUNT,
+  DOMESTIC_FEES,
+  DEFAULT_BURN_AMOUNT,
+  OFFRAMP_FEES,
 } from '@/lib/demo/accounts';
 import { ArrowDownCircle } from 'lucide-react';
 
@@ -36,6 +48,8 @@ const STEPS: { key: DemoStep; label: string; icon: typeof CircleDot }[] = [
   { key: 'mint', label: 'Invoice Payment', icon: CircleDot },
   { key: 'watch-yield', label: 'Yield Accrual', icon: Eye },
   { key: 'payout', label: 'Contractor Payout', icon: Send },
+  { key: 'payroll', label: 'Payroll', icon: Users },
+  { key: 'lending', label: 'Auto-Repay', icon: Landmark },
   { key: 'burn', label: 'Off-Ramp', icon: ArrowDownCircle },
   { key: 'confirmation', label: 'Confirmed', icon: CheckCircle2 },
 ];
@@ -55,14 +69,14 @@ function StepIndicator({ currentStep }: { currentStep: DemoStep }) {
             <motion.div
               animate={{
                 scale: isCurrent ? 1 : 0.95,
-                opacity: isCurrent || isComplete ? 1 : 0.4,
+                opacity: isCurrent || isComplete ? 1 : 0.65,
               }}
               className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-xs font-medium transition-colors ${
                 isCurrent
                   ? 'bg-indigo-500/15 text-indigo-300 border border-indigo-500/30'
                   : isComplete
                   ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
-                  : 'bg-white/[0.03] text-slate-500 border border-white/5'
+                  : 'bg-white/[0.06] text-slate-400 border border-white/10'
               }`}
             >
               <Icon size={12} />
@@ -70,7 +84,7 @@ function StepIndicator({ currentStep }: { currentStep: DemoStep }) {
               <span className="sm:hidden">{i + 1}</span>
             </motion.div>
             {i < STEPS.length - 1 && (
-              <div className="w-4 sm:w-8 h-px bg-white/10 relative overflow-hidden rounded-full">
+              <div className="w-3 sm:w-6 h-px bg-white/10 relative overflow-hidden rounded-full">
                 <motion.div
                   initial={{ scaleX: 0 }}
                   animate={{ scaleX: isComplete ? 1 : 0 }}
@@ -97,7 +111,25 @@ function ConfirmationStep({ onReset }: { onReset: () => void }) {
   const payoutAmount = Number(DEFAULT_PAYOUT_AMOUNT);
   const fxMarkupSaved = payoutAmount * (TRADITIONAL_FEES.fxMarkupPercent / 100);
   const wireFee = TRADITIONAL_FEES.wireFee;
-  const totalSaved = wireFee + fxMarkupSaved;
+
+  // Invoice savings
+  const invoiceAmount = Number(DEFAULT_MINT_AMOUNT);
+  const cardFee = invoiceAmount * (DOMESTIC_FEES.cardProcessingPercent / 100) + DOMESTIC_FEES.cardFixedFee;
+
+  // Payroll savings
+  const payrollSaved = TRADITIONAL_PAYROLL_FEES.perEmployeePerMonth;
+  const ewaSaved = TRADITIONAL_PAYROLL_FEES.ewaFeeFlat - EWA_FEE;
+
+  // Lending savings (annual interest diff)
+  const lendingAnnualSaved = LOC_OUTSTANDING * ((TRADITIONAL_LENDING_FEES.aprBank - TRADITIONAL_LENDING_FEES.aprSage) / 100);
+  const lendingLateFee = TRADITIONAL_LENDING_FEES.lateFee;
+
+  // Off-ramp savings
+  const burnAmount = Number(DEFAULT_BURN_AMOUNT);
+  const offrampRemittanceFee = OFFRAMP_FEES.remittanceFee;
+  const offrampFxSpread = burnAmount * (OFFRAMP_FEES.fxSpreadPercent / 100);
+
+  const totalSaved = cardFee + wireFee + fxMarkupSaved + payrollSaved + ewaSaved + offrampRemittanceFee + offrampFxSpread;
 
   // Fire confetti once on mount
   useEffect(() => {
@@ -183,8 +215,8 @@ function ConfirmationStep({ onReset }: { onReset: () => void }) {
         </h3>
         <p className="text-sm text-slate-400 leading-relaxed max-w-md mx-auto mb-4">
           You&apos;ve experienced how SGUSD keeps money on Sage&apos;s network:
-          instant invoice settlement, yield on idle capital, and zero-fee
-          cross-border contractor payouts &mdash; all in seconds.
+          instant invoicing, yield on idle capital, zero-fee contractor payouts,
+          real-time payroll streaming, and auto-repaying lending &mdash; all in seconds.
         </p>
 
         {/* Savings summary */}
@@ -231,6 +263,14 @@ function DemoContent() {
   }, [setStep]);
 
   const handlePayoutComplete = useCallback(() => {
+    setStep('payroll');
+  }, [setStep]);
+
+  const handlePayrollComplete = useCallback(() => {
+    setStep('lending');
+  }, [setStep]);
+
+  const handleLendingComplete = useCallback(() => {
     setStep('burn');
   }, [setStep]);
 
@@ -298,6 +338,34 @@ function DemoContent() {
           >
             <TreasuryDashboard />
             <PayoutStep onPayoutComplete={handlePayoutComplete} />
+          </motion.div>
+        )}
+
+        {currentStep === 'payroll' && (
+          <motion.div
+            key="payroll"
+            initial={{ opacity: 0, x: 40 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -40 }}
+            transition={{ duration: 0.35 }}
+            className="space-y-6"
+          >
+            <TreasuryDashboard />
+            <PayrollStep onPayrollComplete={handlePayrollComplete} />
+          </motion.div>
+        )}
+
+        {currentStep === 'lending' && (
+          <motion.div
+            key="lending"
+            initial={{ opacity: 0, x: 40 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -40 }}
+            transition={{ duration: 0.35 }}
+            className="space-y-6"
+          >
+            <TreasuryDashboard />
+            <LendingStep onLendingComplete={handleLendingComplete} />
           </motion.div>
         )}
 
