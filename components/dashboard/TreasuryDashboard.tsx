@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import {
   Wallet,
   TrendingUp,
@@ -8,10 +8,6 @@ import {
   Copy,
   Check,
   ExternalLink,
-  AlertTriangle,
-  Building,
-  Landmark,
-  DollarSign,
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/lib/hooks/useAuth';
@@ -21,43 +17,18 @@ import { getAddressUrl } from '@/lib/basescan';
 import TickingDigit from './TickingDigit';
 
 /* ── Yield-comparison data ── */
-// Rates grounded in fact (March 2026 sources: FDIC, Bankrate, US Treasury)
 const YIELD_BARS = [
-  {
-    name: 'Big Bank Checking',
-    sub: 'Chase, BofA, Wells Fargo',
-    rate: 0.01,  // Chase checking APY (chase.com)
-    icon: Building,
-    color: 'text-red-400',
-    barGradient: 'from-red-500/80 to-red-400/60',
-    per10k: '$1',
-  },
-  {
-    name: 'Avg Savings',
-    sub: 'FDIC national average',
-    rate: 0.39,  // FDIC national avg savings, Feb 2026
-    icon: Landmark,
-    color: 'text-amber-400',
-    barGradient: 'from-amber-500/80 to-amber-400/60',
-    per10k: '$39',
-  },
-{
-    name: 'Sage Dollar',
-    sub: 'SGUSD — Treasury minus 100bp',
-    rate: 3.20,  // US 10yr Treasury (4.20%) - 100bp spread
-    icon: DollarSign,
-    color: 'text-emerald-400',
-    barGradient: 'from-emerald-500 to-emerald-400',
-    per10k: '$320',
-  },
+  { name: 'Big Bank', rate: 0.01 },
+  { name: 'Avg Savings', rate: 0.45 },
+  { name: 'Sage Dollar', rate: 3.20 },
 ];
-const MAX_RATE = 4.5;
+const MAX_RATE = 4.0;
 
 export default function TreasuryDashboard() {
   const { walletAddress } = useAuth();
   const treasuryAddress = useTreasuryAddress();
   const balanceAddress = treasuryAddress || walletAddress;
-  const { displayBalance, numericBalance, isLoading, isError, refetch } =
+  const { displayBalance, isLoading, isError, refetch } =
     useTickingBalance(balanceAddress);
   const [copied, setCopied] = useState(false);
 
@@ -71,7 +42,6 @@ export default function TreasuryDashboard() {
 
   const hasBalance =
     displayBalance !== undefined && parseFloat(displayBalance) > 0;
-  const balance = numericBalance ?? 0;
 
   /* ── format balance into integer + decimal parts ── */
   const formatBalance = (bal: string | undefined) => {
@@ -81,12 +51,6 @@ export default function TreasuryDashboard() {
     return { integer: formattedInteger, decimal };
   };
   const { integer, decimal } = formatBalance(displayBalance);
-
-  /* ── yield comparison memos ── */
-  const annualLoss = useMemo(() => {
-    if (balance <= 0) return 0;
-    return balance * (3.20 / 100) - balance * (0.01 / 100);
-  }, [balance]);
 
   const basescanUrl = balanceAddress ? getAddressUrl(balanceAddress) : '#';
 
@@ -200,125 +164,54 @@ export default function TreasuryDashboard() {
       {/* ── Divider ── */}
       <div className="border-t border-white/[0.06] mb-6" />
 
-      {/* ── Embedded Yield Comparison — Horizontal Bars ── */}
+      {/* ── Yield Comparison ── */}
       <div>
         <div className="flex items-center justify-between mb-5">
-          <div>
-            <h3 className="text-sm font-semibold text-white tracking-tight">
-              Where is your money working hardest?
-            </h3>
-            <p className="text-xs text-slate-500 mt-0.5">
-              Annual yield on every $10,000
-            </p>
+          <h3 className="text-base font-semibold text-white tracking-tight font-headline">
+            Yield Comparison
+          </h3>
+          <div className="flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-[#4de082]" />
+            <span className="text-xs text-slate-400">Sage Dollar Performance</span>
           </div>
         </div>
 
-        {/* Horizontal bar rows */}
-        <div className="space-y-3">
+        <div className="rounded-xl bg-[#1c1b1b] border border-[#353534]/15 p-4 sm:p-5 space-y-4">
           {YIELD_BARS.map((item) => {
-            const Icon = item.icon;
-            const isSgusd = item.name === 'SGUSD';
-            const barWidth = Math.max((item.rate / MAX_RATE) * 100, 1.5);
+            const isSage = item.name === 'Sage Dollar';
+            const barWidth = Math.max((item.rate / MAX_RATE) * 100, 2);
 
             return (
-              <div
-                key={item.name}
-                className={`rounded-xl p-3 ${
-                  isSgusd
-                    ? 'bg-emerald-500/[0.06] border border-emerald-500/15'
-                    : 'bg-white/[0.02]'
-                }`}
-              >
-                {/* Top row: icon + name + rate + earnings */}
-                <div className="flex items-center justify-between mb-2">
-                  <div className="flex items-center gap-2.5">
-                    <div
-                      className={`w-7 h-7 rounded-md flex items-center justify-center ${
-                        isSgusd
-                          ? 'bg-emerald-500/15 border border-emerald-500/25'
-                          : 'bg-white/[0.04] border border-white/[0.06]'
-                      }`}
-                    >
-                      <Icon size={13} className={item.color} />
-                    </div>
-                    <div>
-                      <p className={`text-xs font-medium ${isSgusd ? 'text-white' : 'text-slate-400'}`}>
-                        {item.name}
-                      </p>
-                      <p className="text-[9px] text-slate-600 hidden sm:block">
-                        {item.sub}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-baseline gap-2">
-                    <span className={`text-sm font-bold tabular-nums ${item.color}`}>
-                      {item.rate.toFixed(2)}%
-                    </span>
-                    <span className={`text-[10px] tabular-nums ${isSgusd ? 'text-emerald-400/70' : 'text-slate-600'}`}>
-                      {item.per10k}/yr
+              <div key={item.name} className="flex items-center gap-4">
+                <span className={`text-sm font-medium w-24 shrink-0 ${isSage ? 'text-[#4de082]' : 'text-slate-400'}`}>
+                  {item.name}
+                </span>
+                <div className="flex-1 relative">
+                  <div className={`h-10 rounded-lg flex items-center px-4 ${
+                    isSage
+                      ? 'bg-[#4de082]/15 border border-[#4de082]/25'
+                      : 'bg-white/[0.04]'
+                  }`}
+                    style={{ width: `${barWidth}%`, minWidth: '140px', transition: 'width 0.4s ease-out' }}
+                  >
+                    <span className={`text-sm font-semibold tabular-nums ${isSage ? 'text-[#4de082]' : 'text-slate-300'}`}>
+                      {item.rate.toFixed(2)}% APY
                     </span>
                   </div>
-                </div>
-
-                {/* Bar */}
-                <div className="h-2.5 rounded-full bg-white/[0.04] overflow-hidden">
-                  <div
-                    className={`h-full rounded-full bg-gradient-to-r ${item.barGradient}`}
-                    style={{
-                      width: `${barWidth}%`,
-                      transition: 'width 0.4s ease-out',
-                    }}
-                  />
+                  {isSage && (
+                    <span className="absolute right-0 top-1/2 -translate-y-1/2 px-3 py-1 rounded-md bg-[#4de082]/10 border border-[#4de082]/20 text-[10px] font-bold uppercase tracking-wider text-[#4de082]">
+                      Best Performer
+                    </span>
+                  )}
                 </div>
               </div>
             );
           })}
         </div>
 
-        {/* Loss aversion callout */}
-        {balance > 0 && annualLoss > 0 && (
-          <div className="mt-4 p-3 rounded-xl bg-red-500/[0.06] border border-red-500/15">
-            <div className="flex items-start gap-2.5">
-              <AlertTriangle
-                size={14}
-                className="text-red-400 mt-0.5 flex-shrink-0"
-              />
-              <div>
-                <p className="text-xs text-red-300 font-medium">
-                  You&apos;re leaving{' '}
-                  <span className="text-red-400 font-bold">
-                    $
-                    {annualLoss.toLocaleString(undefined, {
-                      maximumFractionDigits: 0,
-                    })}
-                  </span>
-                  /year on the table in a checking account.
-                </p>
-                <p className="text-[10px] text-slate-500 mt-1">
-                  Big bank checking (0.01% APY) vs SGUSD (3.20% APY) on your current balance.
-                </p>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* BaseScan + source footnote */}
-        <div className="flex items-center justify-between mt-4">
-          <p className="text-[9px] text-slate-600">
-            Rates as of March 2026 &middot; Sources: Bankrate, NerdWallet
-          </p>
-          {balanceAddress && (
-            <a
-              href={basescanUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1 text-[10px] text-[#4de082] hover:text-[#3cd072] transition-colors"
-            >
-              View on BaseScan
-              <ExternalLink size={10} />
-            </a>
-          )}
-        </div>
+        <p className="text-[10px] text-slate-500 text-center mt-4 italic">
+          Data updated as of 12:00 PM UTC. Based on institutional treasury benchmarks.
+        </p>
       </div>
     </div>
   );
