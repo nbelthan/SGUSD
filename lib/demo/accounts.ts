@@ -48,6 +48,18 @@ export const TRADITIONAL_FEES = {
   fxMarkupPercent: 3,
 } as const;
 
+/** Default burn amount for the off-ramp step (in USD/SGUSD). */
+export const DEFAULT_BURN_AMOUNT = '2500';
+
+/** Off-ramp fee comparison: traditional remittance vs Sage Intacct. */
+export const OFFRAMP_FEES = {
+  remittanceFee: 15,
+  fxSpreadPercent: 4,
+} as const;
+
+/** Simulated MXN/USD exchange rate for off-ramp display. */
+export const MXN_RATE = 17.4;
+
 /** Traditional domestic payment fees — what the SMB loses receiving card payments. */
 export const DOMESTIC_FEES = {
   cardProcessingPercent: 2.9,

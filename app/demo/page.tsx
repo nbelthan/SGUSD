@@ -19,6 +19,7 @@ import Header from '@/components/layout/Header';
 import TreasuryDashboard from '@/components/dashboard/TreasuryDashboard';
 import MintStep from '@/components/demo/MintStep';
 import PayoutStep from '@/components/demo/PayoutStep';
+import BurnStep from '@/components/demo/BurnStep';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import NetworkGuard from '@/components/NetworkGuard';
 import { useTickingBalance } from '@/lib/hooks/useTickingBalance';
@@ -28,11 +29,13 @@ import {
   DEFAULT_PAYOUT_AMOUNT,
   TRADITIONAL_FEES,
 } from '@/lib/demo/accounts';
+import { ArrowDownCircle } from 'lucide-react';
 
 const STEPS: { key: DemoStep; label: string; icon: typeof CircleDot }[] = [
   { key: 'mint', label: 'Invoice Payment', icon: CircleDot },
   { key: 'watch-yield', label: 'Yield Accrual', icon: Eye },
   { key: 'payout', label: 'Contractor Payout', icon: Send },
+  { key: 'burn', label: 'Off-Ramp', icon: ArrowDownCircle },
   { key: 'confirmation', label: 'Confirmed', icon: CheckCircle2 },
 ];
 
@@ -244,6 +247,10 @@ function DemoContent() {
   }, [setStep]);
 
   const handlePayoutComplete = useCallback(() => {
+    setStep('burn');
+  }, [setStep]);
+
+  const handleBurnComplete = useCallback(() => {
     setStep('confirmation');
   }, [setStep]);
 
@@ -307,6 +314,20 @@ function DemoContent() {
           >
             <TreasuryDashboard />
             <PayoutStep onPayoutComplete={handlePayoutComplete} />
+          </motion.div>
+        )}
+
+        {currentStep === 'burn' && (
+          <motion.div
+            key="burn"
+            initial={{ opacity: 0, x: 40 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -40 }}
+            transition={{ duration: 0.35 }}
+            className="space-y-6"
+          >
+            <TreasuryDashboard />
+            <BurnStep onBurnComplete={handleBurnComplete} />
           </motion.div>
         )}
 
