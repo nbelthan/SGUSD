@@ -58,6 +58,7 @@ export default function LendingStep({ onLendingComplete }: LendingStepProps) {
 
     // Step 1: Mint incoming payment
     setPhase('minting');
+    let mintHash: string;
     try {
       const mintRes = await fetch('/api/mint', {
         method: 'POST',
@@ -66,11 +67,24 @@ export default function LendingStep({ onLendingComplete }: LendingStepProps) {
       });
       const mintData = await mintRes.json();
       if (!mintRes.ok) throw new Error(mintData.error || 'Mint failed');
-      setMintTxHash(mintData.hash);
+      mintHash = mintData.hash;
+      setMintTxHash(mintHash);
     } catch (err: unknown) {
       setActionError(err instanceof Error ? err.message : 'Payment mint failed');
       setPhase('idle');
       return;
+    }
+
+    // Wait for mint to confirm before sending transfer (same deployer wallet = same nonce pool)
+    try {
+      const waitRes = await fetch(`/api/tx-wait?hash=${mintHash}`);
+      if (!waitRes.ok) {
+        // Fallback: just wait a fixed time if the endpoint doesn't exist
+        await new Promise((r) => setTimeout(r, 8000));
+      }
+    } catch {
+      // Fallback: wait for block confirmation
+      await new Promise((r) => setTimeout(r, 8000));
     }
 
     // Step 2: Transfer auto-repayment to Sage Capital
@@ -238,7 +252,7 @@ export default function LendingStep({ onLendingComplete }: LendingStepProps) {
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-slate-400">Late fees</span>
-                <span className="text-emerald-400 font-medium">$0 (impossible)</span>
+                <span className="text-emerald-400 font-medium">$0 (auto-pay)</span>
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-slate-400">APR</span>
