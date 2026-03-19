@@ -41,15 +41,15 @@ export default function Header() {
   };
 
   return (
-    <header className="w-full border-b border-white/10 backdrop-blur-xl bg-white/[0.02] sticky top-0 z-40">
+    <header className="w-full border-b border-white/10 backdrop-blur-xl bg-[#131313]/80 sticky top-0 z-40">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
         {/* Logo + Nav */}
         <div className="flex items-center gap-4 sm:gap-6">
           <Link href="/" className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center">
+            <div className="w-9 h-9 rounded-xl bg-[#4de082]/10 border border-[#4de082]/20 flex items-center justify-center">
               <SageBridgeLogo size={22} />
             </div>
-            <span className="text-lg font-semibold tracking-tight text-white">
+            <span className="text-lg font-semibold tracking-tight text-white font-headline">
               Sage Intacct
             </span>
           </Link>
@@ -65,7 +65,7 @@ export default function Header() {
                   href={item.href}
                   className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
                     isActive
-                      ? 'bg-indigo-500/10 text-indigo-300 border border-indigo-500/20'
+                      ? 'bg-[#4de082]/10 text-[#4de082] border border-[#4de082]/20'
                       : 'text-slate-500 hover:text-slate-300 hover:bg-white/5'
                   }`}
                 >
@@ -87,7 +87,7 @@ export default function Header() {
                 title={`Click to copy: ${walletAddress}`}
                 className="flex items-center gap-1.5 px-2.5 py-1.5 text-sm hover:bg-white/5 transition-all group"
               >
-                <Wallet size={13} className="text-indigo-400" />
+                <Wallet size={13} className="text-[#4de082]" />
                 <span className="font-mono text-slate-300 text-xs group-hover:text-white transition-colors">
                   {walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}
                 </span>
@@ -104,7 +104,7 @@ export default function Header() {
                 className="px-2 py-1.5 border-l border-white/10 hover:bg-white/5 transition-all"
                 title="View on BaseScan"
               >
-                <ExternalLink size={10} className="text-slate-500 hover:text-indigo-400 transition-colors" />
+                <ExternalLink size={10} className="text-slate-500 hover:text-[#4de082] transition-colors" />
               </a>
             </div>
           )}
@@ -134,7 +134,7 @@ export default function Header() {
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: 'auto' }}
           exit={{ opacity: 0, height: 0 }}
-          className="sm:hidden border-t border-white/10 bg-neutral-950/95 backdrop-blur-xl"
+          className="sm:hidden border-t border-white/10 bg-[#131313]/95 backdrop-blur-xl"
           ref={menuRef}
         >
           <div className="px-4 py-3 space-y-1">
@@ -149,7 +149,7 @@ export default function Header() {
                   onClick={() => setMenuOpen(false)}
                   className={`flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium transition-all ${
                     isActive
-                      ? 'bg-indigo-500/10 text-indigo-300 border border-indigo-500/20'
+                      ? 'bg-[#4de082]/10 text-[#4de082] border border-[#4de082]/20'
                       : 'text-slate-400 hover:text-white hover:bg-white/5'
                   }`}
                 >

@@ -10,12 +10,12 @@ export default function LoginScreen() {
     <main className="flex min-h-screen flex-col items-center justify-center p-6">
       <div className="glass-card p-12 text-center w-full max-w-md">
         <div className="flex justify-center mb-6">
-          <div className="w-16 h-16 rounded-2xl bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center">
+          <div className="w-16 h-16 rounded-2xl bg-[#4de082]/10 border border-[#4de082]/20 flex items-center justify-center">
             <SageBridgeLogo size={36} />
           </div>
         </div>
 
-        <h1 className="text-4xl font-bold tracking-tight text-white mb-2">
+        <h1 className="text-4xl font-bold tracking-tight text-white mb-2 font-headline">
           Sage Intacct
         </h1>
         <p className="text-slate-400 mb-8">

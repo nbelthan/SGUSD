@@ -64,8 +64,8 @@ export default function MintStep({ onMintComplete }: MintStepProps) {
         {/* Step header card */}
         <div className="glass-card p-5 sm:p-8 md:p-10 max-w-lg mx-auto">
           <div className="flex items-center gap-3 mb-6">
-            <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20">
-              <Banknote size={20} className="text-indigo-400" />
+            <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-[#4de082]/10 border border-[#4de082]/20">
+              <Banknote size={20} className="text-[#4de082]" />
             </div>
             <div>
               <h3 className="text-lg font-semibold text-white">
@@ -132,7 +132,7 @@ export default function MintStep({ onMintComplete }: MintStepProps) {
                 onClick={() => setIsSageMode(true)}
                 className={`flex-1 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
                   isSageMode
-                    ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30'
+                    ? 'bg-[#4de082]/20 text-[#4de082] border border-[#4de082]/30'
                     : 'text-slate-500 hover:text-slate-300'
                 }`}
               >
@@ -202,14 +202,14 @@ export default function MintStep({ onMintComplete }: MintStepProps) {
               <div className="flex items-center gap-2">
                 <Clock
                   size={16}
-                  className={isSageMode ? 'text-indigo-400' : 'text-amber-400'}
+                  className={isSageMode ? 'text-[#4de082]' : 'text-amber-400'}
                 />
                 <span className="text-sm font-medium">Settlement:</span>
               </div>
               <span
                 className={`text-sm ${
                   isSageMode
-                    ? 'text-indigo-300 font-semibold'
+                    ? 'text-[#4de082] font-semibold'
                     : 'text-slate-300'
                 }`}
               >
@@ -236,7 +236,7 @@ export default function MintStep({ onMintComplete }: MintStepProps) {
                     href={getTxUrl(txHash)}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-1.5 text-xs text-indigo-400 hover:text-indigo-300 transition-colors"
+                    className="flex items-center justify-center gap-1.5 text-xs text-[#4de082] hover:text-[#4de082] transition-colors"
                   >
                     <span>View on BaseScan</span>
                     <ExternalLink size={10} />
@@ -286,7 +286,7 @@ export default function MintStep({ onMintComplete }: MintStepProps) {
                 </p>
                 <button
                   onClick={reset}
-                  className="text-xs text-indigo-400 hover:text-indigo-300 transition-colors font-medium"
+                  className="text-xs text-[#4de082] hover:text-[#4de082] transition-colors font-medium"
                 >
                   Try again
                 </button>
@@ -335,8 +335,8 @@ export default function MintStep({ onMintComplete }: MintStepProps) {
 
                 <div className="p-4 rounded-xl bg-white/[0.03] border border-white/5">
                   <div className="flex items-center gap-2 mb-2">
-                    <Clock size={14} className="text-indigo-400" />
-                    <span className="text-xs font-medium text-indigo-400">
+                    <Clock size={14} className="text-[#4de082]" />
+                    <span className="text-xs font-medium text-[#4de082]">
                       Instant
                     </span>
                   </div>

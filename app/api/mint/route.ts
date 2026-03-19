@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createWalletClient, http, parseUnits, isAddress } from 'viem';
+import { createWalletClient, createPublicClient, http, parseUnits, isAddress } from 'viem';
 import { privateKeyToAccount } from 'viem/accounts';
 import { baseSepolia } from '@/lib/chains';
 import { SAGECOIN_ABI } from '@/lib/contracts/sagecoin-abi';
@@ -40,11 +40,24 @@ export async function POST(request: NextRequest) {
     // This ensures the deployer has SGUSD to transfer later.
     const treasuryAddress = account.address;
 
+    const publicClient = createPublicClient({
+      chain: baseSepolia,
+      transport: http(),
+    });
+
+    // Explicitly fetch the pending nonce to avoid stale nonce errors
+    // when multiple transactions are sent in quick succession.
+    const nonce = await publicClient.getTransactionCount({
+      address: account.address,
+      blockTag: 'pending',
+    });
+
     const hash = await client.writeContract({
       address: SAGECOIN_ADDRESS,
       abi: SAGECOIN_ABI,
       functionName: 'mint',
       args: [treasuryAddress, parsedAmount],
+      nonce,
     });
 
     return NextResponse.json({ hash, to: treasuryAddress, amount, treasury: treasuryAddress });

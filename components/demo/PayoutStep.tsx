@@ -77,8 +77,8 @@ export default function PayoutStep({ onPayoutComplete }: PayoutStepProps) {
       {/* Step header */}
       <div className="glass-card p-5 sm:p-8 md:p-10 max-w-lg mx-auto">
         <div className="flex items-center gap-3 mb-6">
-          <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20">
-            <Send size={20} className="text-indigo-400" />
+          <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-[#4de082]/10 border border-[#4de082]/20">
+            <Send size={20} className="text-[#4de082]" />
           </div>
           <div>
             <h3 className="text-lg font-semibold text-white">
@@ -92,7 +92,7 @@ export default function PayoutStep({ onPayoutComplete }: PayoutStepProps) {
           {payoutAmount.toLocaleString()} for freelance design work.
           Today, this cross-border payout goes off-platform with a $45 wire fee +
           3% FX markup. With SGUSD, it settles{' '}
-          <span className="text-indigo-400 font-medium">instantly, zero fees</span> &mdash;
+          <span className="text-[#4de082] font-medium">instantly, zero fees</span> &mdash;
           and Rivera&apos;s funds start earning yield immediately.
         </p>
       </div>
@@ -183,8 +183,8 @@ export default function PayoutStep({ onPayoutComplete }: PayoutStepProps) {
             </div>
 
             {/* Settlement speed */}
-            <div className="flex items-center justify-center gap-3 p-3 rounded-xl bg-indigo-500/[0.06] border border-indigo-500/15 mb-4">
-              <Clock size={16} className="text-indigo-400" />
+            <div className="flex items-center justify-center gap-3 p-3 rounded-xl bg-[#4de082]/[0.06] border border-[#4de082]/15 mb-4">
+              <Clock size={16} className="text-[#4de082]" />
               <div className="text-sm">
                 <span className="text-white font-medium">Settlement: </span>
                 <span className="text-emerald-400 font-bold">&lt;2 seconds</span>
@@ -199,11 +199,11 @@ export default function PayoutStep({ onPayoutComplete }: PayoutStepProps) {
                 href={getTxUrl(transferTxHash)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-xs text-indigo-400 hover:text-indigo-300 transition-colors"
+                className="inline-flex items-center gap-1.5 text-xs text-[#4de082] hover:text-[#4de082] transition-colors"
               >
                 <ExternalLink size={12} />
                 <span>Verify on BaseScan</span>
-                <span className="font-mono text-indigo-400/60">
+                <span className="font-mono text-[#4de082]/60">
                   {transferTxHash.slice(0, 10)}...{transferTxHash.slice(-6)}
                 </span>
               </a>
@@ -222,8 +222,8 @@ export default function PayoutStep({ onPayoutComplete }: PayoutStepProps) {
             className="glass-card p-5 sm:p-8"
           >
             <div className="flex items-center gap-3 mb-5">
-              <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20">
-                <Globe size={20} className="text-indigo-400" />
+              <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-[#4de082]/10 border border-[#4de082]/20">
+                <Globe size={20} className="text-[#4de082]" />
               </div>
               <div>
                 <h3 className="text-lg font-semibold text-white">

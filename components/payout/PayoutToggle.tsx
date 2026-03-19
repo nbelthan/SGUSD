@@ -92,7 +92,7 @@ export default function PayoutToggle({
           onClick={() => setIsSageMode(true)}
           className={`flex-1 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
             isSageMode
-              ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30'
+              ? 'bg-[#4de082]/20 text-[#4de082] border border-[#4de082]/30'
               : 'text-slate-500 hover:text-slate-300'
           }`}
         >
@@ -149,14 +149,14 @@ export default function PayoutToggle({
         <div className="flex items-center gap-2">
           <Clock
             size={16}
-            className={isSageMode ? 'text-indigo-400' : 'text-amber-400'}
+            className={isSageMode ? 'text-[#4de082]' : 'text-amber-400'}
           />
           <span className="text-sm font-medium">ETA:</span>
         </div>
         <span
           className={`text-sm ${
             isSageMode
-              ? 'text-indigo-300 font-semibold'
+              ? 'text-[#4de082] font-semibold'
               : 'text-slate-300'
           }`}
         >

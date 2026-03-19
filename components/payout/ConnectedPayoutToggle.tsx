@@ -82,7 +82,7 @@ export default function ConnectedPayoutToggle({
           </p>
           <button
             onClick={reset}
-            className="text-xs text-indigo-400 hover:text-indigo-300 transition-colors font-medium"
+            className="text-xs text-[#4de082] hover:text-[#4de082] transition-colors font-medium"
           >
             Try again
           </button>

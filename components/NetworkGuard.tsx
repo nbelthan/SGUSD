@@ -25,7 +25,7 @@ export default function NetworkGuard({ children }: { children: React.ReactNode }
             Wrong Network
           </h3>
           <p className="text-sm text-slate-400 mb-1">
-            Sage Intacct runs on <span className="text-indigo-400 font-medium">Base Sepolia</span> testnet.
+            Sage Intacct runs on <span className="text-[#4de082] font-medium">Base Sepolia</span> testnet.
           </p>
           <p className="text-xs text-slate-500 mb-6">
             You&apos;re currently connected to {chain.name || `Chain ${chain.id}`}.
@@ -33,7 +33,7 @@ export default function NetworkGuard({ children }: { children: React.ReactNode }
           <button
             onClick={() => switchChain({ chainId: CHAIN_ID })}
             disabled={isPending}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-500/10 hover:bg-indigo-500/15 border border-indigo-500/20 text-sm text-indigo-300 transition-colors disabled:opacity-50"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#4de082]/10 hover:bg-[#4de082]/15 border border-[#4de082]/20 text-sm text-[#4de082] transition-colors disabled:opacity-50"
           >
             {isPending ? (
               <RefreshCw size={14} className="animate-spin" />

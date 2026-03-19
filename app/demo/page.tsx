@@ -73,7 +73,7 @@ function StepIndicator({ currentStep }: { currentStep: DemoStep }) {
               }}
               className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-xs font-medium transition-colors ${
                 isCurrent
-                  ? 'bg-indigo-500/15 text-indigo-300 border border-indigo-500/30'
+                  ? 'bg-[#4de082]/15 text-[#4de082] border border-[#4de082]/30'
                   : isComplete
                   ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
                   : 'bg-white/[0.06] text-slate-400 border border-white/10'
@@ -89,7 +89,7 @@ function StepIndicator({ currentStep }: { currentStep: DemoStep }) {
                   initial={{ scaleX: 0 }}
                   animate={{ scaleX: isComplete ? 1 : 0 }}
                   transition={{ duration: 0.5, ease: 'easeOut' }}
-                  className="absolute inset-0 bg-emerald-500/60 origin-left"
+                  className="absolute inset-0 bg-[#4de082]/60 origin-left"
                 />
               </div>
             )}
@@ -160,8 +160,8 @@ function ConfirmationStep({ onReset }: { onReset: () => void }) {
       {/* Rivera Design Co. balance (receiver — ticking) */}
       <div className="glass-card p-5 sm:p-8">
         <div className="flex items-center gap-3 mb-5">
-          <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20">
-            <Globe size={20} className="text-indigo-400" />
+          <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-[#4de082]/10 border border-[#4de082]/20">
+            <Globe size={20} className="text-[#4de082]" />
           </div>
           <div>
             <h3 className="text-lg font-semibold text-white">
@@ -227,9 +227,9 @@ function ConfirmationStep({ onReset }: { onReset: () => void }) {
               Total fees saved: ${totalSaved.toLocaleString()}
             </span>
           </div>
-          <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-indigo-500/10 border border-indigo-500/20">
-            <Clock size={16} className="text-indigo-400" />
-            <span className="text-sm font-bold text-indigo-300">
+          <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#4de082]/10 border border-[#4de082]/20">
+            <Clock size={16} className="text-[#4de082]" />
+            <span className="text-sm font-bold text-[#4de082]">
               Settlement: &lt;2 seconds
             </span>
           </div>
@@ -237,7 +237,7 @@ function ConfirmationStep({ onReset }: { onReset: () => void }) {
 
         <p className="text-xs text-slate-500 mb-6">
           Every transaction is verifiable on{' '}
-          <span className="text-indigo-400">Base Sepolia</span> via BaseScan.
+          <span className="text-[#4de082]">Base Sepolia</span> via BaseScan.
         </p>
         <button
           onClick={onReset}
@@ -398,7 +398,7 @@ export default function DemoPage() {
     return (
       <main className="flex min-h-screen flex-col items-center justify-center p-6">
         <div className="glass-card p-12 text-center">
-          <div className="w-8 h-8 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin mx-auto" />
+          <div className="w-8 h-8 border-2 border-[#4de082] border-t-transparent rounded-full animate-spin mx-auto" />
           <p className="text-slate-400 mt-4">Loading...</p>
         </div>
       </main>

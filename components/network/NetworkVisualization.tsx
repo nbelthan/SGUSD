@@ -53,13 +53,13 @@ export default function NetworkVisualization({
             className={`w-11 h-11 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl flex items-center justify-center border transition-colors duration-500 ${
               phase === 'confirmed'
                 ? 'bg-emerald-500/20 border-emerald-500/30'
-                : 'bg-indigo-500/20 border-indigo-500/30'
+                : 'bg-[#4de082]/20 border-[#4de082]/30'
             }`}
           >
             <Building2
               size={20}
               className={
-                phase === 'confirmed' ? 'text-emerald-400' : 'text-indigo-400'
+                phase === 'confirmed' ? 'text-emerald-400' : 'text-[#4de082]'
               }
             />
           </div>
@@ -92,8 +92,8 @@ export default function NetworkVisualization({
                 className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2"
               >
                 <div className="relative">
-                  <div className="w-3 h-3 rounded-full bg-indigo-500" />
-                  <div className="absolute inset-0 w-3 h-3 rounded-full bg-indigo-400/40 blur-sm animate-ping" />
+                  <div className="w-3 h-3 rounded-full bg-[#4de082]" />
+                  <div className="absolute inset-0 w-3 h-3 rounded-full bg-[#4de082]/40 blur-sm animate-ping" />
                 </div>
               </motion.div>
             )}
@@ -122,7 +122,7 @@ export default function NetworkVisualization({
                 className={`text-xs font-medium px-2 py-0.5 rounded-full ${
                   phase === 'confirmed'
                     ? 'text-emerald-400 bg-emerald-500/10'
-                    : 'text-indigo-300 bg-indigo-500/10'
+                    : 'text-[#4de082] bg-[#4de082]/10'
                 }`}
               >
                 ${amount.toLocaleString(undefined, { minimumFractionDigits: 2 })}

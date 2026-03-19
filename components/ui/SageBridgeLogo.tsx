@@ -29,9 +29,9 @@ export default function SageBridgeLogo({ size = 24, className = '' }: SageBridge
         fill="none"
       />
       {/* Left pillar */}
-      <line x1="7" y1="18" x2="7" y2="26" stroke="#818cf8" strokeWidth="2" strokeLinecap="round" />
+      <line x1="7" y1="18" x2="7" y2="26" stroke="#4de082" strokeWidth="2" strokeLinecap="round" />
       {/* Right pillar */}
-      <line x1="25" y1="18" x2="25" y2="26" stroke="#818cf8" strokeWidth="2" strokeLinecap="round" />
+      <line x1="25" y1="18" x2="25" y2="26" stroke="#4de082" strokeWidth="2" strokeLinecap="round" />
       {/* Flow line — money moving across */}
       <path
         d="M6 20C10 16 14 14 16 14C18 14 22 16 26 20"
@@ -50,7 +50,7 @@ export default function SageBridgeLogo({ size = 24, className = '' }: SageBridge
         textAnchor="middle"
         fontSize="5"
         fontWeight="bold"
-        fill="#0f172a"
+        fill="#003919"
         fontFamily="system-ui"
       >
         $
@@ -60,17 +60,17 @@ export default function SageBridgeLogo({ size = 24, className = '' }: SageBridge
 
       <defs>
         <linearGradient id="bridge-gradient" x1="4" y1="16" x2="28" y2="16" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#6366f1" />
-          <stop offset="0.5" stopColor="#818cf8" />
-          <stop offset="1" stopColor="#6366f1" />
+          <stop stopColor="#3cd072" />
+          <stop offset="0.5" stopColor="#4de082" />
+          <stop offset="1" stopColor="#3cd072" />
         </linearGradient>
         <linearGradient id="flow-gradient" x1="6" y1="17" x2="26" y2="17" gradientUnits="userSpaceOnUse">
           <stop stopColor="#10b981" />
           <stop offset="1" stopColor="#34d399" />
         </linearGradient>
         <linearGradient id="node-gradient" x1="13" y1="9" x2="19" y2="15" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#34d399" />
-          <stop offset="1" stopColor="#10b981" />
+          <stop stopColor="#4de082" />
+          <stop offset="1" stopColor="#3cd072" />
         </linearGradient>
       </defs>
     </svg>

@@ -126,8 +126,8 @@ export default function LendingStep({ onLendingComplete }: LendingStepProps) {
       {/* Header card */}
       <div className="glass-card p-5 sm:p-8 md:p-10 max-w-lg mx-auto">
         <div className="flex items-center gap-3 mb-6">
-          <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20">
-            <Landmark size={20} className="text-indigo-400" />
+          <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-[#4de082]/10 border border-[#4de082]/20">
+            <Landmark size={20} className="text-[#4de082]" />
           </div>
           <div>
             <h3 className="text-lg font-semibold text-white">
@@ -150,7 +150,7 @@ export default function LendingStep({ onLendingComplete }: LendingStepProps) {
       <div className="glass-card p-5 sm:p-8 max-w-lg mx-auto">
         <div className="flex items-center justify-between mb-4">
           <h4 className="text-sm font-semibold text-white">Line of Credit Status</h4>
-          <span className="text-xs px-2 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-300">
+          <span className="text-xs px-2 py-1 rounded-full bg-[#4de082]/10 border border-[#4de082]/20 text-[#4de082]">
             {SAGE_CAPITAL_ACCOUNT.role.match(/\((.+)\)/)?.[1]}
           </span>
         </div>
@@ -193,7 +193,7 @@ export default function LendingStep({ onLendingComplete }: LendingStepProps) {
           </div>
           <div className="h-2 rounded-full bg-white/5 overflow-hidden">
             <motion.div
-              className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-violet-500"
+              className="h-full rounded-full bg-gradient-to-r from-[#4de082]/60 to-[#4de082]"
               animate={{ width: showUpdatedLoc ? `${utilizationNew}%` : `${utilizationOld}%` }}
               transition={{ duration: 0.8, ease: 'easeOut' }}
             />
@@ -228,7 +228,7 @@ export default function LendingStep({ onLendingComplete }: LendingStepProps) {
             onClick={() => setIsSageMode(true)}
             className={`flex-1 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
               isSageMode
-                ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30'
+                ? 'bg-[#4de082]/20 text-[#4de082] border border-[#4de082]/30'
                 : 'text-slate-500 hover:text-slate-300'
             }`}
           >
@@ -312,11 +312,11 @@ export default function LendingStep({ onLendingComplete }: LendingStepProps) {
                     href={getTxUrl(mintTxHash)}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-1.5 text-xs text-indigo-400 hover:text-indigo-300 transition-colors"
+                    className="flex items-center gap-1.5 text-xs text-[#4de082] hover:text-[#4de082] transition-colors"
                   >
                     <span>Payment tx</span>
                     <ExternalLink size={10} />
-                    <span className="font-mono text-indigo-400/60">
+                    <span className="font-mono text-[#4de082]/60">
                       {mintTxHash.slice(0, 10)}...{mintTxHash.slice(-6)}
                     </span>
                   </a>
@@ -326,11 +326,11 @@ export default function LendingStep({ onLendingComplete }: LendingStepProps) {
                     href={getTxUrl(repayTxHash)}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-1.5 text-xs text-indigo-400 hover:text-indigo-300 transition-colors"
+                    className="flex items-center gap-1.5 text-xs text-[#4de082] hover:text-[#4de082] transition-colors"
                   >
                     <span>Repayment tx</span>
                     <ExternalLink size={10} />
-                    <span className="font-mono text-indigo-400/60">
+                    <span className="font-mono text-[#4de082]/60">
                       {repayTxHash.slice(0, 10)}...{repayTxHash.slice(-6)}
                     </span>
                   </a>
@@ -403,9 +403,9 @@ export default function LendingStep({ onLendingComplete }: LendingStepProps) {
 
             {/* Split visualization */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
-              <div className="p-4 rounded-xl bg-indigo-500/[0.06] border border-indigo-500/15 text-center">
-                <Landmark size={16} className="text-indigo-400 mx-auto mb-2" />
-                <p className="text-lg font-bold text-indigo-300">${repayAmount.toLocaleString()}</p>
+              <div className="p-4 rounded-xl bg-[#4de082]/[0.06] border border-[#4de082]/15 text-center">
+                <Landmark size={16} className="text-[#4de082] mx-auto mb-2" />
+                <p className="text-lg font-bold text-[#4de082]">${repayAmount.toLocaleString()}</p>
                 <p className="text-xs text-slate-400 mt-1">LOC Repayment ({AUTO_REPAY_PERCENT}%)</p>
               </div>
               <div className="p-4 rounded-xl bg-emerald-500/[0.06] border border-emerald-500/15 text-center">

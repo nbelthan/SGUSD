@@ -110,7 +110,7 @@ export function TransactionToast({
                       href={getTxUrl(txHash)}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 text-xs text-indigo-400 hover:text-indigo-300 mt-2 transition-colors"
+                      className="inline-flex items-center gap-1 text-xs text-[#4de082] hover:text-[#4de082] mt-2 transition-colors"
                     >
                       <span>{truncateHash(txHash)}</span>
                       <ExternalLink size={10} />

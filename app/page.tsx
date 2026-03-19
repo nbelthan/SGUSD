@@ -18,7 +18,7 @@ export default function Home() {
     return (
       <main className="flex min-h-screen flex-col items-center justify-center p-6">
         <div className="glass-card p-12 text-center">
-          <div className="w-8 h-8 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin mx-auto" />
+          <div className="w-8 h-8 border-2 border-[#4de082] border-t-transparent rounded-full animate-spin mx-auto" />
           <p className="text-slate-400 mt-4">Loading...</p>
         </div>
       </main>
@@ -52,10 +52,10 @@ export default function Home() {
           {/* Row 3: Demo CTA */}
           <div className="mt-4 sm:mt-6">
             <Link href="/demo" className="block">
-              <div className="glass-card p-4 sm:p-5 flex items-center justify-between group hover:border-indigo-500/20 transition-all duration-300 cursor-pointer">
+              <div className="glass-card p-4 sm:p-5 flex items-center justify-between group hover:border-[#4de082]/20 transition-all duration-300 cursor-pointer">
                 <div className="flex items-center gap-3">
-                  <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-indigo-500/10 border border-indigo-500/20 group-hover:bg-indigo-500/15 transition-colors">
-                    <Play size={16} className="text-indigo-400 ml-0.5" />
+                  <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-[#4de082]/10 border border-[#4de082]/20 group-hover:bg-[#4de082]/15 transition-colors">
+                    <Play size={16} className="text-[#4de082] ml-0.5" />
                   </div>
                   <div>
                     <p className="text-sm font-medium text-white">
@@ -69,7 +69,7 @@ export default function Home() {
                 </div>
                 <ArrowRight
                   size={16}
-                  className="text-slate-500 group-hover:text-indigo-400 group-hover:translate-x-1 transition-all"
+                  className="text-slate-500 group-hover:text-[#4de082] group-hover:translate-x-1 transition-all"
                 />
               </div>
             </Link>

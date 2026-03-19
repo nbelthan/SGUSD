@@ -57,11 +57,17 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const nonce = await publicClient.getTransactionCount({
+      address: account.address,
+      blockTag: 'pending',
+    });
+
     const hash = await walletClient.writeContract({
       address: SAGECOIN_ADDRESS,
       abi: SAGECOIN_ABI,
       functionName: 'burn',
       args: [from as `0x${string}`, parsedAmount],
+      nonce,
     });
 
     return NextResponse.json({ hash, from, amount });

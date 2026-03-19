@@ -60,11 +60,20 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Explicitly fetch the pending nonce to avoid stale nonce errors when
+    // a prior tx (e.g. mint) was just confirmed but the RPC node's "latest"
+    // count hasn't caught up yet.
+    const nonce = await publicClient.getTransactionCount({
+      address: account.address,
+      blockTag: 'pending',
+    });
+
     const hash = await walletClient.writeContract({
       address: SAGECOIN_ADDRESS,
       abi: SAGECOIN_ABI,
       functionName: 'transfer',
       args: [to as `0x${string}`, parsedAmount],
+      nonce,
     });
 
     return NextResponse.json({ hash, from, to, amount });

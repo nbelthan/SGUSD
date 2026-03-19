@@ -121,8 +121,8 @@ export default function PayrollStep({ onPayrollComplete }: PayrollStepProps) {
       {/* Header card */}
       <div className="glass-card p-5 sm:p-8 md:p-10 max-w-lg mx-auto">
         <div className="flex items-center gap-3 mb-6">
-          <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20">
-            <Users size={20} className="text-indigo-400" />
+          <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-[#4de082]/10 border border-[#4de082]/20">
+            <Users size={20} className="text-[#4de082]" />
           </div>
           <div>
             <h3 className="text-lg font-semibold text-white">
@@ -144,7 +144,7 @@ export default function PayrollStep({ onPayrollComplete }: PayrollStepProps) {
       <div className="glass-card p-5 sm:p-8 max-w-lg mx-auto">
         {/* Employee profile */}
         <div className="flex items-center gap-3 mb-6">
-          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-violet-500/20 to-indigo-500/20 border border-white/10 flex items-center justify-center text-sm font-bold text-indigo-300">
+          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#4de082]/15 to-[#3cd072]/15 border border-white/10 flex items-center justify-center text-sm font-bold text-[#4de082]">
             MG
           </div>
           <div>
@@ -183,7 +183,7 @@ export default function PayrollStep({ onPayrollComplete }: PayrollStepProps) {
           </div>
           <div className="mt-2 h-1.5 rounded-full bg-white/5 overflow-hidden">
             <motion.div
-              className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-emerald-500"
+              className="h-full rounded-full bg-gradient-to-r from-[#4de082]/60 to-[#4de082]"
               animate={{ width: `${(streamedAmount / DAILY_RATE) * 100}%` }}
               transition={{ duration: 0.1 }}
             />
@@ -217,7 +217,7 @@ export default function PayrollStep({ onPayrollComplete }: PayrollStepProps) {
             onClick={() => setIsSageMode(true)}
             className={`flex-1 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
               isSageMode
-                ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30'
+                ? 'bg-[#4de082]/20 text-[#4de082] border border-[#4de082]/30'
                 : 'text-slate-500 hover:text-slate-300'
             }`}
           >
@@ -299,7 +299,7 @@ export default function PayrollStep({ onPayrollComplete }: PayrollStepProps) {
                 href={getTxUrl(mintTxHash)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-1.5 text-xs text-indigo-400 hover:text-indigo-300 transition-colors"
+                className="flex items-center justify-center gap-1.5 text-xs text-[#4de082] hover:text-[#4de082] transition-colors"
               >
                 <span>View on BaseScan</span>
                 <ExternalLink size={10} />
@@ -375,8 +375,8 @@ export default function PayrollStep({ onPayrollComplete }: PayrollStepProps) {
 
               <div className="p-4 rounded-xl bg-white/[0.03] border border-white/5">
                 <div className="flex items-center gap-2 mb-2">
-                  <Clock size={14} className="text-indigo-400" />
-                  <span className="text-xs font-medium text-indigo-400">Reduced</span>
+                  <Clock size={14} className="text-[#4de082]" />
+                  <span className="text-xs font-medium text-[#4de082]">Reduced</span>
                 </div>
                 <p className="text-lg font-bold text-white">
                   <span className="line-through text-red-400/60">${TRADITIONAL_PAYROLL_FEES.ewaFeeFlat}</span>{' '}

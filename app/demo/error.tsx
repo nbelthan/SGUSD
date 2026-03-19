@@ -37,7 +37,7 @@ export default function DemoError({
           </button>
           <Link
             href="/"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-500/10 hover:bg-indigo-500/15 border border-indigo-500/20 text-sm text-indigo-300 transition-colors"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#4de082]/10 hover:bg-[#4de082]/15 border border-[#4de082]/20 text-sm text-[#4de082] transition-colors"
           >
             <Home size={14} />
             Dashboard

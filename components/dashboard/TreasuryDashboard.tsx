@@ -95,7 +95,7 @@ export default function TreasuryDashboard() {
       {/* ── Account header ── */}
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h2 className="text-xl md:text-2xl font-semibold text-white tracking-tight">
+          <h2 className="text-xl md:text-2xl font-semibold text-white tracking-tight font-headline">
             Acme Inc.
           </h2>
           <p className="text-sm text-slate-400 mt-1">SMB Treasury</p>
@@ -139,7 +139,7 @@ export default function TreasuryDashboard() {
 
       {/* ── Balance display ── */}
       <div className="mb-8">
-        <p className="text-xs font-medium text-slate-400 mb-3">
+        <p className="uppercase tracking-widest text-[10px] font-semibold text-slate-400 mb-3">
           SGUSD Balance
         </p>
 
@@ -148,14 +148,14 @@ export default function TreasuryDashboard() {
             <div className="h-6 sm:h-8 w-5 sm:w-6 bg-white/5 rounded animate-pulse" />
             <div className="h-8 sm:h-12 w-32 sm:w-48 bg-white/5 rounded-lg animate-pulse" />
             <div className="h-5 sm:h-6 w-20 sm:w-32 bg-white/5 rounded animate-pulse ml-1" />
-            <div className="h-5 w-14 bg-indigo-500/10 rounded-full animate-pulse ml-2 sm:ml-3" />
+            <div className="h-5 w-14 bg-[#4de082]/10 rounded-full animate-pulse ml-2 sm:ml-3" />
           </div>
         ) : isError ? (
           <div className="h-12 sm:h-16 flex items-center gap-3">
             <p className="text-sm text-red-400">Unable to load balance</p>
             <button
               onClick={() => refetch()}
-              className="inline-flex items-center gap-1.5 text-xs text-indigo-400 hover:text-indigo-300 transition-colors"
+              className="inline-flex items-center gap-1.5 text-xs text-[#4de082] hover:text-[#3cd072] transition-colors"
             >
               <RotateCcw size={12} />
               Retry
@@ -181,7 +181,7 @@ export default function TreasuryDashboard() {
                 />
               ))}
             </span>
-            <Badge className="ml-2 sm:ml-3 bg-indigo-500/15 text-indigo-300 border-indigo-500/30 hover:bg-indigo-500/20">
+            <Badge className="ml-2 sm:ml-3 bg-[#4de082]/10 text-[#4de082] border-[#4de082]/20 hover:bg-[#4de082]/15">
               SGUSD
             </Badge>
           </div>
@@ -312,7 +312,7 @@ export default function TreasuryDashboard() {
               href={basescanUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1 text-[10px] text-indigo-400 hover:text-indigo-300 transition-colors"
+              className="flex items-center gap-1 text-[10px] text-[#4de082] hover:text-[#3cd072] transition-colors"
             >
               View on BaseScan
               <ExternalLink size={10} />

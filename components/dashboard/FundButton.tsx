@@ -69,7 +69,7 @@ export default function FundButton() {
                 href={getTxUrl(txHash)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-1.5 text-xs text-indigo-400 hover:text-indigo-300 transition-colors"
+                className="flex items-center justify-center gap-1.5 text-xs text-[#4de082] hover:text-[#4de082] transition-colors"
               >
                 <span>View on BaseScan</span>
                 <ExternalLink size={10} />
@@ -91,7 +91,7 @@ export default function FundButton() {
                     onClick={() => setAmount(preset)}
                     className={`flex-1 py-1.5 rounded-lg text-xs font-medium transition-all ${
                       amount === preset
-                        ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30'
+                        ? 'bg-[#4de082]/20 text-[#4de082] border border-[#4de082]/30'
                         : 'bg-white/5 text-slate-400 border border-white/5 hover:bg-white/10'
                     }`}
                   >
@@ -129,7 +129,7 @@ export default function FundButton() {
               {isError && (
                 <p className="text-xs text-red-400 text-center">
                   {error?.message || 'Mint failed — try again'}
-                  <button onClick={reset} className="ml-2 text-indigo-400 hover:text-indigo-300">
+                  <button onClick={reset} className="ml-2 text-[#4de082] hover:text-[#4de082]">
                     Retry
                   </button>
                 </p>
