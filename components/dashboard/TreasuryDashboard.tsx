@@ -179,30 +179,20 @@ export default function TreasuryDashboard() {
         <div className="rounded-xl bg-[#1c1b1b] border border-[#353534]/15 p-4 sm:p-5 space-y-4">
           {YIELD_BARS.map((item) => {
             const isSage = item.name === 'Sage Dollar';
-            const barWidth = Math.max((item.rate / MAX_RATE) * 100, 2);
 
             return (
               <div key={item.name} className="flex items-center gap-4">
-                <span className={`text-sm font-medium w-24 shrink-0 ${isSage ? 'text-[#4de082]' : 'text-slate-400'}`}>
+                <span className={`text-sm font-medium w-28 shrink-0 ${isSage ? 'text-[#4de082]' : 'text-slate-400'}`}>
                   {item.name}
                 </span>
-                <div className="flex-1 relative">
-                  <div className={`h-10 rounded-lg flex items-center px-4 ${
-                    isSage
-                      ? 'bg-[#4de082]/15 border border-[#4de082]/25'
-                      : 'bg-white/[0.04]'
-                  }`}
-                    style={{ width: `${barWidth}%`, minWidth: '140px', transition: 'width 0.4s ease-out' }}
-                  >
-                    <span className={`text-sm font-semibold tabular-nums ${isSage ? 'text-[#4de082]' : 'text-slate-300'}`}>
-                      {item.rate.toFixed(2)}% APY
-                    </span>
-                  </div>
-                  {isSage && (
-                    <span className="absolute right-0 top-1/2 -translate-y-1/2 px-3 py-1 rounded-md bg-[#4de082]/10 border border-[#4de082]/20 text-[10px] font-bold uppercase tracking-wider text-[#4de082]">
-                      Best Performer
-                    </span>
-                  )}
+                <div className={`flex-1 h-10 rounded-lg flex items-center px-4 ${
+                  isSage
+                    ? 'bg-[#4de082]/15 border border-[#4de082]/25'
+                    : 'bg-white/[0.06]'
+                }`}>
+                  <span className={`text-sm font-semibold tabular-nums ${isSage ? 'text-[#4de082]' : 'text-slate-300'}`}>
+                    {item.rate.toFixed(2)}% APY
+                  </span>
                 </div>
               </div>
             );
