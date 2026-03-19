@@ -15,6 +15,7 @@ import {
 import ConnectedPayoutToggle from '@/components/payout/ConnectedPayoutToggle';
 import NetworkVisualization from '@/components/network/NetworkVisualization';
 import { useTickingBalance } from '@/lib/hooks/useTickingBalance';
+import { useConfetti } from '@/components/ui/Confetti';
 import { getTxUrl } from '@/lib/basescan';
 import {
   GLOBAL_LOGISTICS_ACCOUNT,
@@ -29,6 +30,7 @@ interface PayoutStepProps {
 export default function PayoutStep({ onPayoutComplete }: PayoutStepProps) {
   const [transferTxHash, setTransferTxHash] = useState<string | undefined>();
   const completedRef = useRef(false);
+  const { fireConfetti } = useConfetti();
 
   const receiverAddress = GLOBAL_LOGISTICS_ACCOUNT.address as `0x${string}`;
 
@@ -49,6 +51,7 @@ export default function PayoutStep({ onPayoutComplete }: PayoutStepProps) {
       setTransferTxHash(txHash);
       if (!completedRef.current) {
         completedRef.current = true;
+        fireConfetti();
         onPayoutComplete?.(txHash);
       }
     },

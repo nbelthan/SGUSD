@@ -17,6 +17,7 @@ import {
 import { useAuth } from '@/lib/hooks/useAuth';
 import { useMint } from '@/lib/hooks/useMint';
 import { useTransactionToast } from '@/components/ui/TransactionToast';
+import { useConfetti } from '@/components/ui/Confetti';
 import { getTxUrl } from '@/lib/basescan';
 import {
   DEFAULT_MINT_AMOUNT,
@@ -32,6 +33,7 @@ export default function MintStep({ onMintComplete }: MintStepProps) {
   const { walletAddress } = useAuth();
   const { mint, txHash, isLoading, isConfirmed, isError, error, reset } = useMint();
   const { showToast, ToastContainer } = useTransactionToast();
+  const { fireConfetti } = useConfetti();
   const toastedRef = useRef<Set<string>>(new Set());
   const [isSageMode, setIsSageMode] = useState(true);
 
@@ -52,6 +54,7 @@ export default function MintStep({ onMintComplete }: MintStepProps) {
         amount: Number(DEFAULT_MINT_AMOUNT).toLocaleString(),
         txHash,
       });
+      fireConfetti();
       onMintComplete?.(txHash as `0x${string}`);
     }
   }, [isConfirmed, txHash, showToast, onMintComplete]);
