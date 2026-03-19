@@ -59,6 +59,7 @@ export default function LendingStep({ onLendingComplete }: LendingStepProps) {
     // Step 1: Mint incoming payment
     setPhase('minting');
     let mintHash: string;
+    let nextNonce: number | undefined;
     try {
       const mintRes = await fetch('/api/mint', {
         method: 'POST',
@@ -68,6 +69,7 @@ export default function LendingStep({ onLendingComplete }: LendingStepProps) {
       const mintData = await mintRes.json();
       if (!mintRes.ok) throw new Error(mintData.error || 'Mint failed');
       mintHash = mintData.hash;
+      nextNonce = mintData.nextNonce;
       setMintTxHash(mintHash);
     } catch (err: unknown) {
       setActionError(err instanceof Error ? err.message : 'Payment mint failed');
@@ -75,19 +77,20 @@ export default function LendingStep({ onLendingComplete }: LendingStepProps) {
       return;
     }
 
-    // Wait for mint to confirm before sending transfer (same deployer wallet = same nonce pool)
+    // Wait for mint to confirm — the transfer checks balanceOf() which
+    // needs the mint to be on-chain.
     try {
       const waitRes = await fetch(`/api/tx-wait?hash=${mintHash}`);
       if (!waitRes.ok) {
-        // Fallback: just wait a fixed time if the endpoint doesn't exist
         await new Promise((r) => setTimeout(r, 8000));
       }
     } catch {
-      // Fallback: wait for block confirmation
       await new Promise((r) => setTimeout(r, 8000));
     }
 
-    // Step 2: Transfer auto-repayment to Sage Capital
+    // Step 2: Transfer auto-repayment to Sage Capital.
+    // Pass nextNonce from the mint so the transfer uses the correct nonce
+    // without depending on the RPC node's potentially stale getTransactionCount.
     setPhase('repaying');
     try {
       const transferRes = await fetch('/api/transfer', {
@@ -97,6 +100,7 @@ export default function LendingStep({ onLendingComplete }: LendingStepProps) {
           from: walletAddress,
           to: SAGE_CAPITAL_ACCOUNT.address,
           amount: AUTO_REPAY_AMOUNT,
+          nonce: nextNonce,
         }),
       });
       const transferData = await transferRes.json();

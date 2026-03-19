@@ -7,9 +7,6 @@ import { SAGECOIN_ABI } from '@/lib/contracts/sagecoin-abi';
 const SAGECOIN_ADDRESS = process.env.NEXT_PUBLIC_SAGECOIN_ADDRESS as `0x${string}`;
 const DEPLOYER_KEY = process.env.DEPLOYER_PRIVATE_KEY ?? '';
 
-const MAX_NONCE_RETRIES = 5;
-const RETRY_DELAY_MS = 2000;
-
 /**
  * Server-side burn: The deployer wallet burns SGUSD from a target address.
  * This simulates the off-ramp — converting SGUSD back to fiat via a local
@@ -60,30 +57,14 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    let lastError: unknown;
-    for (let attempt = 0; attempt < MAX_NONCE_RETRIES; attempt++) {
-      try {
-        const hash = await walletClient.writeContract({
-          address: SAGECOIN_ADDRESS,
-          abi: SAGECOIN_ABI,
-          functionName: 'burn',
-          args: [from as `0x${string}`, parsedAmount],
-        });
-        return NextResponse.json({ hash, from, amount });
-      } catch (err: unknown) {
-        const msg = err instanceof Error ? err.message : '';
-        if (msg.includes('nonce too low') && attempt < MAX_NONCE_RETRIES - 1) {
-          await new Promise((r) => setTimeout(r, RETRY_DELAY_MS));
-          continue;
-        }
-        lastError = err;
-        break;
-      }
-    }
+    const hash = await walletClient.writeContract({
+      address: SAGECOIN_ADDRESS,
+      abi: SAGECOIN_ABI,
+      functionName: 'burn',
+      args: [from as `0x${string}`, parsedAmount],
+    });
 
-    const message = lastError instanceof Error ? lastError.message : 'Burn failed';
-    console.error('Burn API error:', message);
-    return NextResponse.json({ error: message }, { status: 500 });
+    return NextResponse.json({ hash, from, amount });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : 'Burn failed';
     console.error('Burn API error:', message);

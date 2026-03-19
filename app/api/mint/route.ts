@@ -1,14 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createWalletClient, http, parseUnits, isAddress } from 'viem';
+import { createWalletClient, createPublicClient, http, parseUnits, isAddress } from 'viem';
 import { privateKeyToAccount } from 'viem/accounts';
 import { baseSepolia } from '@/lib/chains';
 import { SAGECOIN_ABI } from '@/lib/contracts/sagecoin-abi';
 
 const SAGECOIN_ADDRESS = process.env.NEXT_PUBLIC_SAGECOIN_ADDRESS as `0x${string}`;
 const DEPLOYER_KEY = process.env.DEPLOYER_PRIVATE_KEY ?? '';
-
-const MAX_NONCE_RETRIES = 5;
-const RETRY_DELAY_MS = 2000;
 
 export async function POST(request: NextRequest) {
   try {
@@ -31,8 +28,13 @@ export async function POST(request: NextRequest) {
     }
 
     const account = privateKeyToAccount(DEPLOYER_KEY as `0x${string}`);
-    const client = createWalletClient({
+    const walletClient = createWalletClient({
       account,
+      chain: baseSepolia,
+      transport: http(),
+    });
+
+    const publicClient = createPublicClient({
       chain: baseSepolia,
       transport: http(),
     });
@@ -42,30 +44,29 @@ export async function POST(request: NextRequest) {
     // Mint to the deployer (treasury) — the deployer is "Acme Inc." in the demo.
     const treasuryAddress = account.address;
 
-    let lastError: unknown;
-    for (let attempt = 0; attempt < MAX_NONCE_RETRIES; attempt++) {
-      try {
-        const hash = await client.writeContract({
-          address: SAGECOIN_ADDRESS,
-          abi: SAGECOIN_ABI,
-          functionName: 'mint',
-          args: [treasuryAddress, parsedAmount],
-        });
-        return NextResponse.json({ hash, to: treasuryAddress, amount, treasury: treasuryAddress });
-      } catch (err: unknown) {
-        const msg = err instanceof Error ? err.message : '';
-        if (msg.includes('nonce too low') && attempt < MAX_NONCE_RETRIES - 1) {
-          await new Promise((r) => setTimeout(r, RETRY_DELAY_MS));
-          continue;
-        }
-        lastError = err;
-        break;
-      }
-    }
+    // Fetch the nonce explicitly so we can return nextNonce to callers.
+    // Chained transactions (e.g. LendingStep: mint → transfer) pass nextNonce
+    // to the next call, avoiding stale nonce reads from the RPC node entirely.
+    const nonce = await publicClient.getTransactionCount({
+      address: account.address,
+      blockTag: 'pending',
+    });
 
-    const message = lastError instanceof Error ? lastError.message : 'Mint failed';
-    console.error('Mint API error:', message);
-    return NextResponse.json({ error: message }, { status: 500 });
+    const hash = await walletClient.writeContract({
+      address: SAGECOIN_ADDRESS,
+      abi: SAGECOIN_ABI,
+      functionName: 'mint',
+      args: [treasuryAddress, parsedAmount],
+      nonce,
+    });
+
+    return NextResponse.json({
+      hash,
+      to: treasuryAddress,
+      amount,
+      treasury: treasuryAddress,
+      nextNonce: nonce + 1,
+    });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : 'Mint failed';
     console.error('Mint API error:', message);
