@@ -5,7 +5,7 @@ import type { ReactNode } from 'react';
 import type { Transaction } from '@/types';
 import { ACME_ACCOUNT, GLOBAL_LOGISTICS_ACCOUNT } from './accounts';
 
-export type DemoStep = 'mint' | 'watch-yield' | 'payout' | 'payroll' | 'lending' | 'burn' | 'confirmation';
+export type DemoStep = 'tax-refund' | 'mint' | 'watch-yield' | 'payout' | 'payroll' | 'lending' | 'burn' | 'confirmation';
 
 interface DemoState {
   currentStep: DemoStep;
@@ -23,7 +23,7 @@ type DemoAction =
   | { type: 'RESET' };
 
 const initialState: DemoState = {
-  currentStep: 'mint',
+  currentStep: 'tax-refund',
   transactions: [],
   acmeAddress: ACME_ACCOUNT.address,
   receiverAddress: GLOBAL_LOGISTICS_ACCOUNT.address,

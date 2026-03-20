@@ -36,6 +36,25 @@ export const GLOBAL_LOGISTICS_ACCOUNT: DemoAccount = {
   balance: 0,
 };
 
+/** IRS Direct Deposit account — source for the tax refund step. */
+export const IRS_ACCOUNT: DemoAccount = {
+  name: 'IRS Direct Deposit',
+  role: 'Federal Tax Refund',
+  address: '0x0000000000000000000000000000000000000000' as `0x${string}`,
+  balance: 0,
+};
+
+/** Default tax refund amount (average US federal refund, in USD/SGUSD). */
+export const DEFAULT_TAX_REFUND_AMOUNT = '3100';
+
+/** Traditional bank yield vs SGUSD yield for tax refund comparison. */
+export const TAX_REFUND_YIELDS = {
+  bankCheckingApy: 0.01,
+  bankSavingsApy: 0.45,
+  sgusdApy: 3.20,
+  irsProcessingDays: '21 days (average)',
+} as const;
+
 /** Default mint amount for the invoice payment step (in USD/SGUSD). */
 export const DEFAULT_MINT_AMOUNT = '10000';
 

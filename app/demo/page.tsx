@@ -14,11 +14,13 @@ import {
   Clock,
   Users,
   Landmark,
+  Receipt,
 } from 'lucide-react';
 import { useAuth } from '@/lib/hooks/useAuth';
 import LoginScreen from '@/components/auth/LoginScreen';
 import Header from '@/components/layout/Header';
 import TreasuryDashboard from '@/components/dashboard/TreasuryDashboard';
+import TaxRefundStep from '@/components/demo/TaxRefundStep';
 import MintStep from '@/components/demo/MintStep';
 import PayoutStep from '@/components/demo/PayoutStep';
 import PayrollStep from '@/components/demo/PayrollStep';
@@ -45,6 +47,7 @@ import {
 import { ArrowDownCircle } from 'lucide-react';
 
 const STEPS: { key: DemoStep; label: string; icon: typeof CircleDot }[] = [
+  { key: 'tax-refund', label: 'Tax Refund', icon: Receipt },
   { key: 'mint', label: 'Invoice Payment', icon: CircleDot },
   { key: 'watch-yield', label: 'Yield Accrual', icon: Eye },
   { key: 'payout', label: 'Contractor Payout', icon: Send },
@@ -254,6 +257,10 @@ function ConfirmationStep({ onReset }: { onReset: () => void }) {
 function DemoContent() {
   const { currentStep, setStep, resetDemo } = useDemoState();
 
+  const handleTaxRefundComplete = useCallback(() => {
+    setStep('mint');
+  }, [setStep]);
+
   const handleMintComplete = useCallback(() => {
     setStep('watch-yield');
   }, [setStep]);
@@ -289,6 +296,18 @@ function DemoContent() {
 
       {/* Step content */}
       <AnimatePresence mode="wait">
+        {currentStep === 'tax-refund' && (
+          <motion.div
+            key="tax-refund"
+            initial={{ opacity: 0, x: 40 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -40 }}
+            transition={{ duration: 0.35 }}
+          >
+            <TaxRefundStep onComplete={handleTaxRefundComplete} />
+          </motion.div>
+        )}
+
         {currentStep === 'mint' && (
           <motion.div
             key="mint"
