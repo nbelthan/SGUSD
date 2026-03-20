@@ -127,9 +127,6 @@ export default function TreasuryDashboard() {
           </div>
         ) : (
           <div className="flex items-baseline gap-0.5 sm:gap-1 flex-wrap">
-            <span className="text-slate-400 text-2xl sm:text-3xl md:text-4xl font-light">
-              $
-            </span>
             <span className="text-balance-ticker text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight">
               {integer}
             </span>
@@ -170,10 +167,6 @@ export default function TreasuryDashboard() {
           <h3 className="text-base font-semibold text-white tracking-tight font-headline">
             Yield Comparison
           </h3>
-          <div className="flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-[#4de082]" />
-            <span className="text-xs text-slate-400">Sage Dollar Performance</span>
-          </div>
         </div>
 
         <div className="rounded-xl bg-[#1c1b1b] border border-[#353534]/15 p-4 sm:p-5 space-y-4">

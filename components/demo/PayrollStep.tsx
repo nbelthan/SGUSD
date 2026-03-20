@@ -132,11 +132,12 @@ export default function PayrollStep({ onPayrollComplete }: PayrollStepProps) {
         </div>
 
         <p className="text-sm text-slate-400 leading-relaxed">
-          Acme Inc. uses <span className="text-white font-medium">Sage Workforce</span> to
-          pay employees. Instead of bi-weekly lump sums,{' '}
-          <span className="text-white font-medium">{EMPLOYEE_ACCOUNT.name}</span>{' '}
-          (warehouse manager, ${PAYROLL_ANNUAL_SALARY.toLocaleString()}/yr) sees daily wages
-          stream into her wallet as SGUSD in real-time.
+          Acme Inc. runs payroll through <span className="text-white font-medium">Sage Workforce</span>.
+          Right now, <span className="text-white font-medium">{EMPLOYEE_ACCOUNT.name}</span>{' '}
+          waits two weeks for a lump-sum deposit that routes off Sage&apos;s rails through ACH.
+          With SGUSD streaming, her ${PAYROLL_ANNUAL_SALARY.toLocaleString()} salary flows into
+          her Sage wallet daily instead. Maria gets paid sooner, Acme spends less on processing,
+          and the money stays on-network earning yield until she spends it.
         </p>
       </div>
 
@@ -172,7 +173,6 @@ export default function PayrollStep({ onPayrollComplete }: PayrollStepProps) {
             )}
           </div>
           <div className="flex items-baseline gap-0.5">
-            <span className="text-slate-400 text-xl sm:text-2xl font-light">$</span>
             <span className="text-2xl sm:text-3xl font-bold text-white tracking-tight font-mono">
               {streamed.integer}
             </span>
@@ -389,8 +389,9 @@ export default function PayrollStep({ onPayrollComplete }: PayrollStepProps) {
             </div>
 
             <p className="text-xs text-center text-slate-500">
-              At 18K+ companies on Sage Workforce, streaming payroll could save{' '}
-              <span className="text-emerald-400 font-medium">$2.6M/month</span> in processing fees
+              Tens of thousands of companies run payroll on Sage Workforce, moving hundreds
+              of billions a year. Streaming those payments as SGUSD keeps the capital on-network
+              and cuts per-employee processing fees to zero.
             </p>
           </motion.div>
         )}

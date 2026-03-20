@@ -85,18 +85,18 @@ export default function PayoutStep({ onPayoutComplete }: PayoutStepProps) {
           </div>
           <div>
             <h3 className="text-lg font-semibold text-white">
-              International Contractor Payout
+              Contractor Payout
             </h3>
           </div>
         </div>
 
         <p className="text-sm text-slate-400 leading-relaxed mb-2">
-          Acme Inc. pays <span className="text-white font-medium">Rivera Design Co.</span> $
-          {payoutAmount.toLocaleString()} for freelance design work.
-          Today, this cross-border payout goes off-platform with a $45 wire fee +
-          3% FX markup. With SGUSD, it settles{' '}
-          <span className="text-[#4de082] font-medium">instantly, zero fees</span> &mdash;
-          and Rivera&apos;s funds start earning yield immediately.
+          Acme Inc. owes <span className="text-white font-medium">Rivera Design Co.</span> in
+          Mexico City ${payoutAmount.toLocaleString()} for freelance design work.
+          Today, this kind of contractor payout leaves Sage entirely. It gets routed through
+          SWIFT: $45 wire fee, 3% FX markup, 3-5 days to arrive. With SGUSD, the payment
+          stays on Sage&apos;s network. Rivera gets it in seconds with no fees, and her
+          balance starts earning yield right away.
         </p>
       </div>
 
@@ -249,7 +249,6 @@ export default function PayoutStep({ onPayoutComplete }: PayoutStepProps) {
                 </div>
               ) : (
                 <div className="flex items-baseline gap-0.5">
-                  <span className="text-slate-400 text-xl sm:text-2xl font-light">$</span>
                   <span className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
                     {receiverBal.integer}
                   </span>
@@ -267,7 +266,7 @@ export default function PayoutStep({ onPayoutComplete }: PayoutStepProps) {
               <span className="text-emerald-400 font-medium">3.20% APY</span>
               <span className="text-slate-500">&middot;</span>
               <span className="text-slate-400 text-xs">
-                Rivera&apos;s funds earn yield the moment they arrive &mdash; no bank needed
+                Rivera&apos;s funds earn yield as soon as they arrive. She doesn&apos;t need a local bank account to hold or grow her money.
               </span>
             </div>
           </motion.div>

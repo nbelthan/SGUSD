@@ -135,18 +135,22 @@ export default function LendingStep({ onLendingComplete }: LendingStepProps) {
           </div>
           <div>
             <h3 className="text-lg font-semibold text-white">
-              Lending Auto-Repayment
+              Smart Repayment
             </h3>
           </div>
         </div>
 
         <p className="text-sm text-slate-400 leading-relaxed">
-          Acme Inc. has a <span className="text-white font-medium">${LOC_TOTAL.toLocaleString()} Sage Capital</span> line
-          of credit (${LOC_OUTSTANDING.toLocaleString()} outstanding). When a new $
+          Acme Inc. has a <span className="text-white font-medium">${LOC_TOTAL.toLocaleString()}</span> line
+          of credit through <span className="text-white font-medium">Sage Capital</span> with $
+          {LOC_OUTSTANDING.toLocaleString()} still outstanding. When a $
           {paymentAmount.toLocaleString()} payment from{' '}
           <span className="text-white font-medium">{NEW_CUSTOMER_ACCOUNT.name}</span> arrives,
-          the smart contract automatically sweeps {AUTO_REPAY_PERCENT}% ($
-          {repayAmount.toLocaleString()}) to pay down the LOC. No manual payments, no late fees.
+          the smart contract automatically routes {AUTO_REPAY_PERCENT}% ($
+          {repayAmount.toLocaleString()}) toward the balance. No manual payment, no missed due date,
+          no ${TRADITIONAL_LENDING_FEES.lateFee} late fee. Sage Capital&apos;s risk drops,
+          Acme&apos;s rate stays low, and the other ${treasuryAmount.toLocaleString()} goes
+          straight to treasury earning yield.
         </p>
       </div>
 
@@ -449,8 +453,9 @@ export default function LendingStep({ onLendingComplete }: LendingStepProps) {
             </div>
 
             <p className="text-xs text-center text-slate-500">
-              Sage Capital&apos;s $300B lending book benefits from reduced risk &mdash;{' '}
-              <span className="text-emerald-400 font-medium">auto-repayment = lower default rate = lower APR</span>
+              Sage Capital originates hundreds of billions in loans every year. When repayments
+              happen automatically, fewer borrowers default. Fewer defaults mean better rates
+              for everyone.
             </p>
           </motion.div>
         )}

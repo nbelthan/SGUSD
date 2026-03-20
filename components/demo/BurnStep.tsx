@@ -108,10 +108,12 @@ export default function BurnStep({ onBurnComplete }: BurnStepProps) {
         </div>
 
         <p className="text-sm text-slate-400 leading-relaxed">
-          <span className="text-white font-medium">Rivera Design Co.</span> converts $
-          {burnAmount.toLocaleString()} SGUSD to Mexican Pesos via a local banking partner.
-          The burned tokens leave the network, maintaining{' '}
+          Rivera needs pesos for local expenses. She converts $
+          {burnAmount.toLocaleString()} SGUSD to Mexican Pesos through one of Sage&apos;s
+          banking partners. The tokens are burned to maintain{' '}
           <span className="text-amber-400 font-medium">1:1 reserve backing</span>.
+          Up until now, every dollar was earning yield on-network. This is the only step
+          where money actually leaves Sage.
         </p>
       </div>
 
@@ -141,7 +143,6 @@ export default function BurnStep({ onBurnComplete }: BurnStepProps) {
             </div>
           ) : (
             <div className="flex items-baseline gap-0.5">
-              <span className="text-slate-400 text-xl sm:text-2xl font-light">$</span>
               <span className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
                 {receiverBal.integer}
               </span>

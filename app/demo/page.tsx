@@ -41,13 +41,15 @@ import {
   TRADITIONAL_LENDING_FEES,
   LOC_OUTSTANDING,
   DEFAULT_BURN_AMOUNT,
+  DEFAULT_MINT_AMOUNT,
   OFFRAMP_FEES,
+  DOMESTIC_FEES,
 } from '@/lib/demo/accounts';
 import { ArrowDownCircle } from 'lucide-react';
 
 const STEPS: { key: DemoStep; label: string; icon: typeof CircleDot }[] = [
   { key: 'tax-refund', label: 'Tax Refund', icon: Receipt },
-  { key: 'mint', label: 'Fund Treasury', icon: Banknote },
+  { key: 'mint', label: 'Invoice Payment', icon: Banknote },
   { key: 'watch-yield', label: 'Yield Accrual', icon: Eye },
   { key: 'payout', label: 'Contractor Payout', icon: Send },
   { key: 'payroll', label: 'Payroll', icon: Users },
@@ -130,7 +132,11 @@ function ConfirmationStep({ onReset }: { onReset: () => void }) {
   const offrampRemittanceFee = OFFRAMP_FEES.remittanceFee;
   const offrampFxSpread = burnAmount * (OFFRAMP_FEES.fxSpreadPercent / 100);
 
-  const totalSaved = wireFee + fxMarkupSaved + payrollSaved + ewaSaved + offrampRemittanceFee + offrampFxSpread;
+  // Invoice payment savings (card fee)
+  const mintAmount = Number(DEFAULT_MINT_AMOUNT);
+  const cardFeeSaved = mintAmount * (DOMESTIC_FEES.cardProcessingPercent / 100) + DOMESTIC_FEES.cardFixedFee;
+
+  const totalSaved = cardFeeSaved + wireFee + fxMarkupSaved + payrollSaved + ewaSaved + offrampRemittanceFee + offrampFxSpread;
 
   // Fire confetti once on mount
   useEffect(() => {
@@ -184,7 +190,6 @@ function ConfirmationStep({ onReset }: { onReset: () => void }) {
             </div>
           ) : (
             <div className="flex items-baseline gap-0.5">
-              <span className="text-slate-400 text-xl sm:text-2xl font-light">$</span>
               <span className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
                 {receiverBal.integer}
               </span>
@@ -212,12 +217,13 @@ function ConfirmationStep({ onReset }: { onReset: () => void }) {
           <CheckCircle2 size={28} className="text-emerald-400" />
         </div>
         <h3 className="text-xl font-semibold text-white mb-2">
-          Demo Complete
+          The Loop Is Closed
         </h3>
         <p className="text-sm text-slate-400 leading-relaxed max-w-md mx-auto mb-4">
-          You&apos;ve experienced how SGUSD keeps money on Sage&apos;s network:
-          instant invoicing, yield on idle capital, zero-fee contractor payouts,
-          real-time payroll streaming, and auto-repaying lending &mdash; all in seconds.
+          Tax refund, invoice payment, contractor payout, payroll, loan repayment, off-ramp.
+          Every transaction stayed on Sage&apos;s network. The money that normally leaks to ACH,
+          card processors, and wire services? It earned yield instead. It settled in seconds.
+          And it never left.
         </p>
 
         {/* Savings summary */}
@@ -330,9 +336,10 @@ function DemoContent() {
             <TreasuryDashboard />
             <div className="text-center space-y-3">
               <p className="text-sm text-slate-400">
-                Unlike a bank checking account, SGUSD earns{' '}
+                This is the operating capital that normally sits in a checking account earning nothing.
+                On Sage&apos;s network, it earns{' '}
                 <span className="text-emerald-400 font-medium">3.20% APY</span>{' '}
-                the moment funds arrive. No lockup. No action required.
+                the second it arrives. No lockup, no action needed.
               </p>
               <button
                 onClick={handleContinueToPayout}

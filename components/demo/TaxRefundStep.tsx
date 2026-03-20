@@ -82,11 +82,12 @@ export default function TaxRefundStep({ onComplete }: TaxRefundStepProps) {
 
           <p className="text-sm text-slate-400 leading-relaxed">
             <span className="text-white font-medium">{CONSUMER_ACCOUNT.name}</span> files
-            her taxes through Sage. Her{' '}
-            <span className="text-white font-medium">${formattedAmount}</span> federal
-            refund arrives as SGUSD &mdash; instantly, zero fees, earning{' '}
-            <span className="text-emerald-400 font-medium">3.20% APY</span> from the
-            first second.
+            her taxes on Sage every year. Then she&apos;s gone until next April. This time, her{' '}
+            <span className="text-white font-medium">${formattedAmount}</span> refund
+            lands as SGUSD instead of disappearing into a checking account at 0.01%.
+            It shows up instantly and starts earning{' '}
+            <span className="text-emerald-400 font-medium">3.20% APY</span>.
+            Now Sarah has a reason to open Sage in July.
           </p>
         </div>
 
@@ -352,9 +353,9 @@ export default function TaxRefundStep({ onComplete }: TaxRefundStepProps) {
               </div>
 
               <p className="text-xs text-center text-slate-500">
-                At 17M Sage tax filers &times; $3,100 avg refund ={' '}
-                <span className="text-emerald-400 font-medium">$52.7B in refund capital</span>{' '}
-                earning yield on the Sage network
+                Millions of Sage tax filers deposit refunds every spring. If even a fraction
+                of that stays as SGUSD, that&apos;s billions in capital that used to leave
+                Sage&apos;s network, now earning yield and keeping users engaged between tax seasons.
               </p>
             </motion.div>
           )}
