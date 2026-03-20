@@ -15,6 +15,7 @@ import {
   Users,
   Landmark,
   Receipt,
+  Banknote,
 } from 'lucide-react';
 import { useAuth } from '@/lib/hooks/useAuth';
 import LoginScreen from '@/components/auth/LoginScreen';
@@ -39,8 +40,6 @@ import {
   EWA_FEE,
   TRADITIONAL_LENDING_FEES,
   LOC_OUTSTANDING,
-  DEFAULT_MINT_AMOUNT,
-  DOMESTIC_FEES,
   DEFAULT_BURN_AMOUNT,
   OFFRAMP_FEES,
 } from '@/lib/demo/accounts';
@@ -48,7 +47,7 @@ import { ArrowDownCircle } from 'lucide-react';
 
 const STEPS: { key: DemoStep; label: string; icon: typeof CircleDot }[] = [
   { key: 'tax-refund', label: 'Tax Refund', icon: Receipt },
-  { key: 'mint', label: 'Invoice Payment', icon: CircleDot },
+  { key: 'mint', label: 'Fund Treasury', icon: Banknote },
   { key: 'watch-yield', label: 'Yield Accrual', icon: Eye },
   { key: 'payout', label: 'Contractor Payout', icon: Send },
   { key: 'payroll', label: 'Payroll', icon: Users },
@@ -115,10 +114,6 @@ function ConfirmationStep({ onReset }: { onReset: () => void }) {
   const fxMarkupSaved = payoutAmount * (TRADITIONAL_FEES.fxMarkupPercent / 100);
   const wireFee = TRADITIONAL_FEES.wireFee;
 
-  // Invoice savings
-  const invoiceAmount = Number(DEFAULT_MINT_AMOUNT);
-  const cardFee = invoiceAmount * (DOMESTIC_FEES.cardProcessingPercent / 100) + DOMESTIC_FEES.cardFixedFee;
-
   // Payroll savings
   const payrollSaved = TRADITIONAL_PAYROLL_FEES.perEmployeePerMonth;
   const ewaSaved = TRADITIONAL_PAYROLL_FEES.ewaFeeFlat - EWA_FEE;
@@ -132,7 +127,7 @@ function ConfirmationStep({ onReset }: { onReset: () => void }) {
   const offrampRemittanceFee = OFFRAMP_FEES.remittanceFee;
   const offrampFxSpread = burnAmount * (OFFRAMP_FEES.fxSpreadPercent / 100);
 
-  const totalSaved = cardFee + wireFee + fxMarkupSaved + payrollSaved + ewaSaved + offrampRemittanceFee + offrampFxSpread;
+  const totalSaved = wireFee + fxMarkupSaved + payrollSaved + ewaSaved + offrampRemittanceFee + offrampFxSpread;
 
   // Fire confetti once on mount
   useEffect(() => {

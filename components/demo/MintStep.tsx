@@ -8,22 +8,17 @@ import {
   CheckCircle2,
   ArrowRight,
   Building2,
-  User,
   Clock,
   ShieldCheck,
+  TrendingUp,
   XCircle,
-  DollarSign,
 } from 'lucide-react';
 import { useAuth } from '@/lib/hooks/useAuth';
 import { useMint } from '@/lib/hooks/useMint';
 import { useTransactionToast } from '@/components/ui/TransactionToast';
 import { useConfetti } from '@/components/ui/Confetti';
 import { getTxUrl } from '@/lib/basescan';
-import {
-  DEFAULT_MINT_AMOUNT,
-  DOMESTIC_FEES,
-  CONSUMER_ACCOUNT,
-} from '@/lib/demo/accounts';
+import { DEFAULT_MINT_AMOUNT } from '@/lib/demo/accounts';
 
 interface MintStepProps {
   onMintComplete?: (txHash: `0x${string}`) => void;
@@ -37,9 +32,8 @@ export default function MintStep({ onMintComplete }: MintStepProps) {
   const toastedRef = useRef<Set<string>>(new Set());
   const [isSageMode, setIsSageMode] = useState(true);
 
-  const invoiceAmount = Number(DEFAULT_MINT_AMOUNT);
-  const cardFee = invoiceAmount * (DOMESTIC_FEES.cardProcessingPercent / 100) + DOMESTIC_FEES.cardFixedFee;
-  const totalCost = isSageMode ? invoiceAmount : invoiceAmount + cardFee;
+  const fundAmount = Number(DEFAULT_MINT_AMOUNT);
+  const dailyYield = fundAmount * (3.2 / 100) / 365;
 
   const handleMint = () => {
     if (!walletAddress) return;
@@ -72,46 +66,59 @@ export default function MintStep({ onMintComplete }: MintStepProps) {
             </div>
             <div>
               <h3 className="text-lg font-semibold text-white">
-                Invoice Payment
+                Fund Treasury
               </h3>
             </div>
           </div>
 
           <p className="text-sm text-slate-400 leading-relaxed">
-            <span className="text-white font-medium">{CONSUMER_ACCOUNT.name}</span>, a Sage
-            consumer, pays a <span className="text-white font-medium">${formattedAmount}</span> invoice
-            to Acme Inc. Today this domestic payment costs the SMB{' '}
-            <span className="text-red-400 font-medium">2.9% in card fees</span> or takes{' '}
-            <span className="text-amber-400 font-medium">2-3 days via ACH</span>.
-            With SGUSD &mdash; instant, zero fees, on-network.
+            Acme Inc. transfers <span className="text-white font-medium">${formattedAmount}</span> in
+            operating capital from their bank to their Sage treasury. With traditional ACH this takes{' '}
+            <span className="text-amber-400 font-medium">2-3 business days</span> while funds sit idle.
+            With SGUSD &mdash; instant settlement, earning{' '}
+            <span className="text-emerald-400 font-medium">3.20% APY</span> from second one.
           </p>
         </div>
 
-        {/* Payment toggle card */}
+        {/* Funding toggle card */}
         <div className="flex justify-center">
           <div className="w-full max-w-md glass-card p-5 sm:p-8">
             {/* Header */}
-            <div className="mb-8">
+            <div className="mb-6">
               <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-white mb-2">
-                Domestic Invoice Payment
+                Fund Sage Treasury
               </h2>
               <div className="flex items-center gap-3 text-sm text-slate-400">
-                <User size={16} />
-                <span>{CONSUMER_ACCOUNT.name}</span>
-                <ArrowRight size={14} />
                 <Building2 size={16} />
+                <span>Chase Business &#8226;&#8226;&#8226;&#8226;4829</span>
+                <ArrowRight size={14} />
+                <Building2 size={16} className="text-[#4de082]" />
                 <span className="text-white font-medium">Acme Inc.</span>
               </div>
+            </div>
+
+            {/* Simulated linked bank */}
+            <div className="mb-6 p-3 rounded-xl bg-white/[0.03] border border-white/5 flex items-center gap-3">
+              <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-blue-500/10 border border-blue-500/20">
+                <Building2 size={16} className="text-blue-400" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-white">Chase Business Checking</p>
+                <p className="text-xs text-slate-500">&#8226;&#8226;&#8226;&#8226;4829</p>
+              </div>
+              <span className="text-[10px] font-medium text-emerald-400/80 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20 whitespace-nowrap">
+                Linked via Plaid
+              </span>
             </div>
 
             {/* Amount display */}
             <div className="mb-8">
               <label className="text-xs font-medium text-slate-400">
-                Invoice Amount
+                Transfer Amount
               </label>
               <div className="mt-2 p-3 sm:p-4 rounded-xl bg-white/[0.03] border border-white/5">
                 <div className="flex items-baseline gap-2">
-                  <span className="text-xs sm:text-sm text-slate-400 font-medium">SGUSD</span>
+                  <span className="text-xs sm:text-sm text-slate-400 font-medium">USD</span>
                   <span className="text-2xl sm:text-3xl font-light text-white">
                     {formattedAmount}
                   </span>
@@ -129,7 +136,7 @@ export default function MintStep({ onMintComplete }: MintStepProps) {
                     : 'text-slate-500 hover:text-slate-300'
                 }`}
               >
-                Credit Card / ACH
+                Traditional ACH
               </button>
               <button
                 onClick={() => setIsSageMode(true)}
@@ -139,15 +146,15 @@ export default function MintStep({ onMintComplete }: MintStepProps) {
                     : 'text-slate-500 hover:text-slate-300'
                 }`}
               >
-                Sage Intacct (SGUSD)
+                Fund as SGUSD
               </button>
             </div>
 
             {/* Breakdown */}
             <div className="space-y-4 mb-8">
               <div className="flex justify-between text-sm">
-                <span className="text-slate-400">Invoice Principal</span>
-                <span>{formattedAmount}.00 SGUSD</span>
+                <span className="text-slate-400">Transfer Amount</span>
+                <span>${formattedAmount}.00</span>
               </div>
 
               <AnimatePresence mode="popLayout">
@@ -158,31 +165,41 @@ export default function MintStep({ onMintComplete }: MintStepProps) {
                     exit={{ opacity: 0, height: 0 }}
                     className="space-y-4"
                   >
+                    <div className="flex justify-between text-sm text-amber-400">
+                      <span>ACH Processing</span>
+                      <span>2-3 business days</span>
+                    </div>
                     <div className="flex justify-between text-sm text-red-400">
-                      <span>Card Processing ({DOMESTIC_FEES.cardProcessingPercent}% + $0.30)</span>
-                      <span>+ ${cardFee.toFixed(2)}</span>
+                      <span>Yield while in transit</span>
+                      <span>$0.00</span>
                     </div>
                     <div className="text-xs text-slate-500 -mt-2">
-                      Paid by Acme Inc. to receive this payment
+                      Funds sit idle earning nothing during ACH settlement
                     </div>
                   </motion.div>
                 )}
               </AnimatePresence>
 
               {isSageMode && (
-                <div className="flex justify-between text-sm text-emerald-400">
-                  <span>Fees</span>
-                  <span>0.00 SGUSD</span>
-                </div>
+                <>
+                  <div className="flex justify-between text-sm text-emerald-400">
+                    <span>Fees</span>
+                    <span>$0.00</span>
+                  </div>
+                  <div className="flex justify-between text-sm text-emerald-400">
+                    <span>Yield (3.20% APY)</span>
+                    <span>${dailyYield.toFixed(2)}/day</span>
+                  </div>
+                </>
               )}
 
               <div className="pt-4 border-t border-white/10 flex justify-between items-end">
                 <span className="text-sm text-slate-400">
-                  {isSageMode ? 'Acme Inc. Receives' : 'Cost to Acme Inc.'}
+                  {isSageMode ? 'Treasury Receives' : 'Available After'}
                 </span>
                 <span
                   className={`text-2xl sm:text-3xl font-medium ${
-                    isSageMode ? 'text-emerald-400' : 'text-red-400'
+                    isSageMode ? 'text-emerald-400' : 'text-amber-400'
                   }`}
                 >
                   {isSageMode ? (
@@ -192,8 +209,8 @@ export default function MintStep({ onMintComplete }: MintStepProps) {
                     </>
                   ) : (
                     <>
-                      -${cardFee.toFixed(2)}{' '}
-                      <span className="text-base text-slate-400">in fees</span>
+                      2-3{' '}
+                      <span className="text-base text-slate-400">business days</span>
                     </>
                   )}
                 </span>
@@ -216,7 +233,7 @@ export default function MintStep({ onMintComplete }: MintStepProps) {
                     : 'text-slate-300'
                 }`}
               >
-                {isSageMode ? '< 2 Seconds' : DOMESTIC_FEES.achDays}
+                {isSageMode ? 'Instant on-network' : '2-3 business days'}
               </span>
             </div>
 
@@ -232,7 +249,7 @@ export default function MintStep({ onMintComplete }: MintStepProps) {
                   <div className="flex items-center gap-2 justify-center p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
                     <CheckCircle2 size={16} className="text-emerald-400" />
                     <span className="text-sm font-medium text-emerald-400">
-                      ${formattedAmount} SGUSD settled instantly
+                      ${formattedAmount} SGUSD funded instantly
                     </span>
                   </div>
                   <a
@@ -259,14 +276,14 @@ export default function MintStep({ onMintComplete }: MintStepProps) {
                     ) : (
                       <>
                         {isSageMode && <ShieldCheck size={18} />}
-                        {isSageMode ? 'Settle Invoice in SGUSD' : 'Pay via Credit Card'}
+                        {isSageMode ? 'Fund Treasury' : 'Initiate ACH Transfer'}
                       </>
                     )}
                   </button>
                   {!isSageMode && (
                     <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
                       <span className="text-xs text-slate-500 whitespace-nowrap bg-black/60 px-2 py-1 rounded">
-                        Demo only — switch to Sage Intacct mode
+                        Demo only — switch to SGUSD mode
                       </span>
                     </div>
                   )}
@@ -276,7 +293,7 @@ export default function MintStep({ onMintComplete }: MintStepProps) {
 
             {!isSageMode && (
               <p className="text-xs text-slate-500 text-center mt-3">
-                Traditional payments are shown for comparison only.
+                Traditional ACH is shown for comparison only.
               </p>
             )}
 
@@ -298,7 +315,7 @@ export default function MintStep({ onMintComplete }: MintStepProps) {
           </div>
         </div>
 
-        {/* "You Saved" card — shown after confirmation */}
+        {/* Savings card — shown after confirmation */}
         <AnimatePresence>
           {isConfirmed && txHash && (
             <motion.div
@@ -309,15 +326,13 @@ export default function MintStep({ onMintComplete }: MintStepProps) {
             >
               <div className="text-center mb-5">
                 <div className="flex items-center justify-center w-14 h-14 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 mx-auto mb-4">
-                  <DollarSign size={28} className="text-emerald-400" />
+                  <TrendingUp size={28} className="text-emerald-400" />
                 </div>
                 <h3 className="text-xl sm:text-2xl font-bold text-white mb-1">
-                  Acme Inc. saved{' '}
-                  <span className="text-emerald-400">${cardFee.toFixed(2)}</span>{' '}
-                  on this invoice!
+                  Treasury funded and earning
                 </h3>
                 <p className="text-sm text-slate-400">
-                  Payment stayed on Sage&apos;s network &mdash; no card processor needed
+                  Capital works from the moment it arrives &mdash; no 2-3 day ACH wait
                 </p>
               </div>
 
@@ -330,30 +345,30 @@ export default function MintStep({ onMintComplete }: MintStepProps) {
                     </span>
                   </div>
                   <p className="text-lg font-bold text-white">
-                    <span className="line-through text-red-400/60">${cardFee.toFixed(2)}</span>{' '}
-                    <span className="text-emerald-400">$0</span>
+                    <span className="line-through text-red-400/60">2-3 days</span>{' '}
+                    <span className="text-emerald-400">&lt;2 sec</span>
                   </p>
-                  <p className="text-xs text-slate-500 mt-1">Card processing fee (2.9%)</p>
+                  <p className="text-xs text-slate-500 mt-1">ACH settlement wait</p>
                 </div>
 
                 <div className="p-4 rounded-xl bg-white/[0.03] border border-white/5">
                   <div className="flex items-center gap-2 mb-2">
-                    <Clock size={14} className="text-[#4de082]" />
-                    <span className="text-xs font-medium text-[#4de082]">
-                      Instant
+                    <TrendingUp size={14} className="text-emerald-400" />
+                    <span className="text-xs font-medium text-emerald-400">
+                      Earning Now
                     </span>
                   </div>
                   <p className="text-lg font-bold text-white">
-                    <span className="line-through text-red-400/60">2-3 days</span>{' '}
-                    <span className="text-emerald-400">&lt;2 sec</span>
+                    ${dailyYield.toFixed(2)}<span className="text-sm text-slate-500">/day</span>
                   </p>
-                  <p className="text-xs text-slate-500 mt-1">Settlement time</p>
+                  <p className="text-xs text-slate-500 mt-1">3.20% APY from second one</p>
                 </div>
               </div>
 
               <p className="text-xs text-center text-slate-500">
-                At $1T in annual invoices, eliminating card fees saves Sage SMBs{' '}
-                <span className="text-emerald-400 font-medium">$29B/year</span>
+                7M Sage SMBs &times; $10K avg treasury funding ={' '}
+                <span className="text-emerald-400 font-medium">$70B in operating capital</span>{' '}
+                earning yield from day one
               </p>
             </motion.div>
           )}
