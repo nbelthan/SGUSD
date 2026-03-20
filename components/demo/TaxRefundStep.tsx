@@ -87,7 +87,8 @@ export default function TaxRefundStep({ onComplete }: TaxRefundStepProps) {
             lands as SGUSD instead of disappearing into a checking account at 0.01%.
             It shows up instantly and starts earning{' '}
             <span className="text-emerald-400 font-medium">3.20% APY</span>.
-            Now Sarah has a reason to open Sage in July.
+            With a Sage Visa card, Sarah can spend her growing balance anywhere Visa is
+            accepted. Now she uses Sage all year, not just in April.
           </p>
         </div>
 

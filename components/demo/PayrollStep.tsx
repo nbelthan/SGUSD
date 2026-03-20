@@ -137,7 +137,7 @@ export default function PayrollStep({ onPayrollComplete }: PayrollStepProps) {
           waits two weeks for a lump-sum deposit that routes off Sage&apos;s rails through ACH.
           With SGUSD streaming, her ${PAYROLL_ANNUAL_SALARY.toLocaleString()} salary flows into
           her Sage wallet daily instead. Maria gets paid sooner, Acme spends less on processing,
-          and the money stays on-network earning yield until she spends it.
+          and the money stays on-network earning yield until she spends it with her Sage card.
         </p>
       </div>
 

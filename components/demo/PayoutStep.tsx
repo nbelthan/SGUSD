@@ -266,7 +266,7 @@ export default function PayoutStep({ onPayoutComplete }: PayoutStepProps) {
               <span className="text-emerald-400 font-medium">3.20% APY</span>
               <span className="text-slate-500">&middot;</span>
               <span className="text-slate-400 text-xs">
-                Rivera&apos;s funds earn yield as soon as they arrive. She doesn&apos;t need a local bank account to hold or grow her money.
+                Rivera&apos;s funds earn yield as soon as they arrive. With her Sage Visa card, she can spend SGUSD at merchants worldwide &mdash; no local bank account needed.
               </span>
             </div>
           </motion.div>

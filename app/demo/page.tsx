@@ -220,7 +220,7 @@ function ConfirmationStep({ onReset }: { onReset: () => void }) {
           The Loop Is Closed
         </h3>
         <p className="text-sm text-slate-400 leading-relaxed max-w-md mx-auto mb-4">
-          Tax refund, invoice payment, contractor payout, payroll, loan repayment, off-ramp.
+          Tax refund, invoice payment, contractor payout, payroll, loan repayment &mdash; even everyday spending.
           Every transaction stayed on Sage&apos;s network. The money that normally leaks to ACH,
           card processors, and wire services? It earned yield instead. It settled in seconds.
           And it never left.
