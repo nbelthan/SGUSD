@@ -56,7 +56,7 @@ const STEPS: { key: DemoStep; label: string; icon: typeof CircleDot }[] = [
   { key: 'confirmation', label: 'Confirmed', icon: CheckCircle2 },
 ];
 
-function StepIndicator({ currentStep }: { currentStep: DemoStep }) {
+function StepIndicator({ currentStep, onStepClick }: { currentStep: DemoStep; onStepClick: (step: DemoStep) => void }) {
   const currentIndex = STEPS.findIndex((s) => s.key === currentStep);
 
   return (
@@ -68,23 +68,26 @@ function StepIndicator({ currentStep }: { currentStep: DemoStep }) {
 
         return (
           <div key={step.key} className="flex items-center gap-1 sm:gap-2">
-            <motion.div
+            <motion.button
+              onClick={() => onStepClick(step.key)}
               animate={{
                 scale: isCurrent ? 1 : 0.95,
                 opacity: isCurrent || isComplete ? 1 : 0.65,
               }}
-              className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-xs font-medium transition-colors ${
+              whileHover={{ scale: 1.05, opacity: 1 }}
+              whileTap={{ scale: 0.95 }}
+              className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-xs font-medium transition-colors cursor-pointer ${
                 isCurrent
                   ? 'bg-[#4de082]/15 text-[#4de082] border border-[#4de082]/30'
                   : isComplete
                   ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
-                  : 'bg-white/[0.06] text-slate-400 border border-white/10'
+                  : 'bg-white/[0.06] text-slate-400 border border-white/10 hover:bg-white/[0.1] hover:text-slate-300'
               }`}
             >
               <Icon size={12} />
               <span className="hidden sm:inline">{step.label}</span>
               <span className="sm:hidden">{i + 1}</span>
-            </motion.div>
+            </motion.button>
             {i < STEPS.length - 1 && (
               <div className="w-3 sm:w-6 h-px bg-white/10 relative overflow-hidden rounded-full">
                 <motion.div
@@ -287,7 +290,7 @@ function DemoContent() {
   return (
     <div className="space-y-8">
       {/* Step indicators */}
-      <StepIndicator currentStep={currentStep} />
+      <StepIndicator currentStep={currentStep} onStepClick={setStep} />
 
       {/* Step content */}
       <AnimatePresence mode="wait">
