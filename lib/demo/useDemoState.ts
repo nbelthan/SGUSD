@@ -5,7 +5,7 @@ import type { ReactNode } from 'react';
 import type { Transaction } from '@/types';
 import { ACME_ACCOUNT, GLOBAL_LOGISTICS_ACCOUNT } from './accounts';
 
-export type DemoStep = 'tax-refund' | 'mint' | 'watch-yield' | 'payout' | 'payroll' | 'lending' | 'burn' | 'confirmation';
+export type DemoStep = 'tax-refund' | 'mint' | 'watch-yield' | 'payout' | 'payroll' | 'wage-yield' | 'lending' | 'burn' | 'confirmation';
 
 interface DemoState {
   currentStep: DemoStep;

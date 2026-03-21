@@ -27,6 +27,7 @@ import PayoutStep from '@/components/demo/PayoutStep';
 import PayrollStep from '@/components/demo/PayrollStep';
 import LendingStep from '@/components/demo/LendingStep';
 import BurnStep from '@/components/demo/BurnStep';
+import WageYieldStep from '@/components/demo/WageYieldStep';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import NetworkGuard from '@/components/NetworkGuard';
 import { useTickingBalance } from '@/lib/hooks/useTickingBalance';
@@ -53,6 +54,7 @@ const STEPS: { key: DemoStep; label: string; icon: typeof CircleDot }[] = [
   { key: 'watch-yield', label: 'Yield Accrual', icon: Eye },
   { key: 'payout', label: 'Contractor Payout', icon: Send },
   { key: 'payroll', label: 'Payroll', icon: Users },
+  { key: 'wage-yield', label: 'Wage Yield', icon: TrendingUp },
   { key: 'lending', label: 'Auto-Repay', icon: Landmark },
   { key: 'burn', label: 'Off-Ramp', icon: ArrowDownCircle },
   { key: 'confirmation', label: 'Confirmed', icon: CheckCircle2 },
@@ -278,6 +280,10 @@ function DemoContent() {
   }, [setStep]);
 
   const handlePayrollComplete = useCallback(() => {
+    setStep('wage-yield');
+  }, [setStep]);
+
+  const handleWageYieldContinue = useCallback(() => {
     setStep('lending');
   }, [setStep]);
 
@@ -376,6 +382,20 @@ function DemoContent() {
           >
             <TreasuryDashboard />
             <PayrollStep onPayrollComplete={handlePayrollComplete} />
+          </motion.div>
+        )}
+
+        {currentStep === 'wage-yield' && (
+          <motion.div
+            key="wage-yield"
+            initial={{ opacity: 0, x: 40 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -40 }}
+            transition={{ duration: 0.35 }}
+            className="space-y-6"
+          >
+            <TreasuryDashboard />
+            <WageYieldStep onContinue={handleWageYieldContinue} />
           </motion.div>
         )}
 
