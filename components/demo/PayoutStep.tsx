@@ -16,7 +16,7 @@ import ConnectedPayoutToggle from '@/components/payout/ConnectedPayoutToggle';
 import NetworkVisualization from '@/components/network/NetworkVisualization';
 import { useTickingBalance } from '@/lib/hooks/useTickingBalance';
 import { useConfetti } from '@/components/ui/Confetti';
-import { getTxUrl } from '@/lib/basescan';
+import { getTxUrl, getAddressUrl } from '@/lib/basescan';
 import {
   GLOBAL_LOGISTICS_ACCOUNT,
   DEFAULT_PAYOUT_AMOUNT,
@@ -236,6 +236,15 @@ export default function PayoutStep({ onPayoutComplete }: PayoutStepProps) {
                   {GLOBAL_LOGISTICS_ACCOUNT.role}
                 </p>
               </div>
+              <a
+                href={getAddressUrl(GLOBAL_LOGISTICS_ACCOUNT.address)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="ml-auto flex items-center justify-center w-7 h-7 rounded-lg bg-white/[0.03] border border-white/5 hover:bg-white/[0.06] hover:border-white/10 transition-all"
+                title="View on BaseScan"
+              >
+                <ExternalLink size={12} className="text-slate-500 hover:text-slate-300" />
+              </a>
             </div>
 
             {/* Receiver ticking balance */}

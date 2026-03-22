@@ -46,7 +46,8 @@ import {
   OFFRAMP_FEES,
   DOMESTIC_FEES,
 } from '@/lib/demo/accounts';
-import { ArrowDownCircle } from 'lucide-react';
+import { ArrowDownCircle, ExternalLink } from 'lucide-react';
+import { getAddressUrl } from '@/lib/basescan';
 
 const STEPS: { key: DemoStep; label: string; icon: typeof CircleDot }[] = [
   { key: 'tax-refund', label: 'Tax Refund', icon: Receipt },
@@ -180,6 +181,15 @@ function ConfirmationStep({ onReset }: { onReset: () => void }) {
               {GLOBAL_LOGISTICS_ACCOUNT.role}
             </p>
           </div>
+          <a
+            href={getAddressUrl(GLOBAL_LOGISTICS_ACCOUNT.address)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="ml-auto flex items-center justify-center w-7 h-7 rounded-lg bg-white/[0.03] border border-white/5 hover:bg-white/[0.06] hover:border-white/10 transition-all"
+            title="View on BaseScan"
+          >
+            <ExternalLink size={12} className="text-slate-500 hover:text-slate-300" />
+          </a>
         </div>
 
         <div className="mb-4">

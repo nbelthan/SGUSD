@@ -13,7 +13,7 @@ import {
   TrendingDown,
 } from 'lucide-react';
 import { useAuth } from '@/lib/hooks/useAuth';
-import { getTxUrl } from '@/lib/basescan';
+import { getTxUrl, getAddressUrl } from '@/lib/basescan';
 import {
   SAGE_CAPITAL_ACCOUNT,
   NEW_CUSTOMER_ACCOUNT,
@@ -158,9 +158,20 @@ export default function LendingStep({ onLendingComplete }: LendingStepProps) {
       <div className="glass-card p-5 sm:p-8 max-w-lg mx-auto">
         <div className="flex items-center justify-between mb-4">
           <h4 className="text-sm font-semibold text-white">Line of Credit Status</h4>
-          <span className="text-xs px-2 py-1 rounded-full bg-[#4de082]/10 border border-[#4de082]/20 text-[#4de082]">
-            {SAGE_CAPITAL_ACCOUNT.role.match(/\((.+)\)/)?.[1]}
-          </span>
+          <div className="flex items-center gap-2">
+            <span className="text-xs px-2 py-1 rounded-full bg-[#4de082]/10 border border-[#4de082]/20 text-[#4de082]">
+              {SAGE_CAPITAL_ACCOUNT.role.match(/\((.+)\)/)?.[1]}
+            </span>
+            <a
+              href={getAddressUrl(SAGE_CAPITAL_ACCOUNT.address)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center w-7 h-7 rounded-lg bg-white/[0.03] border border-white/5 hover:bg-white/[0.06] hover:border-white/10 transition-all"
+              title="View Sage Capital on BaseScan"
+            >
+              <ExternalLink size={12} className="text-slate-500 hover:text-slate-300" />
+            </a>
+          </div>
         </div>
 
         <div className="grid grid-cols-3 gap-3 mb-4">

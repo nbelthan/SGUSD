@@ -14,7 +14,7 @@ import {
   Zap,
 } from 'lucide-react';
 import { useAuth } from '@/lib/hooks/useAuth';
-import { getTxUrl } from '@/lib/basescan';
+import { getTxUrl, getAddressUrl } from '@/lib/basescan';
 import {
   EMPLOYEE_ACCOUNT,
   PAYROLL_ANNUAL_SALARY,
@@ -152,9 +152,20 @@ export default function PayrollStep({ onPayrollComplete }: PayrollStepProps) {
             <p className="text-sm font-semibold text-white">{EMPLOYEE_ACCOUNT.name}</p>
             <p className="text-xs text-slate-400">{EMPLOYEE_ACCOUNT.role}</p>
           </div>
-          <div className="ml-auto text-right">
-            <p className="text-xs text-slate-500">Annual Salary</p>
-            <p className="text-sm font-semibold text-white">${PAYROLL_ANNUAL_SALARY.toLocaleString()}</p>
+          <div className="ml-auto flex items-center gap-2">
+            <div className="text-right">
+              <p className="text-xs text-slate-500">Annual Salary</p>
+              <p className="text-sm font-semibold text-white">${PAYROLL_ANNUAL_SALARY.toLocaleString()}</p>
+            </div>
+            <a
+              href={getAddressUrl(EMPLOYEE_ACCOUNT.address)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center w-7 h-7 rounded-lg bg-white/[0.03] border border-white/5 hover:bg-white/[0.06] hover:border-white/10 transition-all"
+              title="View on BaseScan"
+            >
+              <ExternalLink size={12} className="text-slate-500 hover:text-slate-300" />
+            </a>
           </div>
         </div>
 
