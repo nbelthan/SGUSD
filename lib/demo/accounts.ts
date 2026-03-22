@@ -99,6 +99,20 @@ export const TRADITIONAL_PAYROLL_FEES = {
   achSettlementDays: '2-3 business days',
 } as const;
 
+/** Check cashing / cash advance fees (industry averages, 2024-2025 data). */
+export const CHECK_CASHING_FEES = {
+  /** Average paycheck cashing fee as a percentage */
+  checkCashingPercent: 3,
+  /** Cash advance / payday loan fee per $100 borrowed */
+  cashAdvancePer100: 15,
+  /** Effective APR on a 14-day payday loan at $15/$100 */
+  paydayApr: 391,
+  /** Prepaid debit card reload fee */
+  prepaidReloadFee: 3.74,
+  /** Annual cost for a $60K/yr worker using check cashing (26 biweekly checks) */
+  annualCostEstimate: 1050,
+} as const;
+
 // ── Lending Auto-Repayment ─────────────────────────────────────────
 
 export const SAGE_CAPITAL_ACCOUNT: DemoAccount = {

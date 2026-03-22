@@ -21,7 +21,10 @@ import {
   PAYROLL_DAILY_AMOUNT,
   EWA_FEE,
   TRADITIONAL_PAYROLL_FEES,
+  CHECK_CASHING_FEES,
 } from '@/lib/demo/accounts';
+
+type PayrollMode = 'sage' | 'traditional' | 'check-cashing';
 
 interface PayrollStepProps {
   onPayrollComplete?: (txHash: string) => void;
@@ -32,7 +35,7 @@ const STREAM_DURATION_MS = 8000;
 
 export default function PayrollStep({ onPayrollComplete }: PayrollStepProps) {
   const { walletAddress } = useAuth();
-  const [isSageMode, setIsSageMode] = useState(true);
+  const [payrollMode, setPayrollMode] = useState<PayrollMode>('sage');
   const [isStreaming, setIsStreaming] = useState(false);
   const [streamedAmount, setStreamedAmount] = useState(0);
   const [streamComplete, setStreamComplete] = useState(false);
@@ -213,32 +216,42 @@ export default function PayrollStep({ onPayrollComplete }: PayrollStepProps) {
         </div>
 
         {/* Toggle */}
-        <div className="flex items-center justify-between p-1 bg-black/40 rounded-full mb-6 border border-white/5">
+        <div className="flex items-center p-1 bg-black/40 rounded-full mb-6 border border-white/5">
           <button
-            onClick={() => setIsSageMode(false)}
-            className={`flex-1 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
-              !isSageMode
+            onClick={() => setPayrollMode('check-cashing')}
+            className={`flex-1 py-2.5 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 ${
+              payrollMode === 'check-cashing'
+                ? 'bg-red-500/15 text-red-400 border border-red-500/30'
+                : 'text-slate-500 hover:text-slate-300'
+            }`}
+          >
+            Check Cashing
+          </button>
+          <button
+            onClick={() => setPayrollMode('traditional')}
+            className={`flex-1 py-2.5 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 ${
+              payrollMode === 'traditional'
                 ? 'bg-white/10 text-white shadow-sm'
                 : 'text-slate-500 hover:text-slate-300'
             }`}
           >
-            Traditional (ADP/Gusto)
+            Traditional
           </button>
           <button
-            onClick={() => setIsSageMode(true)}
-            className={`flex-1 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
-              isSageMode
+            onClick={() => setPayrollMode('sage')}
+            className={`flex-1 py-2.5 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 ${
+              payrollMode === 'sage'
                 ? 'bg-[#4de082]/20 text-[#4de082] border border-[#4de082]/30'
                 : 'text-slate-500 hover:text-slate-300'
             }`}
           >
-            Sage Workforce (SGUSD)
+            Sage (SGUSD)
           </button>
         </div>
 
         {/* Comparison */}
         <AnimatePresence mode="wait">
-          {isSageMode ? (
+          {payrollMode === 'sage' && (
             <motion.div
               key="sage"
               initial={{ opacity: 0 }}
@@ -262,8 +275,14 @@ export default function PayrollStep({ onPayrollComplete }: PayrollStepProps) {
                 <span className="text-slate-400">Settlement</span>
                 <span className="text-emerald-400 font-medium">Instant</span>
               </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-slate-400">Annual cost to Maria</span>
+                <span className="text-emerald-400 font-medium">$0</span>
+              </div>
             </motion.div>
-          ) : (
+          )}
+
+          {payrollMode === 'traditional' && (
             <motion.div
               key="traditional"
               initial={{ opacity: 0 }}
@@ -286,6 +305,45 @@ export default function PayrollStep({ onPayrollComplete }: PayrollStepProps) {
               <div className="flex justify-between text-sm">
                 <span className="text-slate-400">Settlement</span>
                 <span className="text-amber-400">{TRADITIONAL_PAYROLL_FEES.achSettlementDays}</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-slate-400">Annual cost to Maria</span>
+                <span className="text-amber-400">$0 (employer-paid)</span>
+              </div>
+            </motion.div>
+          )}
+
+          {payrollMode === 'check-cashing' && (
+            <motion.div
+              key="check-cashing"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="space-y-3 mb-6"
+            >
+              <div className="flex justify-between text-sm">
+                <span className="text-slate-400">Pay frequency</span>
+                <span className="text-amber-400">Bi-weekly check</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-slate-400">Check cashing fee</span>
+                <span className="text-red-400">{CHECK_CASHING_FEES.checkCashingPercent}% of check ($69/paycheck)</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-slate-400">Cash advance</span>
+                <span className="text-red-400">${CHECK_CASHING_FEES.cashAdvancePer100}/$100 ({CHECK_CASHING_FEES.paydayApr}% APR)</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-slate-400">Prepaid card reload</span>
+                <span className="text-red-400">${CHECK_CASHING_FEES.prepaidReloadFee}/load</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-slate-400">Settlement</span>
+                <span className="text-amber-400">Immediate (cash)</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-slate-400">Annual cost to Maria</span>
+                <span className="text-red-400 font-bold">${CHECK_CASHING_FEES.annualCostEstimate.toLocaleString()}+/yr</span>
               </div>
             </motion.div>
           )}
@@ -320,9 +378,9 @@ export default function PayrollStep({ onPayrollComplete }: PayrollStepProps) {
             <button
               key="action"
               onClick={handleMint}
-              disabled={isMinting || !walletAddress || !streamComplete || !isSageMode}
+              disabled={isMinting || !walletAddress || !streamComplete || payrollMode !== 'sage'}
               className={`w-full py-4 rounded-xl font-medium flex items-center justify-center gap-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
-                isSageMode ? 'btn-sage' : 'btn-traditional'
+                payrollMode === 'sage' ? 'btn-sage' : 'btn-traditional'
               }`}
             >
               {isMinting ? (
@@ -343,9 +401,11 @@ export default function PayrollStep({ onPayrollComplete }: PayrollStepProps) {
           </div>
         )}
 
-        {!isSageMode && (
+        {payrollMode !== 'sage' && (
           <p className="text-xs text-slate-500 text-center mt-3">
-            Traditional payroll is shown for comparison only.
+            {payrollMode === 'check-cashing'
+              ? 'Check cashing fees shown reflect industry averages (ACE, PLS, Check City).'
+              : 'Traditional payroll is shown for comparison only.'}
           </p>
         )}
       </div>
