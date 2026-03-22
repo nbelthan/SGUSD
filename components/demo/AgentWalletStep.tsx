@@ -14,10 +14,12 @@ import {
   ShoppingCart,
   Lock,
   ArrowRight,
+  Wallet,
+  Copy,
+  Check,
 } from 'lucide-react';
-import { getTxUrl, getAddressUrl, getContractUrl } from '@/lib/basescan';
+import { getTxUrl, getAddressUrl } from '@/lib/basescan';
 import {
-  AI_AGENT_ACCOUNT,
   AGENT_VENDOR_ACCOUNT,
   AGENT_SPEND_CAP,
   AGENT_SPEND_AMOUNT,
@@ -28,45 +30,52 @@ interface AgentWalletStepProps {
   onComplete?: (txHash: string) => void;
 }
 
-type Phase = 'setup' | 'approved' | 'spending' | 'complete';
+type Phase = 'setup' | 'provisioned' | 'complete';
 
 export default function AgentWalletStep({ onComplete }: AgentWalletStepProps) {
   const [phase, setPhase] = useState<Phase>('setup');
-  const [approveTxHash, setApproveTxHash] = useState<string | undefined>();
+  const [agentAddress, setAgentAddress] = useState<string | undefined>();
+  const [fundingTxHash, setFundingTxHash] = useState<string | undefined>();
   const [spendTxHash, setSpendTxHash] = useState<string | undefined>();
-  const [isApproving, setIsApproving] = useState(false);
+  const [isProvisioning, setIsProvisioning] = useState(false);
   const [isSpending, setIsSpending] = useState(false);
   const [error, setError] = useState<string | undefined>();
   const [customSpendCap, setCustomSpendCap] = useState(AGENT_SPEND_CAP);
+  const [copied, setCopied] = useState(false);
   const completedRef = useRef(false);
 
   const spendCap = Number(customSpendCap) || 0;
   const spendAmount = Number(AGENT_SPEND_AMOUNT);
   const remainingAllowance = spendCap - spendAmount;
 
-  const handleApprove = useCallback(async () => {
-    setIsApproving(true);
+  const handleCopyAddress = useCallback(async () => {
+    if (!agentAddress) return;
+    await navigator.clipboard.writeText(agentAddress);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  }, [agentAddress]);
+
+  const handleProvision = useCallback(async () => {
+    setIsProvisioning(true);
     setError(undefined);
     try {
-      const res = await fetch('/api/approve', {
+      const res = await fetch('/api/create-agent-wallet', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          spender: AI_AGENT_ACCOUNT.address,
-          amount: customSpendCap,
-        }),
+        body: JSON.stringify({ amount: customSpendCap }),
       });
 
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Approve failed');
+      if (!res.ok) throw new Error(data.error || 'Provisioning failed');
 
-      setApproveTxHash(data.hash);
-      setPhase('approved');
+      setAgentAddress(data.agentAddress);
+      setFundingTxHash(data.hash);
+      setPhase('provisioned');
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : 'Approve failed';
+      const message = err instanceof Error ? err.message : 'Provisioning failed';
       setError(message);
     } finally {
-      setIsApproving(false);
+      setIsProvisioning(false);
     }
   }, [customSpendCap]);
 
@@ -74,12 +83,12 @@ export default function AgentWalletStep({ onComplete }: AgentWalletStepProps) {
     setIsSpending(true);
     setError(undefined);
     try {
-      // Wait for approve tx to be mined first
-      if (approveTxHash) {
-        await fetch(`/api/tx-wait?hash=${approveTxHash}`);
+      // Wait for funding tx to be mined first
+      if (fundingTxHash) {
+        await fetch(`/api/tx-wait?hash=${fundingTxHash}`);
       }
 
-      const res = await fetch('/api/agent-spend', {
+      const res = await fetch('/api/transfer', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -104,7 +113,7 @@ export default function AgentWalletStep({ onComplete }: AgentWalletStepProps) {
     } finally {
       setIsSpending(false);
     }
-  }, [approveTxHash, onComplete]);
+  }, [fundingTxHash, onComplete]);
 
   return (
     <div className="space-y-6">
@@ -122,11 +131,14 @@ export default function AgentWalletStep({ onComplete }: AgentWalletStepProps) {
         </div>
 
         <p className="text-sm text-slate-400 leading-relaxed">
-          Acme&apos;s treasury manager provisions an AI procurement agent with a{' '}
-          <span className="text-violet-400 font-medium">${spendCap.toLocaleString()} SGUSD</span>{' '}
-          spend cap. The agent can autonomously purchase supplies up to the cap &mdash;
-          enforced on-chain via ERC-20 allowance. No corporate card, no expense reports,
-          no approval cycles. The treasury earns yield on unspent funds until the agent transacts.
+          Acme&apos;s treasury manager provisions an AI procurement agent with its own
+          on-chain wallet funded with{' '}
+          <span className="text-violet-400 font-medium">
+            ${spendCap > 0 ? spendCap.toLocaleString() : '—'} SGUSD
+          </span>.
+          Each agent gets a unique wallet address the manager can monitor on BaseScan.
+          The agent spends autonomously &mdash; no corporate card, no expense reports,
+          no approval cycles.
         </p>
       </div>
 
@@ -139,29 +151,33 @@ export default function AgentWalletStep({ onComplete }: AgentWalletStepProps) {
           </div>
           <div className="flex-1">
             <h4 className="text-sm font-semibold text-white">
-              {AI_AGENT_ACCOUNT.name}
+              Procurement Agent
             </h4>
             <p className="text-xs text-slate-400">
-              {AI_AGENT_ACCOUNT.role}
+              AI Agent (Acme Ops)
             </p>
           </div>
-          <a
-            href={getContractUrl()}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center w-7 h-7 rounded-lg bg-white/[0.03] border border-white/5 hover:bg-white/[0.06] hover:border-white/10 transition-all"
-            title="View SGUSD contract on BaseScan"
-          >
-            <ExternalLink size={12} className="text-slate-500 hover:text-slate-300" />
-          </a>
+          {agentAddress && (
+            <a
+              href={getAddressUrl(agentAddress)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center w-7 h-7 rounded-lg bg-white/[0.03] border border-white/5 hover:bg-white/[0.06] hover:border-white/10 transition-all"
+              title="View agent wallet on BaseScan"
+            >
+              <ExternalLink size={12} className="text-slate-500 hover:text-slate-300" />
+            </a>
+          )}
         </div>
 
-        {/* Spend cap visualization */}
+        {/* Spend cap / funding amount */}
         <div className="p-4 rounded-xl bg-violet-500/[0.05] border border-violet-500/15 mb-5">
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-2">
               <Shield size={14} className="text-violet-400" />
-              <span className="text-xs font-medium text-violet-400">On-Chain Spend Cap</span>
+              <span className="text-xs font-medium text-violet-400">
+                {phase === 'setup' ? 'Agent Wallet Funding' : 'Wallet Balance'}
+              </span>
             </div>
             {phase === 'setup' ? (
               <div className="flex items-center gap-1">
@@ -202,32 +218,45 @@ export default function AgentWalletStep({ onComplete }: AgentWalletStepProps) {
           )}
         </div>
 
-        {/* Monitor agent activity — visible after approval */}
-        {phase !== 'setup' && (
-          <a
-            href={getContractUrl()}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.03] border border-white/5 hover:bg-white/[0.06] hover:border-white/10 transition-all mb-5"
-          >
-            <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-violet-500/10 border border-violet-500/20">
-              <ExternalLink size={14} className="text-violet-400" />
-            </div>
-            <div className="flex-1">
-              <p className="text-xs font-medium text-white">Monitor Agent Activity</p>
-              <p className="text-[11px] text-slate-500">
-                View Approval &amp; Transfer events on SGUSD contract
-              </p>
-            </div>
-            <span className="text-[10px] text-slate-500 uppercase tracking-wider">BaseScan</span>
-          </a>
+        {/* Agent wallet address — visible after provisioning */}
+        {agentAddress && (
+          <div className="mb-5">
+            <a
+              href={getAddressUrl(agentAddress)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.03] border border-white/5 hover:bg-white/[0.06] hover:border-white/10 transition-all"
+            >
+              <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-violet-500/10 border border-violet-500/20">
+                <Wallet size={14} className="text-violet-400" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-xs font-medium text-white">Monitor Agent Wallet</p>
+                <p className="text-[11px] text-slate-500 font-mono truncate">
+                  {agentAddress}
+                </p>
+              </div>
+              <span className="text-[10px] text-slate-500 uppercase tracking-wider shrink-0">BaseScan</span>
+            </a>
+            <button
+              onClick={handleCopyAddress}
+              className="mt-1.5 flex items-center gap-1.5 text-[11px] text-slate-500 hover:text-slate-300 transition-colors ml-14"
+            >
+              {copied ? <Check size={10} className="text-emerald-400" /> : <Copy size={10} />}
+              {copied ? 'Copied!' : 'Copy address'}
+            </button>
+          </div>
         )}
 
         {/* How it works */}
         <div className="space-y-2.5 mb-6">
           <div className="flex items-center gap-2.5 text-sm text-slate-300">
+            <Wallet size={14} className="text-violet-400 shrink-0" />
+            <span>Each agent gets a unique on-chain wallet</span>
+          </div>
+          <div className="flex items-center gap-2.5 text-sm text-slate-300">
             <Lock size={14} className="text-violet-400 shrink-0" />
-            <span>Hard cap enforced at smart contract level</span>
+            <span>Spending capped by wallet balance &mdash; can&apos;t overspend</span>
           </div>
           <div className="flex items-center gap-2.5 text-sm text-slate-300">
             <Zap size={14} className="text-violet-400 shrink-0" />
@@ -235,7 +264,7 @@ export default function AgentWalletStep({ onComplete }: AgentWalletStepProps) {
           </div>
           <div className="flex items-center gap-2.5 text-sm text-emerald-400 font-medium">
             <DollarSign size={14} className="shrink-0" />
-            <span>Yield accrues on unspent balance until agent transacts</span>
+            <span>Yield accrues on wallet balance until agent transacts</span>
           </div>
         </div>
 
@@ -246,54 +275,54 @@ export default function AgentWalletStep({ onComplete }: AgentWalletStepProps) {
           </div>
         )}
 
-        {/* Phase: Setup — approve button */}
+        {/* Phase: Setup — provision button */}
         {phase === 'setup' && (
           <button
-            onClick={handleApprove}
-            disabled={isApproving || spendCap <= 0 || spendCap < spendAmount}
+            onClick={handleProvision}
+            disabled={isProvisioning || spendCap <= 0 || spendCap < spendAmount}
             className="w-full py-3 rounded-xl bg-violet-500/15 hover:bg-violet-500/25 border border-violet-500/30 text-violet-300 font-medium text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
-            {isApproving ? (
+            {isProvisioning ? (
               <>
                 <Loader2 size={16} className="animate-spin" />
-                Setting spend cap on-chain...
+                Creating wallet &amp; funding on-chain...
               </>
             ) : (
               <>
-                <Shield size={16} />
-                Set ${spendCap > 0 ? spendCap.toLocaleString() : '—'} Spend Cap
+                <Wallet size={16} />
+                Provision Agent Wallet &mdash; ${spendCap > 0 ? spendCap.toLocaleString() : '—'} SGUSD
               </>
             )}
           </button>
         )}
 
-        {/* Phase: Approved — show approval tx, then agent spend button */}
+        {/* Phase: Provisioned — show funding tx, then agent spend button */}
         <AnimatePresence>
-          {phase === 'approved' && approveTxHash && (
+          {phase === 'provisioned' && fundingTxHash && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               className="space-y-4"
             >
-              {/* Approval confirmation */}
+              {/* Funding confirmation */}
               <div className="p-3 rounded-xl bg-violet-500/[0.06] border border-violet-500/15">
                 <div className="flex items-center gap-2 mb-2">
                   <CheckCircle2 size={14} className="text-violet-400" />
                   <span className="text-xs font-medium text-violet-400">
-                    Spend cap set on-chain
+                    Agent wallet created &amp; funded
                   </span>
                 </div>
                 <a
-                  href={getTxUrl(approveTxHash)}
+                  href={getTxUrl(fundingTxHash)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 text-xs text-[#4de082] hover:text-[#4de082] transition-colors"
                 >
                   <ExternalLink size={12} />
-                  <span>Verify approval on BaseScan</span>
+                  <span>Verify funding on BaseScan</span>
                   <span className="font-mono text-[#4de082]/60">
-                    {approveTxHash.slice(0, 10)}...{approveTxHash.slice(-6)}
+                    {fundingTxHash.slice(0, 10)}...{fundingTxHash.slice(-6)}
                   </span>
                 </a>
               </div>
@@ -354,7 +383,7 @@ export default function AgentWalletStep({ onComplete }: AgentWalletStepProps) {
               </h3>
               <p className="text-sm text-slate-400">
                 ${spendAmount.toLocaleString()} SGUSD spent autonomously &mdash;{' '}
-                ${remainingAllowance.toLocaleString()} remaining in spend cap
+                ${remainingAllowance.toLocaleString()} remaining in agent wallet
               </p>
             </div>
 
@@ -399,17 +428,31 @@ export default function AgentWalletStep({ onComplete }: AgentWalletStepProps) {
 
             {/* BaseScan links */}
             <div className="flex flex-col items-center gap-2">
-              {approveTxHash && (
+              {agentAddress && (
                 <a
-                  href={getTxUrl(approveTxHash)}
+                  href={getAddressUrl(agentAddress)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-xs text-violet-400 hover:text-violet-300 transition-colors"
+                >
+                  <Wallet size={12} />
+                  <span>Agent wallet</span>
+                  <span className="font-mono text-violet-400/60">
+                    {agentAddress.slice(0, 10)}...{agentAddress.slice(-6)}
+                  </span>
+                </a>
+              )}
+              {fundingTxHash && (
+                <a
+                  href={getTxUrl(fundingTxHash)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 text-xs text-violet-400 hover:text-violet-300 transition-colors"
                 >
                   <Shield size={12} />
-                  <span>Approval tx</span>
+                  <span>Funding tx</span>
                   <span className="font-mono text-violet-400/60">
-                    {approveTxHash.slice(0, 10)}...{approveTxHash.slice(-6)}
+                    {fundingTxHash.slice(0, 10)}...{fundingTxHash.slice(-6)}
                   </span>
                 </a>
               )}
