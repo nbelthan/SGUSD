@@ -37,9 +37,10 @@ export default function AgentWalletStep({ onComplete }: AgentWalletStepProps) {
   const [isApproving, setIsApproving] = useState(false);
   const [isSpending, setIsSpending] = useState(false);
   const [error, setError] = useState<string | undefined>();
+  const [customSpendCap, setCustomSpendCap] = useState(AGENT_SPEND_CAP);
   const completedRef = useRef(false);
 
-  const spendCap = Number(AGENT_SPEND_CAP);
+  const spendCap = Number(customSpendCap) || 0;
   const spendAmount = Number(AGENT_SPEND_AMOUNT);
   const remainingAllowance = spendCap - spendAmount;
 
@@ -52,7 +53,7 @@ export default function AgentWalletStep({ onComplete }: AgentWalletStepProps) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           spender: AI_AGENT_ACCOUNT.address,
-          amount: AGENT_SPEND_CAP,
+          amount: customSpendCap,
         }),
       });
 
@@ -67,7 +68,7 @@ export default function AgentWalletStep({ onComplete }: AgentWalletStepProps) {
     } finally {
       setIsApproving(false);
     }
-  }, []);
+  }, [customSpendCap]);
 
   const handleAgentSpend = useCallback(async () => {
     setIsSpending(true);
@@ -162,9 +163,24 @@ export default function AgentWalletStep({ onComplete }: AgentWalletStepProps) {
               <Shield size={14} className="text-violet-400" />
               <span className="text-xs font-medium text-violet-400">On-Chain Spend Cap</span>
             </div>
-            <span className="text-sm font-bold text-white">
-              ${spendCap.toLocaleString()} SGUSD
-            </span>
+            {phase === 'setup' ? (
+              <div className="flex items-center gap-1">
+                <span className="text-sm font-bold text-white">$</span>
+                <input
+                  type="number"
+                  value={customSpendCap}
+                  onChange={(e) => setCustomSpendCap(e.target.value)}
+                  min="1"
+                  step="100"
+                  className="w-24 bg-white/[0.08] border border-violet-500/30 rounded-lg px-2 py-1 text-sm font-bold text-white text-right focus:outline-none focus:border-violet-400 focus:ring-1 focus:ring-violet-400/30 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                />
+                <span className="text-xs text-slate-400 ml-1">SGUSD</span>
+              </div>
+            ) : (
+              <span className="text-sm font-bold text-white">
+                ${spendCap.toLocaleString()} SGUSD
+              </span>
+            )}
           </div>
 
           {/* Progress bar showing spend vs cap */}
@@ -213,7 +229,7 @@ export default function AgentWalletStep({ onComplete }: AgentWalletStepProps) {
         {phase === 'setup' && (
           <button
             onClick={handleApprove}
-            disabled={isApproving}
+            disabled={isApproving || spendCap <= 0 || spendCap < spendAmount}
             className="w-full py-3 rounded-xl bg-violet-500/15 hover:bg-violet-500/25 border border-violet-500/30 text-violet-300 font-medium text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
             {isApproving ? (
@@ -224,7 +240,7 @@ export default function AgentWalletStep({ onComplete }: AgentWalletStepProps) {
             ) : (
               <>
                 <Shield size={16} />
-                Set ${spendCap.toLocaleString()} Spend Cap
+                Set ${spendCap > 0 ? spendCap.toLocaleString() : '—'} Spend Cap
               </>
             )}
           </button>
