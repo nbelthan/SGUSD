@@ -87,7 +87,7 @@ export default function PayrollStep({ onPayrollComplete }: PayrollStepProps) {
       const res = await fetch('/api/mint', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ to: walletAddress, amount: PAYROLL_DAILY_AMOUNT }),
+        body: JSON.stringify({ to: EMPLOYEE_ACCOUNT.address, amount: PAYROLL_DAILY_AMOUNT }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Mint failed');
@@ -303,7 +303,7 @@ export default function PayrollStep({ onPayrollComplete }: PayrollStepProps) {
               <div className="flex items-center gap-2 justify-center p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
                 <CheckCircle2 size={16} className="text-emerald-400" />
                 <span className="text-sm font-medium text-emerald-400">
-                  ${PAYROLL_DAILY_AMOUNT} SGUSD deposited to Acme treasury
+                  ${PAYROLL_DAILY_AMOUNT} SGUSD deposited to Maria&apos;s wallet
                 </span>
               </div>
               <a
