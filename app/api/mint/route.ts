@@ -41,8 +41,8 @@ export async function POST(request: NextRequest) {
 
     const parsedAmount = parseUnits(amount, 18);
 
-    // Mint to the deployer (treasury) — the deployer is "Acme Inc." in the demo.
-    const treasuryAddress = account.address;
+    // Mint to the requested recipient address.
+    const recipient = to as `0x${string}`;
 
     // Fetch the nonce explicitly so we can return nextNonce to callers.
     // Chained transactions (e.g. LendingStep: mint → transfer) pass nextNonce
@@ -56,15 +56,15 @@ export async function POST(request: NextRequest) {
       address: SAGECOIN_ADDRESS,
       abi: SAGECOIN_ABI,
       functionName: 'mint',
-      args: [treasuryAddress, parsedAmount],
+      args: [recipient, parsedAmount],
       nonce,
     });
 
     return NextResponse.json({
       hash,
-      to: treasuryAddress,
+      to: recipient,
       amount,
-      treasury: treasuryAddress,
+      treasury: account.address,
       nextNonce: nonce + 1,
     });
   } catch (err: unknown) {
