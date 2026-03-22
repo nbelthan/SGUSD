@@ -61,6 +61,9 @@ export const DEFAULT_MINT_AMOUNT = '10000';
 /** Default payout amount for the contractor payout step (in USD/SGUSD). */
 export const DEFAULT_PAYOUT_AMOUNT = '5000';
 
+/** Banks are closed weekends + federal holidays — Sage settles 24/7/365. */
+export const BANK_CLOSED_DAYS_PER_YEAR = 115;
+
 /** Traditional banking baseline for international payout fee savings. */
 export const TRADITIONAL_FEES = {
   wireFee: 45,

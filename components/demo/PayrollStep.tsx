@@ -273,7 +273,7 @@ export default function PayrollStep({ onPayrollComplete }: PayrollStepProps) {
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-slate-400">Settlement</span>
-                <span className="text-emerald-400 font-medium">Instant</span>
+                <span className="text-emerald-400 font-medium">Instant &middot; 24/7/365</span>
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-slate-400">Annual cost to Maria</span>

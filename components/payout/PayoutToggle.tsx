@@ -163,6 +163,11 @@ export default function PayoutToggle({
           {isSageMode ? '< 2 Seconds' : '3-5 Business Days'}
         </span>
       </div>
+      {isSageMode && (
+        <p className="text-[10px] text-emerald-400/60 text-right -mt-4 mb-2 mr-1">
+          24/7/365 &mdash; no bank holidays, no cutoff times
+        </p>
+      )}
 
       {/* Action Button */}
       <div className="group">

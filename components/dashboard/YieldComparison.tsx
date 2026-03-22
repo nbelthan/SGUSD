@@ -136,6 +136,9 @@ export default function YieldComparison({ balance = 0 }: YieldComparisonProps) {
       )}
 
       <p className="text-[9px] text-slate-600 mt-4">
+        SGUSD accrues yield every second &mdash; banks close 115 days/year.
+      </p>
+      <p className="text-[9px] text-slate-600 mt-1">
         Rates as of March 2026 &middot; Sources: Bankrate, NerdWallet
       </p>
     </div>

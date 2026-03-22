@@ -193,6 +193,7 @@ export default function PayoutStep({ onPayoutComplete }: PayoutStepProps) {
                 <span className="text-emerald-400 font-bold">&lt;2 seconds</span>
                 <span className="text-slate-500"> vs </span>
                 <span className="line-through text-red-400/60">3-5 business days</span>
+                <span className="text-slate-600 ml-1">&middot; 24/7/365</span>
               </div>
             </div>
 
