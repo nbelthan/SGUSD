@@ -136,3 +136,28 @@ export const DOMESTIC_FEES = {
   achDays: '2-3 business days',
   cardSettlementDays: '2-3 business days',
 } as const;
+
+// ── AI Agent Wallet ──────────────────────────────────────────────
+
+export const AI_AGENT_ACCOUNT: DemoAccount = {
+  name: 'Procurement Agent',
+  role: 'AI Agent (Acme Ops)',
+  address: '0x5678901234abcdef5678901234abcdef56789012' as `0x${string}`,
+  balance: 0,
+};
+
+export const AGENT_VENDOR_ACCOUNT: DemoAccount = {
+  name: 'PackageCo Supplies',
+  role: 'Vendor (Autonomous Purchase)',
+  address: '0x6789012345abcdef6789012345abcdef67890123' as `0x${string}`,
+  balance: 0,
+};
+
+export const AGENT_SPEND_CAP = '1000';
+export const AGENT_SPEND_AMOUNT = '347.50';
+
+export const TRADITIONAL_AGENT_FEES = {
+  corporateCardFee: 25,
+  expenseReportCost: 18,
+  approvalCycleDays: '3-5 business days',
+} as const;

@@ -16,6 +16,7 @@ import {
   Landmark,
   Receipt,
   Banknote,
+  Bot,
 } from 'lucide-react';
 import { useAuth } from '@/lib/hooks/useAuth';
 import LoginScreen from '@/components/auth/LoginScreen';
@@ -27,6 +28,7 @@ import PayoutStep from '@/components/demo/PayoutStep';
 import PayrollStep from '@/components/demo/PayrollStep';
 import LendingStep from '@/components/demo/LendingStep';
 import BurnStep from '@/components/demo/BurnStep';
+import AgentWalletStep from '@/components/demo/AgentWalletStep';
 import WageYieldStep from '@/components/demo/WageYieldStep';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import NetworkGuard from '@/components/NetworkGuard';
@@ -58,6 +60,7 @@ const STEPS: { key: DemoStep; label: string; icon: typeof CircleDot }[] = [
   { key: 'wage-yield', label: 'Wage Yield', icon: TrendingUp },
   { key: 'lending', label: 'Auto-Repay', icon: Landmark },
   { key: 'burn', label: 'Off-Ramp', icon: ArrowDownCircle },
+  { key: 'agent-wallet', label: 'AI Agent', icon: Bot },
   { key: 'confirmation', label: 'Confirmed', icon: CheckCircle2 },
 ];
 
@@ -302,6 +305,10 @@ function DemoContent() {
   }, [setStep]);
 
   const handleBurnComplete = useCallback(() => {
+    setStep('agent-wallet');
+  }, [setStep]);
+
+  const handleAgentWalletComplete = useCallback(() => {
     setStep('confirmation');
   }, [setStep]);
 
@@ -434,6 +441,20 @@ function DemoContent() {
           >
             <TreasuryDashboard />
             <BurnStep onBurnComplete={handleBurnComplete} />
+          </motion.div>
+        )}
+
+        {currentStep === 'agent-wallet' && (
+          <motion.div
+            key="agent-wallet"
+            initial={{ opacity: 0, x: 40 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -40 }}
+            transition={{ duration: 0.35 }}
+            className="space-y-6"
+          >
+            <TreasuryDashboard />
+            <AgentWalletStep onComplete={handleAgentWalletComplete} />
           </motion.div>
         )}
 
