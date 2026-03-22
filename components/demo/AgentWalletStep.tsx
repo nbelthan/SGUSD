@@ -202,6 +202,27 @@ export default function AgentWalletStep({ onComplete }: AgentWalletStepProps) {
           )}
         </div>
 
+        {/* Monitor agent wallet link — visible after approval */}
+        {phase !== 'setup' && (
+          <a
+            href={getAddressUrl(AI_AGENT_ACCOUNT.address)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.03] border border-white/5 hover:bg-white/[0.06] hover:border-white/10 transition-all mb-5"
+          >
+            <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-violet-500/10 border border-violet-500/20">
+              <ExternalLink size={14} className="text-violet-400" />
+            </div>
+            <div className="flex-1">
+              <p className="text-xs font-medium text-white">Monitor Agent Wallet</p>
+              <p className="text-[11px] text-slate-500 font-mono">
+                {AI_AGENT_ACCOUNT.address.slice(0, 10)}...{AI_AGENT_ACCOUNT.address.slice(-8)}
+              </p>
+            </div>
+            <span className="text-[10px] text-slate-500 uppercase tracking-wider">BaseScan</span>
+          </a>
+        )}
+
         {/* How it works */}
         <div className="space-y-2.5 mb-6">
           <div className="flex items-center gap-2.5 text-sm text-slate-300">

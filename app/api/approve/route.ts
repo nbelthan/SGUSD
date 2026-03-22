@@ -8,9 +8,14 @@ const SAGECOIN_ADDRESS = process.env.NEXT_PUBLIC_SAGECOIN_ADDRESS as `0x${string
 const DEPLOYER_KEY = process.env.DEPLOYER_PRIVATE_KEY ?? '';
 
 /**
- * Server-side approve: The deployer (treasury) sets an ERC-20 allowance
- * for a spender address (e.g. an AI agent wallet). This is a real on-chain
- * approve() call — the allowance is enforced at the contract level.
+ * Server-side approve: The deployer (treasury) sets an ERC-20 allowance.
+ * In the demo the deployer acts as both treasury owner and agent caller,
+ * so we approve the deployer's own address (self-allowance). This lets
+ * the deployer call transferFrom(self, vendor, amount) in agent-spend.
+ * The on-chain Approval event is real and verifiable on BaseScan.
+ *
+ * The `spender` param from the frontend is stored for display purposes
+ * (the AI agent's conceptual wallet address).
  */
 export async function POST(request: NextRequest) {
   try {
@@ -47,11 +52,12 @@ export async function POST(request: NextRequest) {
       blockTag: 'pending',
     });
 
+    // Approve the deployer's own address so transferFrom(self, vendor, amt) works
     const hash = await walletClient.writeContract({
       address: SAGECOIN_ADDRESS,
       abi: SAGECOIN_ABI,
       functionName: 'approve',
-      args: [spender as `0x${string}`, parsedAmount],
+      args: [account.address, parsedAmount],
       nonce,
     });
 
